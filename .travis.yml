@@ -1,6 +1,9 @@
 language: php
-  
+php:
+  - '7.1'
+  - nightly
 deploy:
  provider: heroku
+ app: eventlab-project
  api_key:
   secure: "B/t33fM/TOA2Y59F9CMjMN1tlBrm4HK7WRxImBRw6WpB7u0KUgoJoQ6WJcE3k/GMDF4qpUIedvvm7IwDHbCCaxx4j0aq/2GpTrcYiFKnNepc8pzR1ogHl8Zwx0eqACwCQMnayyHvonYp4g/Lt0oRROXBdK5UYgy7iC9+BzrU+buCPmY+ClZPUU+YeK+8wrXfcKrUkMthzEYNKNhMmlHUMFAcbzXQxn2sE5JpkHEsQUxOHfSUrcvRUoxKvsiXwyF4O65rvLYArZNOiYP6ugahOGSGE+osVvNF12av7KsWrmwSXgkAAXVi1wfvHveGyTtx083xzAWZRUUXC14jrGJ3ESnWVY+oAJ9efvJGufNO9sA0/V+V5GqU3+a4GGbgSAI6D1YspD7etLU/UTXvU5Y8gIPrrIOh28eWHtYmks0RdrbZMvsJRUWVpyQnOctrtQ6wprO1ZH2LDkg7NhnOejS12nnIP8Du6FS3YSTvt+wv67VxrnZTlh/iR5C8jTvVx5kakyM6H6KjSLFD+FIUmv92QAYj1v7/ALltL9ebCHMkVST5I0vpfBF++yKExd2UYKAkJO3ZI8C3GOTaHEWhMLnOu+/iW9DAJFfPBG7KiMl0wRAV6ymkqCUVJt2pG6cU1kat3zML+1VzdohJ3xhemy//BoVFboWI616cxBmsvCnYStw="
