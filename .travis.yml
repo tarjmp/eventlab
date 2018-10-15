@@ -1,6 +1,16 @@
 language: php
 php:
   - nightly
+  
+
+before_script:
+  - phpenv config-rm xdebug.ini
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan migrate
+  
 deploy:
  provider: heroku
  app: eventlab-project
