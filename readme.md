@@ -6,3 +6,5 @@
 
 Work is in progress, you can check out our most recent version here:
 https://eventlab-project.herokuapp.com/
+
+©2018
