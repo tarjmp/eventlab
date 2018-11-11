@@ -1,8 +1,7 @@
 Feature: Register
 
     Scenario Outline: invalid credentials
-        #Given I navigate to "https://eventlab-dev.herokuapp.com/"
-        Given I navigate to "http://localhost:8000/"
+        Given I navigate to "https://eventlab-dev.herokuapp.com/"
         And I wait for 1 sec
         And I click on element having id "register"
         And I wait for 1 sec
@@ -21,8 +20,7 @@ Feature: Register
             | John       | Doe       | user@test.com | 123456   | 1234567          | The password confirmation does not match.   |
 
     Scenario: Registration successful
-        #Given I navigate to "https://eventlab-dev.herokuapp.com/"
-        Given I navigate to "http://localhost:8000/"
+        Given I navigate to "https://eventlab-dev.herokuapp.com/"
         And I wait for 1 sec
         And I click on element having id "register"
         And I wait for 1 sec
