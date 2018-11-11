@@ -1,8 +1,7 @@
 Feature: Login
 
     Scenario: Right Credentials
-    #Given I navigate to "https://eventlab-dev.herokuapp.com/"
-        Given I navigate to "http://localhost:8000/"
+        Given I navigate to "https://eventlab-dev.herokuapp.com/"
         When I wait for 1 sec
         And I click on element having id "login"
         And I wait for 1 sec
