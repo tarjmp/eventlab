@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import junit.framework.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -46,5 +47,11 @@ public class Stepdefs {
     @Then("^element having id \"([^\"]*)\" should have partial text as \"([^\"]*)\"$")
     public void elementHavingIdShouldHavePartialTextAs(String id, String text) throws Throwable {
         assertEquals(text, driver.findElement(By.id(id)).getText());
+    }
+
+    @Then("^alert with class \"([^\"]*)\" should have eventname \"([^\"]*)\"$")
+    public void alertWithClassShouldHaveEventname(String cl, String name) throws Throwable {
+        String website = "New event created: \"" + name + "\"";
+        TestCase.assertTrue(driver.findElement(By.className(cl)).getText().contains(website));
     }
 }
