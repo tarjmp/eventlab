@@ -16,10 +16,19 @@ if (!App::environment('local')) {
     URL::forceScheme('https');
 }
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// home screen
+Route::view('/', 'welcome');
 
-Auth::routes();
+// login, register, etc.
+Route::auth();
 
+// user calendar
 Route::get('/home', 'HomeController@index')->name('home');
+
+// edit user profile
+Route::get('/profile', 'UserProfileController@read')->name('profile');
+Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
+
+// create event
+Route::get('/create-event', 'CreateEventController@show')->name('createEvent');
+Route::post('/create-event', 'CreateEventController@create')->name('createEvent');
