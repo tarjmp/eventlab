@@ -55,7 +55,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('profile') }}">
+                                    <a id="update_profile" class="dropdown-item" href="{{ route('profile') }}">
                                         {{ __('navigation.profile') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
