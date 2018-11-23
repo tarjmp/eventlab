@@ -18,7 +18,7 @@
 
                 <div class="card-body">
                     This will be the user calendar page.<br/><br/>
-                    <a id="btn_createEvent" href="{{ route('createEvent') }}" role="button" class="btn btn-primary">{{ __('calendar.create_event')}}</a>
+                    <a id="btn_createEvent" href="{{ route('event.create') }}" role="button" class="btn btn-primary">{{ __('calendar.create_event')}}</a>
                 </div>
             </div>
         </div>
