@@ -32,6 +32,9 @@ class Basic extends Migration {
             $table->date('date_of_birth')->nullable();
             $table->string('location')->nullable();
 
+            // timezone, needed for displaying the time accordingly
+            $table->string('timezone')->default('Europe/Berlin');
+
             // default fields for user login
             $table->rememberToken();
             $table->timestamps();
