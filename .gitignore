@@ -17,3 +17,4 @@ yarn-error.log
 _ide_helper.php
 _ide_helper_models.php
 /tests/Webtests/.idea
+/tests/Webtests/Webtests.iml
