@@ -30,4 +30,4 @@ Route::get('/profile', 'UserProfileController@read')->name('profile');
 Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
 // crud event
-Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit']);
+Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update']);

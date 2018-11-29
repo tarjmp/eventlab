@@ -11,7 +11,7 @@ class Permission
 {
     static function allowedToShowEvent()
     {
-        //TODO implement
+        //TODO implement the check
         return true;
     }
 }

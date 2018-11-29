@@ -118,7 +118,12 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        return view('event-create');
+        $event = Event::find($id);
+        $start_date = Date::toUserOutput($event->start_time, 'Y-m-d');
+        $start_time = Date::toUserOutput($event->start_time, 'H:i');
+        $end_date = Date::toUserOutput($event->end_time, 'Y-m-d');
+        $end_time = Date::toUserOutput($event->end_time, 'H:i');
+        return view('event-update')->with(['event' => $event, 'start_date' => $start_date, 'start_time' => $start_time, 'end_date' => $end_date, 'end_time' => $end_time]);
     }
 
     /**
@@ -130,7 +135,11 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $event = Event::find($id);
+        //TODO verification
+        $event->save();
+        return view('event-update')->with('updated', true);
     }
 
     /**
