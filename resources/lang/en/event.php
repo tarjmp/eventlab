@@ -3,6 +3,7 @@
 return [
 
     'create_title'          => 'Create Event',
+    'show_title' => 'Display Event',
     'create_submit'         => 'Submit',
 
     'created'               => 'New event created: ":name"',

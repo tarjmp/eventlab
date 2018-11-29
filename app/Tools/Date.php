@@ -38,15 +38,16 @@ class Date {
     //
     // This function translates a given UNIX timestamp to the user's time zone
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static function toUserOutput($iTimestamp, $sFormat = 'd/m/Y H:i:s', $sTimezone = null) {
+    static function toUserOutput($sTimestamp, $sFormat = 'd/m/Y H:i', $sTimezone = null)
+    {
 
         // take the specified timezone if given, otherwise take the user's timezone as default
         $sTimezone = $sTimezone ?? Auth::user()->timezone;
 
         try {
             // try to instantiate a new datetime object that takes the local time zone into account
-            $dateTime = new DateTime("now", new DateTimeZone($sTimezone));
-            $dateTime->setTimestamp($iTimestamp);
+            $dateTime = new DateTime($sTimestamp, new DateTimeZone('UTC'));
+            $dateTime->setTimezone(new DateTimeZone($sTimezone));
             return $dateTime->format($sFormat);
 
         } catch (\Exception $e) {
