@@ -9,6 +9,8 @@ return [
 
     'name'                  => 'Title',
     'description'           => 'Description',
-    'date'                  => 'Date',
-
+    'start_time'            => 'Start time',
+    'end_time'              => 'End time',
+    'all_day'               => 'All day event',
+    'location'              => 'Location',
 ];

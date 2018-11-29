@@ -36,6 +36,7 @@ public class Stepdefs {
 
     @And("^I enter \"([^\"]*)\" into input field having id \"([^\"]*)\"$")
     public void iEnterIntoInputFieldHavingId(String email, String id) throws Throwable {
+        driver.findElement(By.id(id)).clear();
         driver.findElement(By.id(id)).sendKeys(email);
     }
 
@@ -53,5 +54,10 @@ public class Stepdefs {
     public void alertWithClassShouldHaveEventname(String cl, String name) throws Throwable {
         String website = "New event created: \"" + name + "\"";
         TestCase.assertTrue(driver.findElement(By.className(cl)).getText().contains(website));
+    }
+
+    @Then("^element having class \"([^\"]*)\" should contain text as \"([^\"]*)\"$")
+    public void elementHavingClassShouldContainTextAs(String cl, String text) throws Throwable {
+        TestCase.assertTrue(driver.findElement(By.className(cl)).getText().contains(text));
     }
 }
