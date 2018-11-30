@@ -4,6 +4,16 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+
+                @isset($updated)
+                    <div class="alert alert-success" role="alert">
+                        {{ __('event.updated', ['name' => $event->name]) }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endisset
+
                 <h2>{{ __('event.show_title') }}</h2><br/>
 
                 <form method="POST" action="{{ route('event.store') }}">

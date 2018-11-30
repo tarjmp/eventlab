@@ -4,19 +4,12 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @isset($updated)
-                    <div class="alert alert-success" role="alert">
-                        {{ __('event.updated') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endisset
 
                 <h2>{{ __('event.update_title') }}</h2><br/>
 
                 <form method="POST" action="{{ route('event.update', $id) }}">
                     @csrf
+                    @method('PUT')
 
                     <div class="form-group">
                         <label for="name">{{ __('event.name') }}</label>
