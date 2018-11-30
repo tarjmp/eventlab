@@ -15,7 +15,7 @@
                         <label for="name">{{ __('event.name') }}</label>
                         <input id="name" type="text"
                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                               value="{{$event->name}}" required autofocus>
+                               value="{{ old('name', $event->name) }}" required autofocus>
 
                         @if ($errors->has('name'))
                             <span class="invalid-feedback" role="alert">
@@ -29,7 +29,7 @@
 
                         <textarea id="description"
                                   class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                                  name="description">{{$event->description}}</textarea>
+                                  name="description">{{ old('description', $event->description) }}</textarea>
 
                         @if ($errors->has('description'))
                             <span class="invalid-feedback" role="alert">
@@ -42,7 +42,7 @@
                         <label for="location">{{ __('event.location') }}</label>
                         <input id="location" type="text"
                                class="form-control{{ $errors->has('location') ? ' is-invalid' : '' }}" name="location"
-                               value="{{$event->location}}">
+                               value="{{ old('location', $event->location) }}">
 
                         @if ($errors->has('location'))
                             <span class="invalid-feedback" role="alert">
@@ -55,7 +55,7 @@
                         <div class="form-check">
                             <input class="form-check-input" name="all-day-event" type="checkbox" value="all-day-event"
                                    id="all-day-event"
-                                {{ $event->all_day ? 'checked' : '' }}>
+                                {{ old('all-day-event', $event->all_day) ? 'checked' : '' }}>
                             <label class="form-check-label" for="all-day-event">
                                 {{ __('event.all_day') }}
                             </label>
@@ -67,7 +67,7 @@
                             <input id="start-date" type="date"
                                    class="form-control{{ $errors->has('start-date') ? ' is-invalid' : '' }}"
                                    name="start-date"
-                                   value="{{ $start_date }}" required>
+                                   value="{{ old('start-date', $start_date) }}" required>
                             @if ($errors->has('start-date'))
                                 <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('start-date') }}</strong>
@@ -77,7 +77,7 @@
                         <div class="col-md-4 col-6">
                             <input id="start-time" name="start-time" type="time"
                                    class="form-control {{ $errors->has('start-time') ? ' is-invalid' : '' }}"
-                                   value="{{ $start_time }}" step="60">
+                                   value="{{ old('start-time', $start_time) }}" step="60">
                             @if ($errors->has('start-time'))
                                 <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('start-time') }}</strong>
@@ -93,7 +93,7 @@
                             <input id="end-date" type="date"
                                    class="form-control{{ $errors->has('end-date') ? ' is-invalid' : '' }}"
                                    name="end-date"
-                                   value="{{ $end_date }}">
+                                   value="{{ old('end-date', $end_date) }}">
                             @if ($errors->has('end-date'))
                                 <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('end-date') }}</strong>
@@ -103,7 +103,7 @@
                         <div class="col-md-4 col-6">
                             <input id="end-time" name="end-time" type="time"
                                    class="form-control {{ $errors->has('end-time') ? ' is-invalid' : '' }}"
-                                   value="{{ $end_time }}" step="60">
+                                   value="{{ old('end-time', $end_time) }}" step="60">
                             @if ($errors->has('end-time'))
                                 <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('end-time') }}</strong>

@@ -52,21 +52,7 @@ class EventController extends Controller
     {
         $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:2048',
-            'location' => 'nullable|string|max:255',
-            'start-date' => 'required|date',
-        ]);
-
-        $notAllDay = function ($input) {
-            return !isset($input['all-day-event']);
-        };
-
-        // require times if no all-day event
-        $validator->sometimes('start-time', new DateTimeValidation($data['start-date']), $notAllDay);
-        $validator->sometimes('end-date', 'required|date', $notAllDay);
-        $validator->sometimes('end-time', new DateTimeValidation($data['end-date']), $notAllDay);
+        $validator = $this->validateInput($data);
 
         if ($validator->fails()) {
             // invalid input
@@ -74,20 +60,7 @@ class EventController extends Controller
 
         } else {
             $event = new Event();
-            $event->name = $data['name'];
-            $event->description = $data['description'];
-            $event->location = $data['location'];
-            if (isset($data['all-day-event'])) {
-                $event->all_day = true;
-                $event->start_time = Date::parseFromInput($data['start-date'], '00:00');
-                $event->end_time = Date::parseFromInput($data['start-date'], '23:59');
-            } else {
-                $event->all_day = false;
-                $event->start_time = Date::parseFromInput($data['start-date'], $data['start-time']);
-                $event->end_time = Date::parseFromInput($data['end-date'], $data['end-time']);
-            }
-            //TODO: Also implement groups
-            $event->group_id = null;
+            $event = $this->collectData($data, $event);
             $event->created_by = Auth::user()->id;
 
             $event->save();
@@ -140,47 +113,17 @@ class EventController extends Controller
         $data = $request->all();
         $event = Event::findOrFail($id);
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:2048',
-            'location' => 'nullable|string|max:255',
-            'start-date' => 'required|date',
-        ]);
-        $notAllDay = function ($input) {
-            return !isset($input['all-day-event']);
-        };
-
-        // require times if no all-day event
-        $validator->sometimes('start-time', new DateTimeValidation($data['start-date']), $notAllDay);
-        $validator->sometimes('end-date', 'required|date', $notAllDay);
-        $validator->sometimes('end-time', new DateTimeValidation($data['end-date']), $notAllDay);
+        $validator = $this->validateInput($data);
 
         if ($validator->fails()) {
             // invalid input
-            return redirect('event/update')->withErrors($validator->errors())->withInput();
+            return redirect('event/edit')->withErrors($validator->errors())->withInput();
         } else {
-            $event->name = $data['name'];
-            $event->description = $data['description'];
-            $event->location = $data['location'];
-            if (isset($data['all-day-event'])) {
-                $event->all_day = true;
-                $event->start_time = Date::parseFromInput($data['start-date'], '00:00');
-                $event->end_time = Date::parseFromInput($data['start-date'], '23:59');
-            } else {
-                $event->all_day = false;
-                $event->start_time = Date::parseFromInput($data['start-date'], $data['start-time']);
-                $event->end_time = Date::parseFromInput($data['end-date'], $data['end-time']);
-            }
-            $event->group_id = null;
+            $event = $this->collectData($data, $event);
 
             $event->save();
 
-            //useroutput&redirect
-            $start_date = Date::toUserOutput($event->start_time, 'Y-m-d');
-            $start_time = Date::toUserOutput($event->start_time, 'H:i');
-            $end_date = Date::toUserOutput($event->end_time, 'Y-m-d');
-            $end_time = Date::toUserOutput($event->end_time, 'H:i');
-            return view('event-show')->with(['event' => $event, 'start_date' => $start_date, 'start_time' => $start_time, 'end_date' => $end_date, 'end_time' => $end_time, 'updated' => true]);
+            return redirect('event/' . $id);
         }
     }
 
@@ -195,5 +138,53 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $event->delete();
         return redirect('home')->with('EventDeleted', $event->name);
+    }
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    private function validateInput(array $data)
+    {
+        $validator = Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:2048',
+            'location' => 'nullable|string|max:255',
+            'start-date' => 'required|date',
+        ]);
+
+        $notAllDay = function ($input) {
+            return !isset($input['all-day-event']);
+        };
+
+        // require times if no all-day event
+        $validator->sometimes('start-time', new DateTimeValidation($data['start-date']), $notAllDay);
+        $validator->sometimes('end-date', 'required|date', $notAllDay);
+        $validator->sometimes('end-time', new DateTimeValidation($data['end-date']), $notAllDay);
+        return $validator;
+    }
+
+    /**
+     * @param array $data
+     * @param Event $event
+     * @return mixed
+     */
+    private function collectData(array $data, Event $event)
+    {
+        $event->name = $data['name'];
+        $event->description = $data['description'];
+        $event->location = $data['location'];
+        if (isset($data['all-day-event'])) {
+            $event->all_day = true;
+            $event->start_time = Date::parseFromInput($data['start-date'], '00:00');
+            $event->end_time = Date::parseFromInput($data['start-date'], '23:59');
+        } else {
+            $event->all_day = false;
+            $event->start_time = Date::parseFromInput($data['start-date'], $data['start-time']);
+            $event->end_time = Date::parseFromInput($data['end-date'], $data['end-time']);
+        }
+        //TODO: Also implement groups
+        $event->group_id = null;
+        return $event;
     }
 }
