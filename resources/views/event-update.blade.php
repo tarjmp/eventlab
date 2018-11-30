@@ -15,7 +15,7 @@
 
                 <h2>{{ __('event.update_title') }}</h2><br/>
 
-                <form method="POST" action="{{ route('event.update') }}">
+                <form method="POST" action="{{ route('event.update', $id) }}">
                     @csrf
 
                     <div class="form-group">

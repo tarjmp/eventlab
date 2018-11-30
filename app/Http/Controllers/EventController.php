@@ -123,7 +123,7 @@ class EventController extends Controller
         $start_time = Date::toUserOutput($event->start_time, 'H:i');
         $end_date = Date::toUserOutput($event->end_time, 'Y-m-d');
         $end_time = Date::toUserOutput($event->end_time, 'H:i');
-        return view('event-update')->with(['event' => $event, 'start_date' => $start_date, 'start_time' => $start_time, 'end_date' => $end_date, 'end_time' => $end_time]);
+        return view('event-update')->with(['id' => $id, 'event' => $event, 'start_date' => $start_date, 'start_time' => $start_time, 'end_date' => $end_date, 'end_time' => $end_time]);
     }
 
     /**
