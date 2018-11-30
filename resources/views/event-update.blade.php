@@ -116,6 +116,15 @@
                         {{ __('event.update_submit') }}
                     </button>
                 </form>
+                <br>
+                <form method="POST" action="{{ route('event.destroy', $id) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button id="btn_deleteEvent" type="submit" class="btn btn-danger">
+                        {{ __('event.delete_submit') }}
+                    </button>
+                </form>
+
             </div>
         </div>
     </div>
