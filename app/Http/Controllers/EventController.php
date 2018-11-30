@@ -50,7 +50,6 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-
         $data = $request->all();
 
         $validator = Validator::make($data, [
@@ -87,12 +86,9 @@ class EventController extends Controller
                 $event->start_time = Date::parseFromInput($data['start-date'], $data['start-time']);
                 $event->end_time = Date::parseFromInput($data['end-date'], $data['end-time']);
             }
+            //TODO: Also implement groups
             $event->group_id = null;
             $event->created_by = Auth::user()->id;
-
-            // TODO: Also support all-day events
-            // -> the time then needs to be 00:00-23:59 in the user's time zone, right?
-            // this should be discussed in our team
 
             $event->save();
 
@@ -108,7 +104,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
         $start_date = Date::toUserOutput($event->start_time, 'Y-m-d');
         $start_time = Date::toUserOutput($event->start_time, 'H:i');
         $end_date = Date::toUserOutput($event->end_time, 'Y-m-d');
@@ -124,7 +120,7 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
         $start_date = Date::toUserOutput($event->start_time, 'Y-m-d');
         $start_time = Date::toUserOutput($event->start_time, 'H:i');
         $end_date = Date::toUserOutput($event->end_time, 'Y-m-d');
@@ -142,7 +138,7 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
 
         $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
@@ -179,7 +175,7 @@ class EventController extends Controller
 
             $event->save();
 
-            //useroutput
+            //useroutput&redirect
             $start_date = Date::toUserOutput($event->start_time, 'Y-m-d');
             $start_time = Date::toUserOutput($event->start_time, 'H:i');
             $end_date = Date::toUserOutput($event->end_time, 'Y-m-d');
@@ -196,7 +192,7 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
         $event->delete();
         return redirect('home')->with('EventDeleted', $event->name);
     }
