@@ -117,14 +117,15 @@
                     </button>
                 </form>
                 <br>
-                <form method="POST" action="{{ route('event.destroy', $id) }}">
-                    @csrf
-                    @method('DELETE')
-                    <button id="btn_deleteEvent" type="submit" class="btn btn-danger">
-                        {{ __('event.delete_submit') }}
-                    </button>
-                </form>
-
+                @if (\App\Tools\Permission::has(\App\Tools\Permission::deleteEvent, $id))
+                    <form method="POST" action="{{ route('event.destroy', $id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button id="btn_deleteEvent" type="submit" class="btn btn-danger">
+                            {{ __('event.delete_submit') }}
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
