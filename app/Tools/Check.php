@@ -1,0 +1,70 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: D070369
+ * Date: 30.11.2018
+ * Time: 22:43
+ */
+
+namespace App\Tools;
+
+use App\Event;
+use App\Group;
+use Illuminate\Support\Facades\Auth;
+
+// This class provides functionality for permission checks.
+//
+// Each function returns a boolean value and must be secured against failure.
+
+class Check {
+
+    // Returns true if the user is logged in
+    public static function isLoggedIn() {
+        return boolval(Auth::check());
+    }
+
+    // Determines whether the user is member of a particular group
+    public static function isMemberOfGroup($id) {
+        $group = Group::find($id);
+        if ($group) {
+            return boolval($group->members()->find(Auth::user()->id));
+        }
+        return false;
+    }
+
+    // Determines whether the user can access a particular event
+    public static function isMemberOfEvent($id) {
+        $event = Event::find($id);
+        if ($event) {
+            return self::isPrivateEvent($id) || self::isMemberOfGroup($event->group);
+        }
+        return false;
+    }
+
+    // Private events do not have a group assigned and are only visible to the creator
+    public static function isPrivateEvent($id) {
+        $event = Event::find($id);
+        if ($event) {
+            return $event->group == null && $event->created_by == Auth::user()->id;
+        }
+        return false;
+    }
+
+    // Returns true for public groups
+    public static function isPublicGroup($id) {
+        $group = Group::find($id);
+        if ($group) {
+            return boolval($group->public);
+        }
+        return false;
+    }
+
+    // Returns true for public events
+    public static function isPublicEvent($id) {
+        $event = Event::find($id);
+        if ($event && $event->group) {
+            return boolval($event->group->public);
+        }
+        return false;
+    }
+}

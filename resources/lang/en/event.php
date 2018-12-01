@@ -2,9 +2,9 @@
 
 return [
 
-    'create_title' => 'Create Event',
-    'show_title' => 'Display Event',
-    'update_title' => 'Update Event',
+    'create_title'  => 'Create Event',
+    'show_title'    => 'Display Event',
+    'update_title'  => 'Update Event',
     'create_submit' => 'Submit',
     'update_submit' => 'Submit',
     'delete_submit' => 'Delete Event',
@@ -13,10 +13,10 @@ return [
     'updated' => 'event with name: ":name" was updated',
     'deleted' => 'event with name: ":name" was deleted',
 
-    'name' => 'Title',
+    'name'        => 'Title',
     'description' => 'Description',
-    'start_time' => 'Start time',
-    'end_time' => 'End time',
-    'all_day' => 'All day event',
-    'location' => 'Location',
+    'start_time'  => 'Start time',
+    'end_time'    => 'End time',
+    'all_day'     => 'All day event',
+    'location'    => 'Location',
 ];

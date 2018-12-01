@@ -41,22 +41,22 @@
                     <label for="start-date" class="col-md-4">{{ __('event.start_time') }}</label>
                     <div class="col-md-4 col-6">
                         <input id="start-date" type="date" class="form-control" name="start-date"
-                               value="{{ $start_date }}" readonly>
+                               value="{{ $start->date() }}" readonly>
                     </div>
                     <div class="col-md-4 col-6">
                         <input id="start-time" name="start-time" type="time" class="form-control"
-                               value="{{ $start_time }}" step="60" readonly>
+                               value="{{ $start->time() }}" step="60" readonly>
                     </div>
                 </div>
 
                 <div class="form-group row" id="end-row">
                     <label for="end-date" class="col-md-4">{{ __('event.end_time') }}</label>
                     <div class="col-md-4 col-6">
-                        <input id="end-date" type="date" class="form-control" name="end-date" value="{{ $end_date }}"
+                        <input id="end-date" type="date" class="form-control" name="end-date" value="{{ $end->date() }}"
                                readonly>
                     </div>
                     <div class="col-md-4 col-6">
-                        <input id="end-time" name="end-time" type="time" class="form-control" value="{{ $end_time }}"
+                        <input id="end-time" name="end-time" type="time" class="form-control" value="{{ $end->time() }}"
                                step="60" readonly>
                     </div>
                 </div>
