@@ -2,8 +2,8 @@
 
 return [
 
-    'title'                 => 'User Profile',
-    'submit'                => 'Save',
-    'updated'               => 'Your profile was successfully updated.',
+    'title'   => 'User Profile',
+    'submit'  => 'Save',
+    'updated' => 'Your profile was successfully updated.',
 
 ];
