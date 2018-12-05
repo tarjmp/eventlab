@@ -2,6 +2,6 @@
 
 return [
 
-    'title'                 => 'Calendar',
-    'create_event'          => 'Add event',
+    'title'        => 'Calendar',
+    'create_event' => 'Add event',
 ];
