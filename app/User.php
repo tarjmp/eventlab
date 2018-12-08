@@ -12,13 +12,13 @@ class User extends Authenticatable {
     protected $hidden   = ['password', 'remember_token',];
 
     // All events a user has created
-    public function events() {
+    public function createdEvents() {
         return $this->hasMany(Event::class, 'created_by');
     }
 
     // All groups the user is a member in
-    public function groups() {
-        return $this->belongsToMany(Group::class)->withTimestamps();
+    public function groups($sType = Group::TYPE_MEMBERSHIP) {
+        return $this->belongsToMany(Group::class)->where('status', $sType)->withTimestamps();
     }
 
     // All items the user brought or will bring
