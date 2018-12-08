@@ -20,17 +20,32 @@
                         </button>
                     </div>
                 @endif
+                <h2>{{ __('calendar.title') }}</h2>
 
-                <div class="card">
-                    <div class="card-header">{{ __('calendar.title') }}</div>
+                {{-- List all events for this user --}}
+                @forelse($events as $e)
 
-                    <div class="card-body">
-                        This will be the user calendar page.<br/><br/>
-                        <a id="btn_createEvent" href="{{ route('event.create') }}" role="button"
-                           class="btn btn-primary">{{ __('calendar.create_event')}}</a>
+                    <div class="card mb-1">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{{ route('event.show', $e->id) }}">{{$e->name}}</a></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
+                                -
+                                {{ \App\Tools\Date::toUserOutput($e->end_time, 'F j, H:i')}}
+                            </h6>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ $e->location }}
+                            </h6>
+                            <p class="card-text">{{$e->description}}</p>
+                        </div>
                     </div>
-                </div>
+                @empty
+                    No events found.
+                @endforelse
+
+                <br>
+                <a id="btn_createEvent" href="{{ route('event.create') }}" role="button"
+                   class="btn btn-primary mt-3">{{ __('calendar.create_event')}}</a>
             </div>
         </div>
-    </div>
 @endsection

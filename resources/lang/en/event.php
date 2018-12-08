@@ -8,6 +8,7 @@ return [
     'create_submit' => 'Submit',
     'update_submit' => 'Submit',
     'delete_submit' => 'Delete Event',
+    'edit'          => 'Edit',
 
     'created' => 'New event created: ":name"',
     'updated' => 'event with name: ":name" was updated',
