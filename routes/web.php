@@ -29,5 +29,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', 'UserProfileController@read')->name('profile');
 Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
+
 // crud event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+// crud group
+Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+Route::get('/groups', 'GroupController@groups')->name('groups');
+Route::get('/participants', 'GroupController@participants')->name('participants');
+Route::post('/participants', 'GroupController@addParticipants')->name('addParticipants');
+Route::post('/leave-group', 'GroupController@leave')->name('leave-group');

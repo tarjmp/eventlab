@@ -13,8 +13,16 @@
                     </div>
                 @endif
                 @if (session('EventDeleted'))
-                    <div class="alert alert-success" role="alert">
+                    <div class="alert alert-danger" role="alert">
                         {{ __('event.deleted', ['name' => session('EventDeleted')]) }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if (session('GroupLeft'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ __('group.left', ['name' => session('GroupLeft')]) }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

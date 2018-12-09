@@ -11,14 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-class EventController extends Controller {
+class EventController extends Controller
+{
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         //
     }
 
@@ -27,8 +29,12 @@ class EventController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        return view('event-create');
+    public function create()
+    {
+        $groups = Auth::user()->groups()->get();
+
+
+        return view('event-create')->with('groups', $groups);
     }
 
     /**
@@ -37,10 +43,10 @@ class EventController extends Controller {
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
-        // TODO: check for permission to create event in this group / create group if it does not exist
-        // Permission::check(Permission::createEvent, $GROUP_ID);
+        Permission::check(Permission::createEvent);
 
         $data = $request->all();
         // never trust any user input
@@ -69,7 +75,8 @@ class EventController extends Controller {
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
 
         Permission::check(Permission::showEvent, $id);
 
@@ -91,7 +98,8 @@ class EventController extends Controller {
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
 
         Permission::check(Permission::editEvent, $id);
 
@@ -112,7 +120,8 @@ class EventController extends Controller {
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
 
         Permission::check(Permission::editEvent, $id);
 
@@ -128,7 +137,7 @@ class EventController extends Controller {
             return back()->withErrors($validator->errors())->withInput();
         } else {
             // Update database record with form data
-            $event = $this->collectData($data, $event);
+            $event = $this->collectData($data, $event, true);
             $event->save();
             // Redirect to edit page
             return redirect(route('event.show', $id));
@@ -141,7 +150,8 @@ class EventController extends Controller {
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         Permission::check(Permission::deleteEvent, $id);
 
@@ -157,7 +167,8 @@ class EventController extends Controller {
     //
     //  This function determines whether the given data for an event is valid.
     //
-    private function validateInput(array $data) {
+    private function validateInput(array $data)
+    {
 
         // validate all input data against the following rules
         $validator = Validator::make($data, [
@@ -187,11 +198,20 @@ class EventController extends Controller {
     //  This function takes the form input array $data and copies it into the properties of the
     //  corresponding event.
     //
-    private function collectData(array $data, Event $event) {
+    private function collectData(array $data, Event $event, $update = false)
+    {
         $event->name        = $data['name'];
         $event->description = $data['description'];
         $event->location    = $data['location'];
-        $event->group_id    = null;                    // TODO: Also implement groups
+        if (!$update) {
+            if ($data['selectGroup'] != "") {
+                Permission::check(Permission::createEventForGroup, $data['selectGroup']);
+                $event->group_id = $data['selectGroup'];
+            } else {
+                $event->group_id = null;
+            }
+
+        }
 
         // different handling for all-day events
         if (isset($data['all-day-event'])) {
