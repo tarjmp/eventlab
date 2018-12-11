@@ -15,6 +15,8 @@ return [
 
     'failed'        => 'These credentials do not match our records.',
     'throttle'      => 'Too many login attempts. Please try again in :seconds seconds.',
-    'access_denied' => 'You do not have permission to perform this action.'
+    'access_denied' => 'You do not have permission to perform this action.',
+    'not_found'     => 'The requested page could not be found.',
+    'server_error'  => 'An internal server error occurred.',
 
 ];

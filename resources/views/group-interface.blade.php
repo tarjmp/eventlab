@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                         @empty
-                            {{ __('group.empty') }}
+                            {{ __('group.no_groups') }}
                         @endforelse
                     </div>
                 </div>

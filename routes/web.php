@@ -30,12 +30,14 @@ Route::get('/profile', 'UserProfileController@read')->name('profile');
 Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
 
-// crud event
+// CRUD Event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
-// crud group
+// CRUD Group
+// Note that the custom routes need to be defined before the resource route
+// Otherwise, there is a conflict between /group/[id] and /group/new and you will get a 403 error.
+Route::get('/group/new', 'GroupController@participants')->name('participants');
+Route::post('/group/new', 'GroupController@addParticipants')->name('addParticipants');
+Route::post('/group/leave', 'GroupController@leave')->name('leave-group');
 Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::get('/groups', 'GroupController@groups')->name('groups');
-Route::get('/participants', 'GroupController@participants')->name('participants');
-Route::post('/participants', 'GroupController@addParticipants')->name('addParticipants');
-Route::post('/leave-group', 'GroupController@leave')->name('leave-group');

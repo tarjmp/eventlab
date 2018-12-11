@@ -18,7 +18,8 @@ return [
 
     'interface_title' => 'My Groups',
     'create_group'    => 'Add Group',
-    'empty'           => 'No groups found',
+    'no_groups'       => 'No groups found.',
+    'no_participants' => 'No users found.',
 
     'participants'        => 'Add participants to group',
     'participants_submit' => 'Next',

@@ -10,10 +10,13 @@
                         <div class="col-md-6">
                             <h2>{{ __('group.participants') }}</h2><br/>
                         </div>
-                        <div class="col-md-6">
-                            <input id="addParticipants" class="btn btn-primary float-right"
-                               type="submit" value="{{ __('group.participants_submit') }}"/>
-                        </div>
+                        {{-- if there are no possible participants, we do not need to show the continue button --}}
+                        @if(count($participants) > 0)
+                            <div class="col-md-6">
+                                <input id="addParticipants" class="btn btn-primary float-right"
+                                       type="submit" value="{{ __('group.participants_submit') }}"/>
+                            </div>
+                        @endif
                     </div>
                     <br/>
                     <div class="row">
@@ -26,7 +29,8 @@
                                             <h3 class="mb-0">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input"
-                                                           id="same-address-{{$p->id}}" name="members[]" value="{{$p->id}}">
+                                                           id="same-address-{{$p->id}}" name="members[]"
+                                                           value="{{$p->id}}">
                                                     <label class="custom-control-label float-left"
                                                            for="same-address-{{$p->id}}">{{$p->first_name.' '.$p->last_name}}</label>
                                                 </div>
@@ -36,7 +40,7 @@
                                 </div>
                             </div>
                         @empty
-                            {{ __('group.empty') }}
+                            {{ __('group.no_participants') }}
                         @endforelse
                     </div>
                 </form>

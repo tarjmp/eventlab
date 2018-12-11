@@ -12,6 +12,7 @@ class HomeController extends Controller {
         // require home screen permission
         Permission::check(Permission::showHomeCalendar);
 
+        // get all events for this user
         $events = Query::getUserEvents();
 
         return view('home')->with('events', $events);
