@@ -20,4 +20,7 @@ return [
     'end_time'    => 'End time',
     'all_day'     => 'All day event',
     'location'    => 'Location',
+    'select_group'=> 'Group',
+    'private_group'=> '(Private)'
+
 ];

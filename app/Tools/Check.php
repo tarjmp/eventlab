@@ -30,7 +30,7 @@ class Check {
     public static function isMemberOfEvent($id) {
         $event = Event::find($id);
         if ($event) {
-            return self::isMyPrivateEvent($id) || self::isMemberOfGroup($event->group);
+            return self::isMyPrivateEvent($id) || ($event->group != null && self::isMemberOfGroup($event->group->id));
         }
         return false;
     }
