@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: D070369
- * Date: 30.11.2018
- * Time: 22:43
- */
 
 namespace App\Tools;
 
@@ -36,13 +30,14 @@ class Check {
     public static function isMemberOfEvent($id) {
         $event = Event::find($id);
         if ($event) {
-            return self::isPrivateEvent($id) || self::isMemberOfGroup($event->group);
+            return self::isMyPrivateEvent($id) || ($event->group != null && self::isMemberOfGroup($event->group->id));
         }
         return false;
     }
 
+    // Determines whether an event is the private event OF THE CURRENTLY LOGGED-IN USER
     // Private events do not have a group assigned and are only visible to the creator
-    public static function isPrivateEvent($id) {
+    public static function isMyPrivateEvent($id) {
         $event = Event::find($id);
         if ($event) {
             return $event->group == null && $event->created_by == Auth::user()->id;

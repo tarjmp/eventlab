@@ -14,21 +14,18 @@ use Validator;
 class EventController extends Controller {
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index() {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('event-create');
+
+        // check for permission to create a new event
+        Permission::check(Permission::createEvent);
+
+        // list all current groups for selection and show view
+        $groups = Auth::user()->groups()->get();
+        return view('event-create')->with('groups', $groups);
     }
 
     /**
@@ -39,8 +36,9 @@ class EventController extends Controller {
      */
     public function store(Request $request) {
 
-        // TODO: check for permission to create event in this group / create group if it does not exist
-        // Permission::check(Permission::createEvent, $GROUP_ID);
+        // check for permission to create a new event
+        Permission::check(Permission::createEvent);
+
 
         $data = $request->all();
         // never trust any user input
@@ -53,7 +51,7 @@ class EventController extends Controller {
 
             // Create new event from passed data
             $event             = new Event();
-            $event             = $this->collectData($data, $event);
+            $event             = $this->collectData($data, $event, true);
             $event->created_by = Auth::user()->id;
 
             $event->save();
@@ -71,6 +69,7 @@ class EventController extends Controller {
      */
     public function show($id) {
 
+        // check for permission to show the event
         Permission::check(Permission::showEvent, $id);
 
         // retrieve the corresponding event from database
@@ -80,6 +79,7 @@ class EventController extends Controller {
         $start = new CustomDateTime($event->start_time);
         $end   = new CustomDateTime($event->end_time);
 
+        // pass all data to the view
         return view('event-show')->with(['event' => $event, 'start' => $start, 'end' => $end]);
 
         // TODO show details (chat, etc. to members with the appropriate permissions (showEventExtended)
@@ -93,6 +93,7 @@ class EventController extends Controller {
      */
     public function edit($id) {
 
+        // check for permission to edit the event
         Permission::check(Permission::editEvent, $id);
 
         // retrieve the corresponding event from database
@@ -102,6 +103,7 @@ class EventController extends Controller {
         $start = new CustomDateTime($event->start_time);
         $end   = new CustomDateTime($event->end_time);
 
+        // pass all data to the view
         return view('event-update')->with(['id' => $id, 'event' => $event, 'start' => $start, 'end' => $end]);
     }
 
@@ -114,6 +116,7 @@ class EventController extends Controller {
      */
     public function update(Request $request, $id) {
 
+        // check for permission to edit the event
         Permission::check(Permission::editEvent, $id);
 
         // retrieve the corresponding event from database
@@ -140,6 +143,7 @@ class EventController extends Controller {
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id) {
 
@@ -187,11 +191,27 @@ class EventController extends Controller {
     //  This function takes the form input array $data and copies it into the properties of the
     //  corresponding event.
     //
-    private function collectData(array $data, Event $event) {
+    private function collectData(array $data, Event $event, $create = false) {
+
+        // copy all the standard stuff
         $event->name        = $data['name'];
         $event->description = $data['description'];
         $event->location    = $data['location'];
-        $event->group_id    = null;                    // TODO: Also implement groups
+
+        // The group of the event may only be changed during creation of the event!
+        if ($create) {
+            // if the event shall belong to a group
+            if ($data['selectGroup'] != '') {
+                // check for permission to create an event in this group
+                Permission::check(Permission::createEventForGroup, $data['selectGroup']);
+                // create event for the group
+                $event->group_id = $data['selectGroup'];
+            } else {
+                // private event
+                $event->group_id = null;
+            }
+
+        }
 
         // different handling for all-day events
         if (isset($data['all-day-event'])) {

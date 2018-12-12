@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\Tools\Permission;
+use App\Tools\Query;
 
 class HomeController extends Controller {
 
@@ -10,6 +12,9 @@ class HomeController extends Controller {
         // require home screen permission
         Permission::check(Permission::showHomeCalendar);
 
-        return view('home');
+        // get all events for this user
+        $events = Query::getUserEvents();
+
+        return view('home')->with('events', $events);
     }
 }

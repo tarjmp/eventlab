@@ -8,6 +8,7 @@ return [
     'create_submit' => 'Submit',
     'update_submit' => 'Submit',
     'delete_submit' => 'Delete Event',
+    'edit'          => 'Edit',
 
     'created' => 'New event created: ":name"',
     'updated' => 'event with name: ":name" was updated',
@@ -19,4 +20,7 @@ return [
     'end_time'    => 'End time',
     'all_day'     => 'All day event',
     'location'    => 'Location',
+    'select_group'=> 'Group',
+    'private_group'=> '(Private)'
+
 ];
