@@ -114,7 +114,7 @@
 
                     <div class="form-group">
                         <label for="selectGroup">{{ __('event.select_group') }}</label>
-                        <select class="custom-select d-block w-100 {{ $errors->has('selectGroup') ? ' is-invalid' : '' }}" id="selectGroup" name="selectGroup" required>
+                        <select class="custom-select d-block w-100 {{ $errors->has('selectGroup') ? ' is-invalid' : '' }}" id="selectGroup" name="selectGroup">
                             <option value="">{{ __('event.private_group') }}</option>
                             @foreach($groups as $g)
                             <option value="{{$g->id}}">{{$g->name}}</option>
