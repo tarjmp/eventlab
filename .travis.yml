@@ -3,7 +3,7 @@ os:
 
 language: php
 php:
-  - 7.2.1
+  - 7.3
   
 
 before_script:
