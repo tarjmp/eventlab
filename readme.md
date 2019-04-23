@@ -3,6 +3,7 @@
 ---
 
 ![build status](https://travis-ci.org/tarjmp/eventlab.svg?branch=master)
+![build status](https://codecov.io/gh/tarjmp/eventlab/branch/master/graph/badge.svg)
 
 **EventLAB** is a software engineering project for a calendar web application.
 
