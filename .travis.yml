@@ -4,11 +4,15 @@ os:
 language: php
 php:
   - 7.3
-  
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install --no-interaction
+
 
 before_script:
-  - composer self-update
-  - composer install --no-interaction
   - cp .env.travis .env
   - php artisan key:generate
 
@@ -19,12 +23,12 @@ before_script:
     - bash <(curl -s https://codecov.io/bash)
 
 deploy:
- provider: heroku
- app:
-  master: eventlab-project
-  dev: eventlab-dev
- api_key:
-  master: 
-    secure: bRsKy4l3MUrAHQL2QvzznIt4I6UVzXLZQRcbVuNKT/hNYNa+W+Z2l9FsAEdsdO/iu9EsYL0huD76LfYoun6F8N9ca04h16UcZHmC8gZPwbMRSRONUdYx0GtTyqFO877QoOAslHGe/dXV3N3CFA2Ndpnuh3lnYAV+IOr3ok4kMmY0KrvQMH10Gl7/+UcWH70KE5AYaWHg7wusWPHFJgVRTF/SOXEZu9XcYIHA0PRd2ijl5jJSbczifiiYBNHIE6xfpagkXaruIozqaiU6INrubu/MqkujzdC48854ktQ2zh7SI8g935HSGbpKeDRR10GuCyiSYmxYA7lO7asj4L2/tYA0IgJlmhgzSvBWLgtCj5e91ZPIoSc2jrchKByOkxuS7ws3dGmpWVZStGvTqWwEeiJCeqrWfjRiOxqbxCdrnBbtseWrzGtG0788FmBgKuAolXU8PKYyUPF3iKCyeQMv0qtdWOR26NCOA12HAyZndb+IGECfZ5YVaJqkd9qgCa/yoLCAANnYXMMvQC8e5ZCWIz2xg/kcBXhUl8w8kCqwn51LSpoPuupszYIPhR9SRmsytXBzLUmLcNj4+CPqVkyPzeEIOlyBv4OTwRv56J0qhrVCWZKMNVqsH/Z9+ilCGuDOi4Ns4lcdNf9QLbH+TNSK7KVXrb71/JzcLxK9num0MhY=
-  dev: 
-    secure: fPcWe5bL7wCOIC6W7k0vBLUPuoZMDkjp48692fKML4d0mvjYc8mb8yncobALN/iBISda2oaj9pVmHhcSXg8RGzEljHeF8v/TNAi/RaKV6+7gySYwsKCxWV7qdqaGiFjbs6IoqnIkKKTlJOX/AJKl5YX0Qfwut0r5Wt6OTZgJQK2Wh4TPbo56Gdile2Zk6d3jeut0ef792sxK5vs3Kuh9FO8RNiaFpn1ravknfXnwHGYiWaSvu7zoFvjVxomTOMvOljZk1+b4Xpk9nmJOMIMbs+FJozJkaDOxeK24vFEoIuCbLgSoBhv7XqSkpStBFc+Wj5GraHeqt8Zpq55MfoXkOptApgHZhRbgdp2UqQ2gyDLahBCJXHBiVUsnTEaIR4fWtP73c/KY8FNW9LNuoXVGmTJF6Gi6gRrq20ra2I662wFd1qdu6BO4LXB0beg2PKMcPPYy7wIYPXxx9jxrQq1WgBVqLlo2FdPhBoOpnWR6elw4lH6tjdgynWiJu+C771qGGZWKSD+VwnCESweScwY9k9Hf6yggtL+nKaU28CRDrSFqNCbUMdR8x3rCsO6VMGHkY+OiNRcjL3AMgCQdV7682MEoTY0CkmFT0F5CNMRBs6uoI601JZ75b37d075UO44buJ4Xv8TwIbdcdIjMYc1Weapz3SXnqxWHAeJLpH7cx1U=  
+  provider: heroku
+  app:
+    master: eventlab-project
+    dev: eventlab-dev
+  api_key:
+    master:
+      secure: bRsKy4l3MUrAHQL2QvzznIt4I6UVzXLZQRcbVuNKT/hNYNa+W+Z2l9FsAEdsdO/iu9EsYL0huD76LfYoun6F8N9ca04h16UcZHmC8gZPwbMRSRONUdYx0GtTyqFO877QoOAslHGe/dXV3N3CFA2Ndpnuh3lnYAV+IOr3ok4kMmY0KrvQMH10Gl7/+UcWH70KE5AYaWHg7wusWPHFJgVRTF/SOXEZu9XcYIHA0PRd2ijl5jJSbczifiiYBNHIE6xfpagkXaruIozqaiU6INrubu/MqkujzdC48854ktQ2zh7SI8g935HSGbpKeDRR10GuCyiSYmxYA7lO7asj4L2/tYA0IgJlmhgzSvBWLgtCj5e91ZPIoSc2jrchKByOkxuS7ws3dGmpWVZStGvTqWwEeiJCeqrWfjRiOxqbxCdrnBbtseWrzGtG0788FmBgKuAolXU8PKYyUPF3iKCyeQMv0qtdWOR26NCOA12HAyZndb+IGECfZ5YVaJqkd9qgCa/yoLCAANnYXMMvQC8e5ZCWIz2xg/kcBXhUl8w8kCqwn51LSpoPuupszYIPhR9SRmsytXBzLUmLcNj4+CPqVkyPzeEIOlyBv4OTwRv56J0qhrVCWZKMNVqsH/Z9+ilCGuDOi4Ns4lcdNf9QLbH+TNSK7KVXrb71/JzcLxK9num0MhY=
+    dev:
+      secure: fPcWe5bL7wCOIC6W7k0vBLUPuoZMDkjp48692fKML4d0mvjYc8mb8yncobALN/iBISda2oaj9pVmHhcSXg8RGzEljHeF8v/TNAi/RaKV6+7gySYwsKCxWV7qdqaGiFjbs6IoqnIkKKTlJOX/AJKl5YX0Qfwut0r5Wt6OTZgJQK2Wh4TPbo56Gdile2Zk6d3jeut0ef792sxK5vs3Kuh9FO8RNiaFpn1ravknfXnwHGYiWaSvu7zoFvjVxomTOMvOljZk1+b4Xpk9nmJOMIMbs+FJozJkaDOxeK24vFEoIuCbLgSoBhv7XqSkpStBFc+Wj5GraHeqt8Zpq55MfoXkOptApgHZhRbgdp2UqQ2gyDLahBCJXHBiVUsnTEaIR4fWtP73c/KY8FNW9LNuoXVGmTJF6Gi6gRrq20ra2I662wFd1qdu6BO4LXB0beg2PKMcPPYy7wIYPXxx9jxrQq1WgBVqLlo2FdPhBoOpnWR6elw4lH6tjdgynWiJu+C771qGGZWKSD+VwnCESweScwY9k9Hf6yggtL+nKaU28CRDrSFqNCbUMdR8x3rCsO6VMGHkY+OiNRcjL3AMgCQdV7682MEoTY0CkmFT0F5CNMRBs6uoI601JZ75b37d075UO44buJ4Xv8TwIbdcdIjMYc1Weapz3SXnqxWHAeJLpH7cx1U=
