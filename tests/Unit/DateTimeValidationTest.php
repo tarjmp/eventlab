@@ -52,7 +52,8 @@ class DateTimeValidationTest extends TestCase
     }
 
     public function testMessage() {
-        $validDate = new DateTimeValidation('2019-12-10');
-        this->self::assertNotNull($validDate->message());
+        // expect a string as return value
+        $invalidDate = new DateTimeValidation('2019-17-10');
+        $this->assertTrue(is_string($invalidDate->message()));
     }
 }
