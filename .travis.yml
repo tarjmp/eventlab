@@ -14,7 +14,7 @@ install:
 before_script:
   - cp .env.travis .env
   - php artisan key:generate
-  - if [ "$TRAVIS_BRANCH" = "dev" ]; then php artisan migrate:fresh --seed
+  - if [ "$TRAVIS_BRANCH" = "dev" ]; then php artisan migrate:fresh --seed; fi
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
