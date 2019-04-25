@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable {
     use Notifiable;
 
-    protected $fillable = ['email', 'password', 'first_name', 'last_name', 'date_of_birth', 'location',];
+    protected $fillable = ['id', 'email', 'password', 'first_name', 'last_name', 'date_of_birth', 'location', 'timezone'];
     protected $hidden   = ['password', 'remember_token',];
 
     // All events a user has created
