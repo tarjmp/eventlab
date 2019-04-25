@@ -143,7 +143,7 @@ class GroupController extends Controller {
         Permission::check(Permission::createGroup);
 
         // validate the incoming request
-        $request->validate(['members' => 'required|array']);
+        $request->validate(['members' => 'required|array|min:1']);
 
         // this function handles selected members of the group and passes them on to the group create function
         $data = $request->all();
