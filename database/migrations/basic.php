@@ -195,6 +195,13 @@ class Basic extends Migration {
      * @return void
      */
     public function down() {
-        //
+        Schema::dropIfExists('items');
+        Schema::dropIfExists('messages');
+        Schema::dropIfExists('event_replies');
+        Schema::dropIfExists('events');
+        Schema::dropIfExists('group_user');
+        Schema::dropIfExists('groups');
+        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('users');
     }
 }
