@@ -2,8 +2,6 @@ coverage:
   precision: 2
   round: nearest
   range: "40...100"
-  ignore:
-    - "bootstrap"
   status:
     project:
       default:
