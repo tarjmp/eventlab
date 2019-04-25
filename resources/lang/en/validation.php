@@ -128,6 +128,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'members' => [
+            'required' => 'Please select at least one participant.',
+        ],
     ],
 
     /*
