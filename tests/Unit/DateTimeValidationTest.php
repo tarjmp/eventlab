@@ -50,4 +50,9 @@ class DateTimeValidationTest extends TestCase
         $this->assertNotTrue($invalidDate->passes('dummy', '-3:15:00'));
         $this->assertNotTrue($invalidDate->passes('dummy', '31:15:00'));
     }
+
+    public function testMessage() {
+        $validDate = new DateTimeValidation('2019-12-10');
+        this->self::assertNotNull($validDate->message());
+    }
 }
