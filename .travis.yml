@@ -12,13 +12,9 @@ install:
   - composer install --no-interaction
 
 before_script:
-  master:
-    - cp .env.travis .env
-    - php artisan key:generate
-  dev:
-    - cp .env.travis .env
-    - php artisan key:generate
-    - php artisan migrate:refresh --seed
+  - cp .env.travis .env
+  - php artisan key:generate
+  - if [ "$TRAVIS_BRANCH" = "dev" ]; then php artisan migrate:fresh --seed
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
