@@ -33,4 +33,4 @@ deploy:
       secure: fPcWe5bL7wCOIC6W7k0vBLUPuoZMDkjp48692fKML4d0mvjYc8mb8yncobALN/iBISda2oaj9pVmHhcSXg8RGzEljHeF8v/TNAi/RaKV6+7gySYwsKCxWV7qdqaGiFjbs6IoqnIkKKTlJOX/AJKl5YX0Qfwut0r5Wt6OTZgJQK2Wh4TPbo56Gdile2Zk6d3jeut0ef792sxK5vs3Kuh9FO8RNiaFpn1ravknfXnwHGYiWaSvu7zoFvjVxomTOMvOljZk1+b4Xpk9nmJOMIMbs+FJozJkaDOxeK24vFEoIuCbLgSoBhv7XqSkpStBFc+Wj5GraHeqt8Zpq55MfoXkOptApgHZhRbgdp2UqQ2gyDLahBCJXHBiVUsnTEaIR4fWtP73c/KY8FNW9LNuoXVGmTJF6Gi6gRrq20ra2I662wFd1qdu6BO4LXB0beg2PKMcPPYy7wIYPXxx9jxrQq1WgBVqLlo2FdPhBoOpnWR6elw4lH6tjdgynWiJu+C771qGGZWKSD+VwnCESweScwY9k9Hf6yggtL+nKaU28CRDrSFqNCbUMdR8x3rCsO6VMGHkY+OiNRcjL3AMgCQdV7682MEoTY0CkmFT0F5CNMRBs6uoI601JZ75b37d075UO44buJ4Xv8TwIbdcdIjMYc1Weapz3SXnqxWHAeJLpH7cx1U=
   run:
     dev:
-      - php artisan migrate:fresh --seed --force
+      - php artisan migrate:refresh --seed --force
