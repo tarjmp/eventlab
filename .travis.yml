@@ -20,6 +20,7 @@ before_script:
   - php artisan key:generate
 
 script:
+  - composer dump-autoload
   - php artisan cache:clear
   - php artisan config:cache
   - php artisan migrate --path=database/migrations --seed
