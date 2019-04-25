@@ -21,7 +21,7 @@ before_script:
 
 script:
   - php artisan config:cache
-  - php artisan migrate --seed
+  - php artisan migrate --path=database/migrations --seed
   - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
