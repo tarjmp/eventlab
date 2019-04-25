@@ -18,6 +18,11 @@
                             </div>
                         @endif
                     </div>
+                    @if ($errors->has('members'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ $errors->first('members') }}
+                        </div>
+                    @endif
                     <br/>
                     <div class="row">
                         @forelse($participants as $p)
