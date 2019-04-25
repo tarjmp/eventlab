@@ -20,7 +20,7 @@ before_script:
   - php artisan key:generate
 
 script:
-  - php artisan migrate --seed -vvv
+  - php artisan migrate --path=database/migrations/basic.php --seed
   - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
