@@ -37,13 +37,13 @@ class DateTimeValidationTest extends TestCase
         // TEST 2: invalid date
         $invalidDate = new DateTimeValidation('2019-17-10');
 
-        // valid times
+        // TEST 2A: valid times
         $this->assertNotTrue($invalidDate->passes('dummy', '15:00:00'));
         $this->assertNotTrue($invalidDate->passes('dummy', '12:59:00'));
         $this->assertNotTrue($invalidDate->passes('dummy', '00:00:00'));
         $this->assertNotTrue($invalidDate->passes('dummy', '02:22:00'));
 
-        // invalid times
+        // TEST 2B: invalid times
         $this->assertNotTrue($invalidDate->passes('dummy', 'banana'));
         $this->assertNotTrue($invalidDate->passes('dummy', '2-2'));
         $this->assertNotTrue($invalidDate->passes('dummy', '23:70:00'));
