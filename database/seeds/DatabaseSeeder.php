@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -10,17 +9,20 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run(
+    public function run()
     {
-        //$table = 'users';
-        //B::statement("TRUNCATE TABLE {$table} RESTART IDENTITY CASCADE");
 
-       // DB::statement("ALTER {$table} DISABLE TRIGGER ALL;");
-
-        $this->call(UsersTableSeeder::class);
+      /*  $this->call(UsersTableSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(GroupSeeder::class);
+        $this->call(GroupUserSeeder::class);
+        $this->call(EventSeeder::class);
+        $this->call(EventRepliesSeeder::class);
+        $this->call(ItemSeeder::class); */
+        $this->call(MessageSeeder::class);
 
-       // DB::statement("ALTER {$table} DISABLE TRIGGER ALL;");
+
+
 
     }
 }

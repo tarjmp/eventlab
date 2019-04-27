@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UserSeeder extends Seeder
+class GroupUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     public function run()
     {
 
-       // DB::statement("TRUNCATE TABLE {'users'} RESTART IDENTITY CASCADE");
+        // DB::statement("TRUNCATE TABLE {'users'} RESTART IDENTITY CASCADE");
 
 
         $faker = Faker\Factory::create();
@@ -25,18 +25,22 @@ class UserSeeder extends Seeder
             $time = $faker->time($format = 'H:i:s', $max = 'now');
             $datetime = $date . ' ' . $time;
 
-                DB::table('users')->insert([
+            $randomGroup[0] = rand(1, 10);
+            $randomGroup[1] = rand(1, 10);
 
-                'email'         => $faker->email,
-                'password'      => bcrypt($faker->password),
-                'first_name'    => $faker->firstName($gender = Null),
-                'last_name'     => $faker->lastName,
-                'date_of_birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
-                'location'      => $faker->city,
+            while($randomGroup[0] == $randomGroup[1]) {
+                $randomGroup[1] = rand(1, 10);
+            }
+
+            DB::table('group_user')->insert([
+
+                'group_id'      => $randomGroup[0],
+                'user_id'       => $randomGroup[1],
+                'status'        => "membership",
                 'created_at'    => $datetime,
                 'updated_at'    => $datetime,
 
-                ]);
+            ]);
         }
     }
 }
