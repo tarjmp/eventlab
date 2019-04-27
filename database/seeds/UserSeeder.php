@@ -27,8 +27,9 @@ class UserSeeder extends Seeder
 
                 DB::table('users')->insert([
 
+                'id'            => $i+2,
                 'email'         => $faker->email,
-                'password'      => bcrypt($faker->password),
+                'password'      => bcrypt('secret'),
                 'first_name'    => $faker->firstName($gender = Null),
                 'last_name'     => $faker->lastName,
                 'date_of_birth' => $faker->date($format = 'Y-m-d', $max = 'now'),

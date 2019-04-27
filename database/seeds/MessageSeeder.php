@@ -56,7 +56,8 @@ class MessageSeeder extends Seeder
             }
             DB::table('messages')->insert([
 
-                'text'          => $faker->text,
+                'id'            => $i+1,
+                'text'          => $faker->sentence,
                 'event_id'      => $randomEvent,
                 'user_id'       => $userID[$number],
                 'created_at'    => $datetime,

@@ -13,7 +13,6 @@ class GroupUserSeeder extends Seeder
     public function run()
     {
 
-        // DB::statement("TRUNCATE TABLE {'users'} RESTART IDENTITY CASCADE");
 
 
         $faker = Faker\Factory::create();
@@ -26,11 +25,17 @@ class GroupUserSeeder extends Seeder
             $datetime = $date . ' ' . $time;
 
             $randomGroup[0] = rand(1, 10);
-            $randomGroup[1] = rand(1, 10);
 
-            while($randomGroup[0] == $randomGroup[1]) {
-                $randomGroup[1] = rand(1, 10);
+            $userID = DB::table('group_user')->where('group_id', $randomGroup[0])->pluck('user_id');
+
+            while(!empty($userID[0])) {
+
+                $randomGroup[0] = rand(1, 10);
+                $userID = DB::table('group_user')->where('group_id', $randomGroup[0])->pluck('user_id');
+
             }
+
+            $randomGroup[1] = rand(1, 10);
 
             DB::table('group_user')->insert([
 

@@ -21,8 +21,14 @@ class EventSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
 
             $randomGroup = rand(1,10);
-
             $userID = DB::table('group_user')->where('group_id', $randomGroup)->pluck('user_id');
+
+            while(empty($userID[0])) {
+
+                $randomGroup = rand(1, 10);
+                $userID = DB::table('group_user')->where('group_id', $randomGroup)->pluck('user_id');
+            }
+
 
             $date = $faker->date($format = 'Y-m-d', $max = 'now');
             $time = $faker->time($format = 'H:i:s', $max = 'now');
@@ -45,8 +51,9 @@ class EventSeeder extends Seeder
 
                DB::table('events')->insert([
 
+                    'id'            => $i+1,
                     'name'          => $faker->sentence,
-                    'description'   => $faker->paragraph,
+                    'description'   => $faker->sentence,
                     'location'      => $faker->city,
                     'start_time'    => $datetime,
                     'end_time'      => $updatedDatetime,
@@ -61,7 +68,7 @@ class EventSeeder extends Seeder
 
         for ($i = 0; $i < 5; $i++) {
 
-            $randomUser = rand(1,7);
+            $randomUser = rand(1,10);
 
             $date = $faker->date($format = 'Y-m-d', $max = 'now');
             $time = $faker->time($format = 'H:i:s', $max = 'now');
@@ -77,6 +84,7 @@ class EventSeeder extends Seeder
 
             DB::table('events')->insert([
 
+                'id'            => $i+6,
                 'name'          => $faker->sentence,
                 'description'   => $faker->paragraph,
                 'location'      => $faker->city,

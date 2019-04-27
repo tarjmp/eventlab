@@ -28,8 +28,9 @@ class GroupSeeder extends Seeder
 
             DB::table('groups')->insert([
 
+                'id'            => $i+1,
                 'name'          => $faker->sentence,
-                'description'   => $faker->paragraph,
+                'description'   => $faker->sentence,
                 'temporary'     => $random,
                 'public'        => $random,
                 'created_at'    => $datetime,

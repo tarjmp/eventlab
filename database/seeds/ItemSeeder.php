@@ -56,6 +56,7 @@ class ItemSeeder extends Seeder
 
             DB::table('items')->insert([
 
+                'id'            => $i+1,
                 'name'          => $faker->sentence,
                 'amount'        => $faker->sentence,
                 'event_id'      => $randomEvent,
