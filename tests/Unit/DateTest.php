@@ -20,6 +20,8 @@ class DateTest extends TestCase
         $this->assertNull(Date::parseFromInput('2019-01-32', '05:00'));
         //Invalid month
         $this->assertNull(Date::parseFromInput('2019-13-02', '05:00'));
+        //check for invalid time zone string
+        $this->assertNull(Date::parseFromInput('2019-01-01', '10:01', 'XYZ'));
 
         //valid entries
         //Get the timezone from the users profile
@@ -45,6 +47,16 @@ class DateTest extends TestCase
         $this->assertNull(Date::toUserOutput('2019-13-15 08:05'));
         $this->assertNull(Date::toUserOutput('2019-13-15 08:05', 'Y/m/d H:i'));
         $this->assertNull(Date::toUserOutput('2019-13-15 08:05', 'Y/m/d H:i', 'PST'));
+        //invalid entries hour
+        $this->assertNull(Date::toUserOutput('2019-12-31 25:05'));
+        $this->assertNull(Date::toUserOutput('2019-12-31 25:05', 'Y/m/d H:i'));
+        $this->assertNull(Date::toUserOutput('2019-12-31 25:05', 'Y/m/d H:i', 'PST'));
+        //invalid entries minute
+        $this->assertNull(Date::toUserOutput('2019-12-31 08:61'));
+        $this->assertNull(Date::toUserOutput('2019-12-31 08:61', 'Y/m/d H:i'));
+        $this->assertNull(Date::toUserOutput('2019-12-31 08:61', 'Y/m/d H:i', 'PST'));
+        //invalid entry timezone
+        $this->assertNull(Date::toUserOutput('2019-12-31 08:61', 'Y/m/d H:i', 'XYZ'));
     }
 
     public function testToDateAndTime()
@@ -90,6 +102,10 @@ class DateTest extends TestCase
         $this->assertNull($sTime);
         //invalid minute with timezone
         Date::toDateAndTime('2019-13-15 16:61', $sDate, $sTime, 'PST');
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid timezone
+        Date::toDateAndTime('2019-12-31 16:05', $sDate, $sTime, 'XYZ');
         $this->assertNull($sDate);
         $this->assertNull($sTime);
     }
