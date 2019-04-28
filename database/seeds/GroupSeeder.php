@@ -5,14 +5,8 @@ use Illuminate\Support\Facades\DB;
 
 class GroupSeeder extends Seeder
 {
-
-    // array with the position in table where a group is temporary and/or public
-    const temporaryGroups = [1, 4, 5, 8];
-    const publicGroups    = [2, 4, 7, 8, 9];
-
     public function run()
     {
-
         // creating factory to use php faker
         $faker = Faker\Factory::create();
 
@@ -33,8 +27,8 @@ class GroupSeeder extends Seeder
                 'id'          => $i + 1,
                 'name'        => $faker->sentence,
                 'description' => $faker->sentence,
-                'temporary'   => in_array($i + 1, self::temporaryGroups),
-                'public'      => in_array($i + 1, self::publicGroups),
+                'temporary'   => in_array($i + 1, SeedConstants::GROUPS_TEMPORARY),
+                'public'      => in_array($i + 1, SeedConstants::GROUPS_PUBLIC),
                 'created_at'  => $datetime,
                 'updated_at'  => $updatedDatetime,
 

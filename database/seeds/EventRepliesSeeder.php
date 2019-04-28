@@ -1,19 +1,11 @@
 <?php
 
+use App\Event;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class EventRepliesSeeder extends Seeder
 {
-
-    // array with the relation between an event and an user
-    const replyFrom       = [[1, 2], [4, 5], [3, 8], [2, 4], [7, 3], [8, 10], [6, 4], [9, 7], [5, 2], [10, 2]];
-
-    // array with the position in table where a reply was accepted, rejected or tentative
-    const statusAccepted  = [1, 4, 7];
-    const statusRejected  = [2, 10];
-    const statusTentative = [3, 5, 6, 8, 9];
-
     public function run()
     {
 
@@ -34,19 +26,19 @@ class EventRepliesSeeder extends Seeder
 
 
             // inquiry if event was accepted, rejected or tentative
-            if (in_array($i + 1, self::statusAccepted)) {
-                $status = "accepted";
-            } elseif (in_array($i + 1, self::statusRejected)) {
-                $status = "rejected";
+            if (in_array($i + 1, SeedConstants::EVENT_ACCEPTED)) {
+                $status = Event::STATUS_ACCEPTED;
+            } elseif (in_array($i + 1, SeedConstants::EVENT_REJECTED)) {
+                $status = Event::STATUS_REJECTED;
             } else {
-                $status = "tentative";
+                $status = Event::STATUS_TENTATIVE;
             }
 
             // insert data to 'event_replies' table of database
             DB::table('event_replies')->insert([
 
-                'event_id'   => self::replyFrom[$i][0],
-                'user_id'    => self::replyFrom[$i][1],
+                'event_id'   => SeedConstants::EVENT_REPLIES[$i][0],
+                'user_id'    => SeedConstants::EVENT_REPLIES[$i][1],
                 'status'     => $status,
                 'created_at' => $datetime,
                 'updated_at' => $updatedDatetime,

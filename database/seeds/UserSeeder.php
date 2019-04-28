@@ -5,10 +5,8 @@ use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
-
     public function run()
     {
-
         // creating factory to use php faker
         $faker = Faker\Factory::create();
 

@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
-
     public function run()
     {
         // insert data to 'users' table of database

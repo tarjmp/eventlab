@@ -5,13 +5,8 @@ use Illuminate\Support\Facades\DB;
 
 class ItemSeeder extends Seeder
 {
-
-    // array with the relation between an event and an user
-    const bringWith = [[7, 3], [8, 10], [1, 2], [4, 5], [10, 2], [5, 2], [9, 7], [6, 4], [3, 8], [2, 4]];
-
     public function run()
     {
-
         // creating factory to use php faker
         $faker = Faker\Factory::create();
 
@@ -36,8 +31,8 @@ class ItemSeeder extends Seeder
                 'id'         => $i + 1,
                 'name'       => $faker->sentence,
                 'amount'     => $randomAmount . " kg",
-                'event_id'   => self::bringWith[$i][0],
-                'user_id'    => self::bringWith[$i][1],
+                'event_id'   => SeedConstants::ITEMS[$i][0],
+                'user_id'    => SeedConstants::ITEMS[$i][1],
                 'created_at' => $datetime,
                 'updated_at' => $updatedDatetime,
 

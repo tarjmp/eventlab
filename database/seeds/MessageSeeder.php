@@ -5,13 +5,8 @@ use Illuminate\Support\Facades\DB;
 
 class MessageSeeder extends Seeder
 {
-
-    // array with the relation between an event and an user
-    const sendBy = [[5, 2], [3, 8], [10, 2], [8, 10], [7, 3], [2, 4], [9, 7], [6, 4], [1, 2], [4, 5]];
-
     public function run()
     {
-
         // creating factory to use php faker
         $faker = Faker\Factory::create();
 
@@ -33,8 +28,8 @@ class MessageSeeder extends Seeder
 
                 'id'         => $i + 1,
                 'text'       => $faker->sentence,
-                'event_id'   => self::sendBy[$i][0],
-                'user_id'    => self::sendBy[$i][1],
+                'event_id'   => SeedConstants::MESSAGES[$i][0],
+                'user_id'    => SeedConstants::MESSAGES[$i][1],
                 'created_at' => $datetime,
                 'updated_at' => $updatedDatetime,
 
