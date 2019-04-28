@@ -11,6 +11,8 @@
 |
 */
 
+
+
 // enable https for all non-localhost instances
 if (!App::environment('local')) {
     URL::forceScheme('https');
