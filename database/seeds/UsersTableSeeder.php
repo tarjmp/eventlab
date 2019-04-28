@@ -8,6 +8,8 @@ class UsersTableSeeder extends Seeder
 
     public function run()
     {
+        // insert data to 'users' table of database
+        // generate dummy user
         DB::table('users')->insert([
 
             'id'            => 1,
