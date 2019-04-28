@@ -49,6 +49,48 @@ class DateTest extends TestCase
 
     public function testToDateAndTime()
     {
+        //Needed to check getting the timezone from a users profile
+        $this->loginWithFakeUser();
 
+        //valid data
+        Date::toDateAndTime('2019-12-31 16:05', $sDate, $sTime);
+        $this->assertEquals('2019-12-31', $sDate);
+        $this->assertEquals('16:05', $sTime);
+        //valid data with timezone
+        Date::toDateAndTime('2019-12-31 16:05', $sDate, $sTime, 'PST');
+        $this->assertEquals('2019-12-31', $sDate);
+        $this->assertEquals('08:05', $sTime);
+        //invalid day
+        Date::toDateAndTime('2019-12-32 16:05', $sDate, $sTime);
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid day with timezone
+        Date::toDateAndTime('2019-12-32 16:05', $sDate, $sTime, 'PST');
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid month
+        Date::toDateAndTime('2019-13-15 16:05', $sDate, $sTime);
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid month with timezone
+        Date::toDateAndTime('2019-13-15 16:05', $sDate, $sTime, 'PST');
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid hour
+        Date::toDateAndTime('2019-12-31 25:05', $sDate, $sTime);
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid hour with timezone
+        Date::toDateAndTime('2019-12-32 25:05', $sDate, $sTime, 'PST');
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid minute
+        Date::toDateAndTime('2019-13-15 16:61', $sDate, $sTime);
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
+        //invalid minute with timezone
+        Date::toDateAndTime('2019-13-15 16:61', $sDate, $sTime, 'PST');
+        $this->assertNull($sDate);
+        $this->assertNull($sTime);
     }
 }
