@@ -12,7 +12,7 @@ class Date {
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // parseFromInput
     //
-    // This function translates a given date & time from the user's time zone into a UNIX timestamp,
+    // This function translates a given date & time from the user's time zone into a UTC timestamp,
     // so that it can be easily stored in the database.
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     static function parseFromInput($sDate, $sTime, $sTimezone = null) {
@@ -36,7 +36,7 @@ class Date {
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // toUserOutput
     //
-    // This function translates a given UNIX timestamp to the user's time zone
+    // This function translates a given UTC timestamp to the user's time zone
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     static function toUserOutput($sTimestamp, $sFormat = 'd/m/Y H:i', $sTimezone = null) {
 
@@ -58,7 +58,7 @@ class Date {
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // toDateAndTime
     //
-    // This function translates a given UNIX timestamp date and time in the user's time zone
+    // This function translates a given UTC timestamp date and time in the user's time zone
     // The values are set by reference.
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     static function toDateAndTime($sTimestamp, &$sDate, &$sTime, $sTimezone = null) {
