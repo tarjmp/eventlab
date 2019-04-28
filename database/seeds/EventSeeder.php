@@ -5,96 +5,42 @@ use Illuminate\Support\Facades\DB;
 
 class EventSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+
+    const createdBy = [[2, 2], [3, 4], [6, 8], [NULL, 5], [2, 2], [3, 4], [9, 3], [NULL, 10], [NULL, 7], [2, 2]];
+    const allDay    = [1, 4, 6, 7, 8, 10];
+
     public function run()
     {
 
-        // DB::statement("TRUNCATE TABLE {'users'} RESTART IDENTITY CASCADE");
-
-
         $faker = Faker\Factory::create();
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
 
-            $randomGroup = rand(1,10);
-            $userID = DB::table('group_user')->where('group_id', $randomGroup)->pluck('user_id');
-
-            while(empty($userID[0])) {
-
-                $randomGroup = rand(1, 10);
-                $userID = DB::table('group_user')->where('group_id', $randomGroup)->pluck('user_id');
-            }
+            $StartEndDate            = $faker->date($format = 'Y-m-d', $max = 'now');
+            $StartEndTime            = $faker->time($format = 'H:i:s', $max = 'now');
+            $StartEndDatetime        = $StartEndDate . ' ' . $StartEndTime;
+            $randomTime              = rand(1, 10);
+            $StartEndUpdatedDatetime = date('Y-m-d H:i:s', strtotime($StartEndDatetime . " +{$randomTime} hours"));
 
 
-            $date = $faker->date($format = 'Y-m-d', $max = 'now');
-            $time = $faker->time($format = 'H:i:s', $max = 'now');
-            $datetime = $date . ' ' . $time;
-            $updatedDatetime = date('Y-m-d H:i:s', strtotime($datetime . " +{$randomGroup} hours"));
-
-
-            $date_1 = $faker->date($format = 'Y-m-d', $max = 'now');
-            $time_1 = $faker->time($format = 'H:i:s', $max = 'now');
-            $datetime_1 = $date_1 . ' ' . $time_1;
-            $updatedDatetime_1 = date('Y-m-d H:i:s', strtotime($datetime_1 . ' +1 day'));
-
-
-            if(count($userID)-1 > 1) {
-                $number = rand(0, count($userID) - 1);
-            }
-            else if (count($userID)-1 == 1)
-                    { $number = 1;}
-            else {$number = 0;}
-
-               DB::table('events')->insert([
-
-                    'id'            => $i+1,
-                    'name'          => $faker->sentence,
-                    'description'   => $faker->sentence,
-                    'location'      => $faker->city,
-                    'start_time'    => $datetime,
-                    'end_time'      => $updatedDatetime,
-                    'all_day'       => 'false',
-                    'group_id'      => $randomGroup,
-                    'created_by'    => $userID[$number],
-                    'created_at'    => $datetime_1,
-                    'updated_at'    => $updatedDatetime_1,
-
-                ]);
-        }
-
-        for ($i = 0; $i < 5; $i++) {
-
-            $randomUser = rand(1,10);
-
-            $date = $faker->date($format = 'Y-m-d', $max = 'now');
-            $time = $faker->time($format = 'H:i:s', $max = 'now');
-            $datetime = $date . ' ' . $time;
-            $updatedDatetime = date('Y-m-d H:i:s', strtotime($datetime . ' +1 day'));
-
-
-            $date_1 = $faker->date($format = 'Y-m-d', $max = 'now');
-            $time_1 = $faker->time($format = 'H:i:s', $max = 'now');
-            $datetime_1 = $date_1 . ' ' . $time_1;
-            $updatedDatetime_1 = date('Y-m-d H:i:s', strtotime($datetime_1 . ' +1 day'));
-
+            $CreatedUpdatedDate            = $faker->date($format = 'Y-m-d', $max = 'now');
+            $CreatedUpdatedTime            = $faker->time($format = 'H:i:s', $max = 'now');
+            $CreatedUpdatedDatetime        = $CreatedUpdatedDate . ' ' . $CreatedUpdatedTime;
+            $CreatedUpdatedUpdatedDatetime = date('Y-m-d H:i:s', strtotime($CreatedUpdatedDatetime . ' +1 day'));
 
             DB::table('events')->insert([
 
-                'id'            => $i+6,
-                'name'          => $faker->sentence,
-                'description'   => $faker->paragraph,
-                'location'      => $faker->city,
-                'start_time'    => $datetime,
-                'end_time'      => $updatedDatetime,
-                'all_day'       => 'true',
-                'group_id'      => null,
-                'created_by'    => $randomUser,
-                'created_at'    => $datetime_1,
-                'updated_at'    => $updatedDatetime_1,
+                'id'          => $i + 1,
+                'name'        => $faker->sentence,
+                'description' => $faker->sentence,
+                'location'    => $faker->city,
+                'start_time'  => $StartEndDatetime,
+                'end_time'    => $StartEndUpdatedDatetime,
+                'all_day'     => in_array($i + 1, self::allDay),
+                'group_id'    => self::createdBy[$i][0],
+                'created_by'  => self::createdBy[$i][1],
+                'created_at'  => $CreatedUpdatedDatetime,
+                'updated_at'  => $CreatedUpdatedUpdatedDatetime,
 
             ]);
         }

@@ -25,9 +25,5 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemSeeder::class);
         $this->call(MessageSeeder::class);
 
-
-
-
-
     }
 }
