@@ -21,4 +21,22 @@ class NavigatorTest extends TestCase
         $this->expectException(HttpException::class);
         Navigator::die();
     }
+
+    public function testDieInvalidRequest()
+    {
+        $this->expectException(HttpException::class);
+        Navigator::die(Navigator::REASON_INVALID_REQUEST);
+    }
+
+    public function testDieReasonNotFound()
+    {
+        $this->expectException(HttpException::class);
+        Navigator::die(Navigator::REASON_NOT_FOUND);
+    }
+
+    public function testDieReasonInternalServerError()
+    {
+        $this->expectException(HttpException::class);
+        Navigator::die(Navigator::REASON_INTERNAL_SERVER_ERROR);
+    }
 }
