@@ -15,3 +15,8 @@ coverage:
       default:
         enabled: no
         if_not_found: success
+  ignore:
+    - "/app/Exceptions"
+    - "/app/Providers/BroadcastServiceProvider.php"
+    - "/app/Http/Middleware"
+    - "/app/Http/Controllers/Auth"
