@@ -10,8 +10,8 @@ class EventSeeder extends Seeder
         // creating factory to use php faker
         $faker = Faker\Factory::create();
 
-        // generate 10 entries in the table
-        for ($i = 0; $i < 10; $i++) {
+        // generate entries in the table
+        for ($i = 0; $i < SeedConstants::NUM_EVENTS; $i++) {
 
             // generate a date and a time with faker in the format: Y-m-d H:i:s for 'start_time' and 'end_time'
             $startEndDate            = $faker->date($format = 'Y-m-d', $max = 'now');

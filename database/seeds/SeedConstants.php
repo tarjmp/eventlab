@@ -3,6 +3,15 @@
 
 class SeedConstants
 {
+    // number of database entries - can be used for loops
+    public const NUM_USERS    = 10;
+    public const NUM_GROUPS   = 10;
+    public const NUM_EVENTS   = 10;
+    public const NUM_REPLIES  = 10;
+    public const NUM_ITEMS    = 10;
+    public const NUM_MESSAGES = 10;
+
+
     // +++ EVENT REPLIES +++
     // array with the relation between replies between an event and a user
     public const EVENT_REPLIES = [[1, 2], [4, 5], [3, 8], [2, 4], [7, 3], [8, 10], [6, 4], [9, 7], [5, 2], [10, 2]];
@@ -11,7 +20,6 @@ class SeedConstants
     public const EVENT_TENTATIVE = [3, 5, 6, 8, 9];
     public const EVENT_ACCEPTED  = [1, 4, 7];
     public const EVENT_REJECTED  = [2, 10];
-
 
     // +++ EVENTS +++
     // array containing the group and user (creator) of each event
@@ -24,13 +32,13 @@ class SeedConstants
     // +++ GROUPS +++
     // arrays with the temporary and public groups
     // CAUTION: temporary groups must never be public!
-    public const GROUPS_TEMPORARY = [1, 4, 5, 8];
-    public const GROUPS_PUBLIC = [2, 6, 7, 9];
+    public const GROUPS_TEMPORARY = [2];
+    public const GROUPS_PUBLIC = [1, 3, 4, 5, 7, 8, 10];
 
     // +++ GROUP-USER +++
     // array with memberships and subscriptions towards a group (group id + user id)
-    public const SUBSCRIPTIONS = [[1, 10], [4, 6], [5, 7], [7, 1], [8, 5], [10, 9]];
-    public const MEMBERSHIPS = [[2, 2], [3, 4], [6, 8], [9, 3]];
+    public const SUBSCRIPTIONS = [[1, 10], [4, 6], [5, 7], [7, 1], [8, 5], [10, 9], [3, 5]];
+    public const MEMBERSHIPS = [[2, 2], [2, 4], [3, 4], [6, 8], [9, 3]];
 
     // +++ ITEMS +++
     // pairs of event id and user id
