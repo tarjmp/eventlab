@@ -197,42 +197,45 @@ class EventControllerTest extends TestCase
         // user not logged in -> should fail
         $response = $this->delete('/event/1');
         $response->assertRedirect('/login');
-        $event = Event::find(1);
-        $this->assertNotNull($event);
+        $this->assertEventExists(1);
 
         $response = $this->delete('/event/2');
         $response->assertRedirect('/login');
-        $event = Event::find(2);
-        $this->assertNotNull($event);
+        $this->assertEventExists(2);
 
         // user logged in
         $this->loginWithDBUser(5);
 
         // delete private event -> should succeed
         $response = $this->delete('/event/4');
-        $event = Event::find(4);
-        $this->assertNull($event);
+        $response->assertRedirect('/home');
+        $this->assertEventDeleted(4);
 
         // delete event in group without any permissions -> should fail
         $response = $this->delete('/event/1');
         $response->assertForbidden();
-        $event = Event::find(1);
-        $this->assertNotNull($event);
+        $this->assertEventExists(1);
 
 
         // delete event in subscribed group -> should fail
         $response = $this->delete('/event/6');
         $response->assertForbidden();
-        $event = Event::find(6);
-        $this->assertNotNull($event);
+        $this->assertEventExists(6);
 
         // delete event in group (membership) -> should succeed
         $this->loginWithDBUser(2);
         $response = $this->delete('/event/10');
-        $event = Event::find(10);
+        $response->assertRedirect('/home');
+        $this->assertEventDeleted(10);
+    }
+
+    private function assertEventExists($id) {
+        $event = Event::find($id);
+        $this->assertNotNull($event);
+    }
+
+    private function assertEventDeleted($id) {
+        $event = Event::find($id);
         $this->assertNull($event);
-
-
-
     }
 }
