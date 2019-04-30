@@ -24,7 +24,6 @@ class GroupSeeder extends Seeder
             // insert data to 'groups' table of database
             DB::table('groups')->insert([
 
-                'id'          => $i + 1,
                 'name'        => $faker->sentence,
                 'description' => $faker->sentence,
                 'temporary'   => in_array($i + 1, SeedConstants::GROUPS_TEMPORARY),

@@ -39,7 +39,6 @@ class EventController extends Controller {
         // check for permission to create a new event
         Permission::check(Permission::createEvent);
 
-
         $data = $request->all();
         // never trust any user input
         $validator = $this->validateInput($data);
@@ -201,7 +200,7 @@ class EventController extends Controller {
         // The group of the event may only be changed during creation of the event!
         if ($create) {
             // if the event shall belong to a group
-            if ($data['selectGroup'] != '') {
+            if (!empty($data['selectGroup'])) {
                 // check for permission to create an event in this group
                 Permission::check(Permission::createEventForGroup, $data['selectGroup']);
                 // create event for the group

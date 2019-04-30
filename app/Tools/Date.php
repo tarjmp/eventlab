@@ -18,7 +18,7 @@ class Date {
     static function parseFromInput($sDate, $sTime, $sTimezone = null) {
 
         // take the specified timezone if given, otherwise take the user's timezone as default
-        $sTimezone = $sTimezone ?? Auth::user()->timezone;
+        $sTimezone = $sTimezone ?? self::getDefaultTimezone();
 
         try {
             // try to instantiate a new datetime object that takes the local time zone into account
@@ -41,7 +41,7 @@ class Date {
     static function toUserOutput($sTimestamp, $sFormat = 'd/m/Y H:i', $sTimezone = null) {
 
         // take the specified timezone if given, otherwise take the user's timezone as default
-        $sTimezone = $sTimezone ?? Auth::user()->timezone;
+        $sTimezone = $sTimezone ?? self::getDefaultTimezone();
 
         try {
             // try to instantiate a new datetime object that takes the local time zone into account
@@ -64,5 +64,19 @@ class Date {
     static function toDateAndTime($sTimestamp, &$sDate, &$sTime, $sTimezone = null) {
         $sDate = self::toUserOutput($sTimestamp, 'Y-m-d', $sTimezone);
         $sTime = self::toUserOutput($sTimestamp, 'H:i', $sTimezone);
+    }
+
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // getDefaultTimezone
+    //
+    // This function retrieves the default timezone, depending on whether the user is logged in or not
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    static function getDefaultTimezone() {
+        if(Auth::check()) {
+            return Auth::user()->timezone;
+        }
+        else {
+            return 'UTC';
+        }
     }
 }

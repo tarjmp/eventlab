@@ -28,7 +28,6 @@ class ItemSeeder extends Seeder
             // insert data to 'items' table of database
             DB::table('items')->insert([
 
-                'id'         => $i + 1,
                 'name'       => $faker->sentence,
                 'amount'     => $randomAmount . " kg",
                 'event_id'   => SeedConstants::ITEMS[$i][0],
