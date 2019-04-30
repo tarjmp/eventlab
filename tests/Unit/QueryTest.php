@@ -23,14 +23,11 @@ class QueryTest extends TestCase
         // make sure that there is enough validation data to test all events
         $this->assertTrue(count(self::USERS_EVENTS) == \SeedConstants::NUM_USERS);
 
-        $user = new User();
-
         // iterate over all users
         for($i = 0; $i < \SeedConstants::NUM_USERS; $i++) {
 
             // pseudo login with the current user id
-            $user->id = $i + 1;
-            $this->loginWithFakeUser($user);
+            $this->loginWithDBUser($i + 1);
 
             // call the function to be tested and only save the column 'id' of the events
             $aTestResult = array_column(Query::getUserEvents()->toArray(), 'id');

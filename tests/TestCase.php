@@ -10,7 +10,7 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     // This method fakes a user login for test cases
-    public function loginWithFakeUser($user = null) {
+    protected function loginWithFakeUser($user = null) {
 
         if($user == null) {
             $user = new User();
@@ -27,5 +27,18 @@ abstract class TestCase extends BaseTestCase
         }
 
         $this->be($user);
+    }
+
+    // This method logs in as the user with the given id, only for test cases
+    protected function loginWithDBUser($id) {
+
+        // find user in database
+        $user = User::find($id);
+
+        // assert that user with specified id existed
+        $this->assertTrue(boolval($user));
+
+        // login with this user
+        $this->loginWithFakeUser($user);
     }
 }
