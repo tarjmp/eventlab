@@ -41,4 +41,18 @@ abstract class TestCase extends BaseTestCase
         // login with this user
         $this->loginWithFakeUser($user);
     }
+
+    protected function setUp() {
+        parent::setUp();
+
+        // clear database tables and execute seeding
+        $seeder = new \DatabaseSeeder();
+        $seeder->run();
+    }
+
+    protected function tearDown() {
+        parent::tearDown();
+    }
+
+
 }
