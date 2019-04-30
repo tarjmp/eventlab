@@ -27,6 +27,7 @@ class PermissionTest extends TestCase
         $this->assertTrue(Permission::has(Permission::showGroup, 6));
 
         //User logged in and public Group
+        $this->loginWithDBUser(8);
         $this->assertTrue(Permission::has(Permission::showGroup, 6));
     }
 
@@ -48,6 +49,62 @@ class PermissionTest extends TestCase
 
         //User logged in and public Group
         $this->assertTrue(Permission::has(Permission::showGroupExtended, 6));
+    }
+
+    public function testHasCreateGroup()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::createGroup));
+
+        //User logged in
+        $this->loginWithDBUser(6);
+        $this->assertTrue(Permission::has(Permission::createGroup));
+
+        //Other user logged in
+        $this->loginWithDBUser(8);
+        $this->assertTrue(Permission::has(Permission::createGroup));
+    }
+
+    public function testHasEditGroup()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::editGroup, 6));
+
+        //User logged in but not member of group
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::editGroup, 6));
+
+        //User logged in and member of group
+        $this->loginWithDBUser(8);
+        $this->assertTrue(Permission::has(Permission::editGroup, 6));
+    }
+
+    public function testHasSubscribeToGroup()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::subscribeToGroup, 6));
+
+        //User logged in but private group
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::subscribeToGroup, 6));
+
+        //User logged in and member of group
+        $this->loginWithDBUser(6);
+        $this->assertTrue(Permission::has(Permission::subscribeToGroup, 1));
+    }
+
+    public function testHasLeaveGroup()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::leaveGroup, 6));
+
+        //User logged in but not in group
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::leaveGroup, 6));
+
+        //User logged in and member of group
+        $this->loginWithDBUser(8);
+        $this->assertTrue(Permission::has(Permission::leaveGroup, 6));
     }
 
 
