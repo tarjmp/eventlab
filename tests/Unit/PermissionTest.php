@@ -107,6 +107,89 @@ class PermissionTest extends TestCase
         $this->assertTrue(Permission::has(Permission::leaveGroup, 6));
     }
 
+    public function testHasShowEvent()
+    {
+        //User not logged in and private event
+        $this->assertFalse(Permission::has(Permission::showEvent, 4));
+
+        //User not logged in and public event
+        $this->assertTrue(Permission::has(Permission::showEvent, 2));
+
+        //User logged in and not member of Event, private Event
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::showEvent, 4));
+
+        //User logged in and member of Event, private Event
+        $this->loginWithDBUser(5);
+        $this->assertTrue(Permission::has(Permission::showEvent, 4));
+
+        //User logged in and not member of Event, public Event
+        $this->loginWithDBUser(6);
+        $this->assertTrue(Permission::has(Permission::showEvent, 2));
+
+        //User logged in and member of Event, pubic Event
+        $this->loginWithDBUser(4);
+        $this->assertTrue(Permission::has(Permission::showEvent, 2));
+    }
+
+    public function testHasShowEventExtended()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::showEventExtended, 4));
+
+        //User logged in and not member of Event
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::showEventExtended, 4));
+
+        //User logged in and member of Event
+        $this->loginWithDBUser(5);
+        $this->assertTrue(Permission::has(Permission::showEventExtended, 4));
+    }
+
+    public function testHasCreateEventForGroup()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::createEventForGroup, 2));
+
+        //User logged in and not member of Event
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::createEventForGroup, 2));
+
+        //User logged in and member of Event
+        $this->loginWithDBUser(2);
+        $this->assertTrue(Permission::has(Permission::createEventForGroup, 2));
+    }
+
+    public function testHasEditEvent()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::editEvent, 2));
+
+        //User logged in and not member of Event
+        $this->loginWithDBUser(8);
+        $this->assertFalse(Permission::has(Permission::editEvent, 2));
+
+        //User logged in and member of Event
+        $this->loginWithDBUser(4);
+        $this->assertTrue(Permission::has(Permission::editEvent, 2));
+    }
+
+    public function testHasDeleteEvent()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::deleteEvent, 2));
+
+        //User logged in and not member of Event
+        $this->loginWithDBUser(8);
+        $this->assertFalse(Permission::has(Permission::deleteEvent, 2));
+
+        //User logged in and member of Event
+        $this->loginWithDBUser(4);
+        $this->assertTrue(Permission::has(Permission::deleteEvent, 2));
+    }
+
+
+
 
     //Methods Check test
 
