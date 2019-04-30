@@ -8,10 +8,30 @@ use Tests\TestCase;
 
 class PermissionTest extends TestCase
 {
-    public function testHas()
+    //Methods Has test
+
+    public function testHasShowGroup()
     {
-        $this->assertTrue(true);
+        //User not logged in and private Group
+        $this->assertFalse(Permission::has(Permission::showGroup, 2));
+
+        //User not logged in and public Group
+        $this->assertTrue(Permission::has(Permission::showGroup, 1));
+
+        //User logged in and private Group he is not member
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::showGroup, 6));
+
+        //User logged in and private Group he is member
+        $this->loginWithDBUser(8);
+        $this->assertTrue(Permission::has(Permission::showGroup, 6));
+
+        //User logged in and public Group
+        $this->assertTrue(Permission::has(Permission::showGroup, 6));
     }
+
+
+    //Methods Check test
 
     public function testCheckEditGroupNotLoggedIn()
     {
