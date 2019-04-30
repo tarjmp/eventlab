@@ -187,7 +187,23 @@ class PermissionTest extends TestCase
         $this->loginWithDBUser(4);
         $this->assertTrue(Permission::has(Permission::deleteEvent, 2));
     }
+    public function testHasRespondToEvent()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::respondToEvent, 2));
 
+        //User logged in and not member of Event and private event
+        $this->loginWithDBUser(8);
+        $this->assertFalse(Permission::has(Permission::respondToEvent, 4));
+
+        //User logged in and member of Event and private event
+        $this->loginWithDBUser(5);
+        $this->assertTrue(Permission::has(Permission::respondToEvent, 4));
+
+        //User logged in and public event
+        $this->loginWithDBUser(9);
+        $this->assertTrue(Permission::has(Permission::respondToEvent, 2));
+    }
 
 
 
