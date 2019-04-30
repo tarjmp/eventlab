@@ -9,12 +9,22 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    public function loginWithFakeUser() {
-        $user = new User([
-            'id' => 1,
-            'name' => 'test',
-            'timezone' => 'UTC',
-        ]);
+    // This method fakes a user login for test cases
+    public function loginWithFakeUser($user = null) {
+
+        if($user == null) {
+            $user = new User();
+        }
+
+        if (empty($user->id)) {
+            $user->id = 1;
+        }
+        if (empty($user->name)) {
+            $user->name = 'Test';
+        }
+        if (empty($user->timezone)) {
+            $user->timezone = 'UTC';
+        }
 
         $this->be($user);
     }
