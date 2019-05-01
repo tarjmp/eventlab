@@ -21,6 +21,9 @@ if (!App::environment('local')) {
 // home screen
 Route::view('/', 'welcome');
 
+// about screen
+Route::view('/about', 'about');
+
 // login, register, etc.
 Route::auth();
 
