@@ -26,7 +26,6 @@ class MessageSeeder extends Seeder
             // insert data to 'messages' table of database
             DB::table('messages')->insert([
 
-                'id'         => $i + 1,
                 'text'       => $faker->sentence,
                 'event_id'   => SeedConstants::MESSAGES[$i][0],
                 'user_id'    => SeedConstants::MESSAGES[$i][1],

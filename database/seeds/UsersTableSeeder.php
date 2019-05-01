@@ -11,7 +11,6 @@ class UsersTableSeeder extends Seeder
         // generate dummy user
         DB::table('users')->insert([
 
-            'id'            => 1,
             'email'         => "jane.doe@gmail.com",
             'password'      => bcrypt("secret"),
             'first_name'    => "Jane",
