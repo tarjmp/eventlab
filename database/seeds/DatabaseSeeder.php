@@ -8,8 +8,6 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-
-
         // clear all tables from database
         DB::statement("TRUNCATE TABLE messages, items, events, groups, users, event_replies, group_user RESTART IDENTITY;");
 
