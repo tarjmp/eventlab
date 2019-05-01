@@ -187,6 +187,7 @@ class PermissionTest extends TestCase
         $this->loginWithDBUser(4);
         $this->assertTrue(Permission::has(Permission::deleteEvent, 2));
     }
+
     public function testHasRespondToEvent()
     {
         //User not logged in
@@ -205,6 +206,45 @@ class PermissionTest extends TestCase
         $this->assertTrue(Permission::has(Permission::respondToEvent, 2));
     }
 
+    public function testHasEditProfile()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::editProfile));
+
+        //User logged in and not member of Event and private event
+        $this->loginWithDBUser(1);
+        $this->assertTrue(Permission::has(Permission::editProfile));
+    }
+
+    public function testHasShowHomeCalendar()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::showHomeCalendar));
+
+        //User logged in and not member of Event and private event
+        $this->loginWithDBUser(1);
+        $this->assertTrue(Permission::has(Permission::showHomeCalendar));
+    }
+
+    public function testHasShowGroups()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::showGroups));
+
+        //User logged in and not member of Event and private event
+        $this->loginWithDBUser(1);
+        $this->assertTrue(Permission::has(Permission::showGroups));
+    }
+
+    public function testHasCreateEvent()
+    {
+        //User not logged in
+        $this->assertFalse(Permission::has(Permission::createEvent));
+
+        //User logged in and not member of Event and private event
+        $this->loginWithDBUser(1);
+        $this->assertTrue(Permission::has(Permission::createEvent));
+    }
 
 
     //Methods Check test
