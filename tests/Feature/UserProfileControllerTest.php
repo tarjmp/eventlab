@@ -2,11 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\UserProfileController;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class UserProfileControllerTest extends TestCase
 {
@@ -20,5 +17,11 @@ class UserProfileControllerTest extends TestCase
         //User not logged in
         $response = $this->get('/profile');
         $response->assertStatus(302);
+        $response->assertRedirect('/login');
+
+        //User logged in
+        $this->loginWithDBUser(1);
+        $response = $this->get('/profile');
+        $response->assertOk();
     }
 }
