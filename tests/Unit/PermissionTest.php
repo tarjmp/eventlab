@@ -246,6 +246,12 @@ class PermissionTest extends TestCase
         $this->assertTrue(Permission::has(Permission::createEvent));
     }
 
+    public function testHasDefaultCase()
+    {
+        //This permission does not exists
+        $this->assertFalse(Permission::has(20));
+    }
+
 
     //Methods Check test
 
