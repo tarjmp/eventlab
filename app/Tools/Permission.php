@@ -110,7 +110,6 @@ class Permission {
             // will be denied for security reasons as this should never happen...
             return false;
         }
-        return false;
     }
 
 
