@@ -53,7 +53,7 @@
                         <div class="form-check">
                             <input class="form-check-input" name="all-day-event" type="checkbox" value="all-day-event"
                                    id="all-day-event"
-                                {{ old('all-day-event') ? 'checked' : '' }}>
+                                    {{ old('all-day-event') ? 'checked' : '' }}>
                             <label class="form-check-label" for="all-day-event">
                                 {{ __('event.all_day') }}
                             </label>
@@ -114,11 +114,12 @@
 
                     <div class="form-group">
                         <label for="selectGroup">{{ __('event.select_group') }}</label>
-                        <select class="custom-select d-block w-100 {{ $errors->has('selectGroup') ? ' is-invalid' : '' }}" id="selectGroup" name="selectGroup">
+                        <select class="custom-select d-block w-100 {{ $errors->has('selectGroup') ? ' is-invalid' : '' }}"
+                                id="selectGroup" name="selectGroup">
                             <option value="">{{ __('event.private_group') }}</option>
                             @foreach($groups as $g)
-                            <option value="{{$g->id}}">{{$g->name}}</option>
-                                @endforeach
+                                <option value="{{$g->id}}">{{$g->name}}</option>
+                            @endforeach
                         </select>
 
                         @if ($errors->has('selectGroup'))
