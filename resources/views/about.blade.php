@@ -11,11 +11,11 @@
                     Ben.</p>
                 <p>In our course Software Engineering, we invented the idea of developing a web calendar application
                     that will simplify everyone&#8217;s life and therefore created EventLAB.</p>
-                <p>If you have any questions please feel free to send us an <a href="mailto:eventlab@jupiterspace.de">e-mail</a> or comment on our
-                    <a href="https://github.com/tarjmp/eventlab">GitHub repository</a> at any time.</p>
+                <p>If you have any questions, please feel free to send us an <a href="mailto:eventlab@jupiterspace.de">e-mail</a> or comment on our
+                    <a href="https://github.com/tarjmp/eventlab" target="_blank">GitHub repository</a> at any time.</p>
                 <br/>
                 <h4>Where to find us</h4>
-                <p>DWBH Karlsruhe <br/>
+                <p>DHBW Karlsruhe <br/>
                     Erzbergerstraße 121 <br/>
                     76133 Karlsruhe <br/>
                     Germany</p>
