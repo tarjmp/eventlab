@@ -43,6 +43,9 @@
 							<a class="nav-link" href="{{ route('groups') }}">Groups</a>
 						</li>
 					@endauth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/about') }}">About</a>
+                        </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
