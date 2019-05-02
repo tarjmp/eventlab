@@ -28,27 +28,21 @@ class PermissionTest extends TestCase
 
         //User logged in and public Group
         $this->loginWithDBUser(8);
-        $this->assertTrue(Permission::has(Permission::showGroup, 6));
+        $this->assertTrue(Permission::has(Permission::showGroup, 1));
     }
 
     public function testHasShowGroupExtended()
     {
-        //User not logged in and private Group
+        //User not logged in
         $this->assertFalse(Permission::has(Permission::showGroupExtended, 2));
 
-        //User not logged in and public Group
-        $this->assertFalse(Permission::has(Permission::showGroupExtended, 1));
+        //User logged in and Group he is not member
+        $this->loginWithDBUser(1);
+        $this->assertFalse(Permission::has(Permission::showGroupExtended, 2));
 
-        //User logged in and private Group he is not member
-        $this->loginWithDBUser(6);
-        $this->assertFalse(Permission::has(Permission::showGroupExtended, 6));
-
-        //User logged in and private Group he is member
-        $this->loginWithDBUser(8);
-        $this->assertTrue(Permission::has(Permission::showGroupExtended, 6));
-
-        //User logged in and public Group
-        $this->assertTrue(Permission::has(Permission::showGroupExtended, 6));
+        //User logged in and Group he is member
+        $this->loginWithDBUser(2);
+        $this->assertTrue(Permission::has(Permission::showGroupExtended, 2));
     }
 
     public function testHasCreateGroup()
@@ -67,12 +61,19 @@ class PermissionTest extends TestCase
 
     public function testHasEditGroup()
     {
-        //User not logged in
+        //User not logged in and private group
         $this->assertFalse(Permission::has(Permission::editGroup, 6));
 
-        //User logged in but not member of group
+        //User not logged in and public group
+        $this->assertFalse(Permission::has(Permission::editGroup, 5));
+
+        //User logged in but not member of private group
         $this->loginWithDBUser(6);
         $this->assertFalse(Permission::has(Permission::editGroup, 6));
+
+        //User logged in but not member of public group
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::editGroup, 5));
 
         //User logged in and member of group
         $this->loginWithDBUser(8);
@@ -84,12 +85,19 @@ class PermissionTest extends TestCase
         //User not logged in
         $this->assertFalse(Permission::has(Permission::subscribeToGroup, 6));
 
-        //User logged in but private group
+        //User not logged in and public group
+        $this->assertFalse(Permission::has(Permission::subscribeToGroup, 5));
+
+        //User logged in and private group he is not member
         $this->loginWithDBUser(6);
         $this->assertFalse(Permission::has(Permission::subscribeToGroup, 6));
 
-        //User logged in and member of group
-        $this->loginWithDBUser(6);
+        //User logged in and public group he is member
+        $this->loginWithDBUser(4);
+        $this->assertFalse(Permission::has(Permission::subscribeToGroup, 3));
+
+        //User logged in and public group he is not member
+        $this->loginWithDBUser(1);
         $this->assertTrue(Permission::has(Permission::subscribeToGroup, 1));
     }
 
@@ -127,7 +135,7 @@ class PermissionTest extends TestCase
         $this->loginWithDBUser(6);
         $this->assertTrue(Permission::has(Permission::showEvent, 2));
 
-        //User logged in and member of Event, pubic Event
+        //User logged in and member of Event, public Event
         $this->loginWithDBUser(4);
         $this->assertTrue(Permission::has(Permission::showEvent, 2));
     }
@@ -137,9 +145,16 @@ class PermissionTest extends TestCase
         //User not logged in
         $this->assertFalse(Permission::has(Permission::showEventExtended, 4));
 
+        //User not logged in and public event
+        $this->assertFalse(Permission::has(Permission::showEventExtended, 2));
+
         //User logged in and not member of Event
         $this->loginWithDBUser(6);
         $this->assertFalse(Permission::has(Permission::showEventExtended, 4));
+
+        //public event for logged-in user not member
+        $this->loginWithDBUser(6);
+        $this->assertFalse(Permission::has(Permission::showEventExtended, 2));
 
         //User logged in and member of Event
         $this->loginWithDBUser(5);
