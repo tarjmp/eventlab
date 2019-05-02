@@ -86,7 +86,7 @@ class Permission {
                     return Check::isLoggedIn() && Check::isMemberOfEvent($id);
 
                 case self::respondToEvent:
-                    return Check::isLoggedIn() && (Check::isPublicGroup($id) || Check::isMemberOfEvent($id));
+                    return Check::isLoggedIn() && (Check::isPublicEvent($id) || Check::isMemberOfEvent($id));
 
                 case self::editProfile:
                     return Check::isLoggedIn();
@@ -110,7 +110,6 @@ class Permission {
             // will be denied for security reasons as this should never happen...
             return false;
         }
-        return false;
     }
 
 
