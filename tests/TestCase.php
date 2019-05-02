@@ -41,4 +41,22 @@ abstract class TestCase extends BaseTestCase
         // login with this user
         $this->loginWithFakeUser($user);
     }
+
+    // This method can be used for controller tests to set the previous URL (the URL the user is coming from)
+    public function from($url) {
+        $this->app['session']->setPreviousUrl($url);
+        return $this;
+    }
+
+    protected function setUp() {
+        parent::setUp();
+
+        // clear database tables and execute seeding
+        $seeder = new \DatabaseSeeder();
+        $seeder->run();
+    }
+
+    protected function tearDown() {
+        parent::tearDown();
+    }
 }

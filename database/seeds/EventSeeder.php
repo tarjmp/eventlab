@@ -33,7 +33,6 @@ class EventSeeder extends Seeder
             // insert data to 'events' table of database
             DB::table('events')->insert([
 
-                'id'          => $i + 1,
                 'name'        => $faker->sentence,
                 'description' => $faker->sentence,
                 'location'    => $faker->city,
