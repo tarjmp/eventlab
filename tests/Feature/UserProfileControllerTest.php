@@ -24,4 +24,12 @@ class UserProfileControllerTest extends TestCase
         $response = $this->get('/profile');
         $response->assertOk();
     }
+
+    public function testUpdate()
+    {
+        //User not logged in
+        $response = $this->get('/profile');
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+    }
 }
