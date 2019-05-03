@@ -10,7 +10,7 @@ namespace App\Tools;
 
 
 // This class represents a certain point in time containing date (year, month, day) and time (hours, minutes).
-// It can easily be used to create a human-readable date and time from a Unix timestamp.
+// It can easily be used to create a human-readable date and time from a UTC timestamp.
 // Timezone conversion is included.
 
 class CustomDateTime {
@@ -20,7 +20,7 @@ class CustomDateTime {
     private $date;      // the string representation of the day in the specified timezone
     private $time;      // the string representation of the time in the specified timezone
 
-    // The constructor takes a unix timestamp and an optional timezone
+    // The constructor takes a UTC timestamp and an optional timezone
     public function __construct($sTimestamp, $sTimezone = null) {
         $this->timestamp = $sTimestamp;
         $this->timezone  = $sTimezone;
