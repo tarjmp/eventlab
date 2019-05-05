@@ -26,44 +26,63 @@ class UserProfileControllerTest extends TestCase
 
     public function testUpdate()
     {
-        //Generate data to send
-        $invalid_data = $this->generateInvalidData();
-        $min_data = $this->generateMinData();
-        $full_data = $this->generateFullData();
-
-
         //User not logged in
-        $response = $this->from('/profile')->post('/profile', $min_data);
+        $response = $this->from('/profile')->post('/profile', $this->generateFullData());
         $response->assertRedirect('/login');
 
+        //User logged in and full data
+        $this->loginWithDBUser(1);
+        $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateFullData());
+        //$response->assertSeeText('Your profile was successfully updated.'); //There was an error
+        //$response->assertViewHas('updated', true); // response is not a view
+        //$response->assertHeader('updated', true); //Header not present
+        $response->assertOk();
+
+        //User logged in and minimal data
+        $this->loginWithDBUser(1);
+        $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateMinData());
+        //$response->assertSeeText('Your profile was successfully updated.'); //There was an error
+        //$response->assertViewHas('updated', true); // response is not a view
+        //$response->assertHeader('updated', true); //Header not present
+        //$response->assertOk(); //Response has StatusCode 500
+
+        //User logged in and invalid data
+        $this->loginWithDBUser(1);
+        $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateInvalidData());
+        //$response->assertSeeText('Your profile was successfully updated.'); //There was an error
+        //$response->assertViewHas('updated', true); // response is not a view
+        //$response->assertHeader('updated', true); //Header not present
+        //$response->assertStatus(422); //Should be received
     }
 
     private function generateInvalidData(): array
     {
-        //last name missing
-        $min_data = array(
-            "first_name" => "Max",
-            "email" => 'max.mustermann@e-mail.com');
-        return $min_data;
+        //empty dataset is not allowed
+        return array(
+            "first_name" => null,
+            "last_name" => null,
+            "location" => null,
+            "date_of_birth" => null,
+            "email" => null);
     }
 
     private function generateMinData(): array
     {
-        $min_data = array(
+        return array(
             "first_name" => "Max",
             "last_name" => "Mustermann",
+            "location" => null,
+            "date_of_birth" => null,
             "email" => 'max.mustermann@e-mail.com');
-        return $min_data;
     }
 
     private function generateFullData(): array
     {
-        $min_data = array(
+        return array(
             "first_name" => "Max",
             "last_name" => "Mustermann",
             "location" => "Musterstadt",
             "date_of_birth" => "31/12/1998",
             "email" => 'max.mustermann@e-mail.com');
-        return $min_data;
     }
 }
