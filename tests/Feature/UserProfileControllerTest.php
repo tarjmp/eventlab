@@ -52,6 +52,12 @@ class UserProfileControllerTest extends TestCase
         $response->assertSeeText('The first name field is required.');
         $response->assertSeeText('The last name field is required.');
         $response->assertSeeText('The email field is required.');
+
+        //User logged in and email address already taken
+        $this->loginWithDBUser(2);
+        $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateInvalidEmail());
+        $response->assertOk();
+        $response->assertSeeText('The email has already been taken.');
     }
 
     private function generateInvalidData(): array
@@ -76,6 +82,16 @@ class UserProfileControllerTest extends TestCase
     }
 
     private function generateFullData(): array
+    {
+        return array(
+            "first_name" => "Max",
+            "last_name" => "Mustermann",
+            "location" => "Musterstadt",
+            "date_of_birth" => "1998-12-31",
+            "email" => 'max.mustermann@e-mail.com');
+    }
+
+    private function generateInvalidEmail(): array
     {
         return array(
             "first_name" => "Max",
