@@ -54,8 +54,9 @@ class UserProfileControllerTest extends TestCase
         $response->assertSeeText('The email field is required.');
 
         //User logged in and email address already taken
+        //The full dataset is already inserted and therefore the email address is not unique
         $this->loginWithDBUser(2);
-        $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateInvalidEmail());
+        $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateFullData());
         $response->assertOk();
         $response->assertSeeText('The email has already been taken.');
     }
@@ -82,16 +83,6 @@ class UserProfileControllerTest extends TestCase
     }
 
     private function generateFullData(): array
-    {
-        return array(
-            "first_name" => "Max",
-            "last_name" => "Mustermann",
-            "location" => "Musterstadt",
-            "date_of_birth" => "1998-12-31",
-            "email" => 'max.mustermann@e-mail.com');
-    }
-
-    private function generateInvalidEmail(): array
     {
         return array(
             "first_name" => "Max",
