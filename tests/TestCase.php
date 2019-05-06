@@ -19,8 +19,11 @@ abstract class TestCase extends BaseTestCase
         if (empty($user->id)) {
             $user->id = 1;
         }
-        if (empty($user->name)) {
-            $user->name = 'Test';
+        if (empty($user->first_name)) {
+            $user->first_name = 'John';
+        }
+        if (empty($user->last_name)) {
+            $user->last_name = 'Doe';
         }
         if (empty($user->timezone)) {
             $user->timezone = 'UTC';
