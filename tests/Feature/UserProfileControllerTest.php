@@ -8,10 +8,11 @@ use Tests\TestCase;
 class UserProfileControllerTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * Feature test for the UserProfile controller
      *
      * @return void
      */
+
     public function testRead()
     {
         //User not logged in
