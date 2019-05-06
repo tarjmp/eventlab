@@ -33,26 +33,24 @@ class UserProfileControllerTest extends TestCase
         //User logged in and full data
         $this->loginWithDBUser(1);
         $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateFullData());
-        //$response->assertSeeText('Your profile was successfully updated.'); //There was an error
-        //$response->assertViewHas('updated', true); // response is not a view
-        //$response->assertHeader('updated', true); //Header not present
         $response->assertOk();
+        $response->assertViewHas('updated', true);
+        $response->assertSeeText('Your profile was successfully updated.');
 
         //User logged in and minimal data
         $this->loginWithDBUser(1);
         $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateMinData());
-        //$response->assertSeeText('Your profile was successfully updated.'); //There was an error
-        //$response->assertViewHas('updated', true); // response is not a view
-        //$response->assertHeader('updated', true); //Header not present
-        //$response->assertOk(); //Response has StatusCode 500
+        $response->assertOk();
+        $response->assertViewHas('updated', true);
+        $response->assertSeeText('Your profile was successfully updated.');
 
         //User logged in and invalid data
         $this->loginWithDBUser(1);
         $response = $this->followingRedirects()->from('/profile')->post('/profile', $this->generateInvalidData());
-        //$response->assertSeeText('Your profile was successfully updated.'); //There was an error
-        //$response->assertViewHas('updated', true); // response is not a view
-        //$response->assertHeader('updated', true); //Header not present
-        //$response->assertStatus(422); //Should be received
+        $response->assertOk();
+        $response->assertSeeText('The first name field is required.');
+        $response->assertSeeText('The last name field is required.');
+        $response->assertSeeText('The email field is required.');
     }
 
     private function generateInvalidData(): array
@@ -82,7 +80,7 @@ class UserProfileControllerTest extends TestCase
             "first_name" => "Max",
             "last_name" => "Mustermann",
             "location" => "Musterstadt",
-            "date_of_birth" => "31/12/1998",
+            "date_of_birth" => "1998-12-31",
             "email" => 'max.mustermann@e-mail.com');
     }
 }
