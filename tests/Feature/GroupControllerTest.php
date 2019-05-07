@@ -64,20 +64,30 @@ class GroupControllerTest extends TestCase
         $response->assertOk();
 
     }
-}
 
-  /*  public function testParticipants() {
 
-        $group = new GroupController();
+    public function testParticipants()
+    {
 
-        var_dump( $group->participants());
+        // user not logged in - expect redirect to start page
+        $response = $this->get('/group/new');
+        $response->assertRedirect('/login');
+
+        // user logged in
+        $this->loginWithDBUser(1);
+        $response = $this->get('/group/new');
+        $response->assertOk();
 
 
     }
 
-   // public function testAddParticipants() {
+   /* public function testAddParticipants() {
 
-   // }
+        //User not logged in
+        $response = $this->from('group/new')->post('/group/create', ['group']);
+        $response->assertRedirect('/login');
+
+    }*/
 
   //  public function testShow() {
 
