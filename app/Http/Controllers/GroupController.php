@@ -71,7 +71,7 @@ class GroupController extends Controller {
         // Also add the current user to the group :)
         $participants[] = Auth::user();
 
-        // Create new event from passed data
+        // Create new group from passed data
         $group              = new Group();
         $group->name        = $data['name'];
         $group->description = $data['description'];
@@ -198,7 +198,7 @@ class GroupController extends Controller {
         // check for appropriate permission to edit the group
         Permission::check(Permission::editGroup, $id);
 
-        // retrieve the corresponding event from database
+        // retrieve the corresponding group from database
         $data  = $request->all();
         $group = Group::findOrFail($id);
 

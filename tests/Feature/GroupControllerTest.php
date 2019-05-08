@@ -29,25 +29,50 @@ class GroupControllerTest extends TestCase
     public function testStore()
     {
 
-        // user not logged in -> permission must be denied, whether temporary or public is true or false
+        // user is not logged in
+        // -------------------------------------------------------------------------------------------------------
+        // permission must be denied, whether temporary or public is true or false
         $response = $this->from('/group/create')->post('/group',
             ['name' => 'My custom group #1', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false']);
         $response->assertRedirect('/login');
 
         $response = $this->from('/group/create')->post('/group',
-            ['name' => 'My custom group #1', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true']);
+            ['name' => 'My custom group #2', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true']);
         $response->assertRedirect('/login');
 
-        // user logged in --> test should succeed
+        // user logged in
+        // -------------------------------------------------------------------------------------------------------
         $this->loginWithDBUser(1);
 
-        $response = $this->from('/group/create')->post('/group',
-            ['name' => 'My custom group #1', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false']);
-        $response->assertRedirect('/group/create');
+        // group is not created -> missing members
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            ['name' => 'My custom group #3', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false']);
+        $response->assertOk();
 
-        $response = $this->from('/group/create')->post('/group',
-            ['name' => 'My custom group #1', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true']);
-        $response->assertRedirect('/group/create');
+        // group not created -> missing group name
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            ['description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '4,5,10']);
+        $response->assertOk();
+
+        // group not created -> missing content
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            []);
+        $response->assertOk();
+
+        // group created -> member that has the same id as logged in user is not added to group
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            ['name' => 'My custom group #5', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true', 'members' => '1,2']);
+        $response->assertOk();
+
+        // group created -> only one member with id 4 is added to the group
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            ['name' => 'My custom group #6', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '4,4,4']);
+        $response->assertOk();
+
+        // group created -> all members are added to group
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            ['name' => 'My custom group #7', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true', 'members' => '4,5,10']);
+        $response->assertOk();
 
     }
 
