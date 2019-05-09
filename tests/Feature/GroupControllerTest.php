@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\GroupController;
+use App\Group;
 use Tests\TestCase;
 
 class GroupControllerTest extends TestCase
@@ -54,6 +54,11 @@ class GroupControllerTest extends TestCase
             ['description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '4,5,10']);
         $response->assertOk();
 
+        // group not created -> only logged in user as member
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            ['name' => 'My custom group #4', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '1,1,1']);
+        $response->assertForbidden();
+
         // group not created -> missing content
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
             []);
@@ -63,16 +68,25 @@ class GroupControllerTest extends TestCase
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
             ['name' => 'My custom group #5', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true', 'members' => '1,2']);
         $response->assertOk();
+        $this->assertGroupExists(11);
 
         // group created -> only one member with id 4 is added to the group
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
             ['name' => 'My custom group #6', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '4,4,4']);
         $response->assertOk();
+        $this->assertGroupExists(12);
 
         // group created -> all members are added to group
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
             ['name' => 'My custom group #7', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true', 'members' => '4,5,10']);
         $response->assertOk();
+        $this->assertGroupExists(13);
+
+        // group created -> privacy is public
+        $response = $this->followingRedirects()->from('/group/create')->post('/group',
+            ['name' => 'My custom group #8', 'description' => 'ABC', 'temporary' => 'false', 'privacy' => 'public', 'members' => '4,5,10']);
+        $response->assertOk();
+        $this->assertGroupExists(14);
 
     }
 
@@ -129,6 +143,12 @@ class GroupControllerTest extends TestCase
   //  public function testLeave() {
 
    // }
+
+    private function assertGroupExists($id) {
+        $group = Group::find($id);
+        $this->assertNotNull($group);
+
+    }
 
 
 }
