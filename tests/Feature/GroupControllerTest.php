@@ -300,10 +300,10 @@ class GroupControllerTest extends TestCase
 
         $this->loginWithDBUser(2);
 
-        /*$response = $this->followingRedirects()->from('/group/2/edit')->post('/group/leave',
+        $response = $this->followingRedirects()->from('/group/2/edit')->post('/group/leave',
             ['id' => '2']);
         $response->assertOk();
-        $this->assertGroupDeleted(2);*/
+        $this->assertGroupDeleted(2);
     }
 
     private function assertGroupExists($id) {
@@ -312,10 +312,10 @@ class GroupControllerTest extends TestCase
 
     }
 
-   /* private function assertGroupDeleted($id) {
+    private function assertGroupDeleted($id) {
         $group = Group::find($id);
         $this->assertNull($group);
-    }*/
+    }
 
 
 }
