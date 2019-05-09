@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Group;
+use SeedConstants;
 use Tests\TestCase;
 
 class GroupControllerTest extends TestCase
@@ -12,7 +13,12 @@ class GroupControllerTest extends TestCase
      *
      * @return void
      */
-    // test creation page for new events
+
+    // this array contains an array of groups (memberships or subscriptions) for each user
+    // CAUTION: index = user; for each user: array of memberships or subscriptions
+    private const USERS_MEMBERSHIPS  = [[], [2], [9], [2, 3], [], [], [], [6], [], []];
+    private const USERS_SUBSCRIPTIONS  = [[7], [], [], [], [8, 3], [4], [5], [], [10], [1]];
+
     public function testCreate()
     {
 
@@ -120,17 +126,86 @@ class GroupControllerTest extends TestCase
 
     }
 
-   /* public function testAddParticipants() {
+    public function testAddParticipants() {
 
-        //User not logged in
-        $response = $this->from('group/new')->post('/group/create', ['group']);
+        // user is not logged in
+        // -------------------------------------------------------------------------------------------------------
+        // permission must be denied, whether members are set or not
+        $response = $this->from('/group/new')->post('/group',
+            ['members' => '1,2,3']);
         $response->assertRedirect('/login');
 
-    }*/
+        $response = $this->from('/group/new')->post('/group',
+            []);
+        $response->assertRedirect('/login');
 
-  //  public function testShow() {
+        // user logged in
+        // -------------------------------------------------------------------------------------------------------
+        $this->loginWithDBUser(1);
 
-   // }
+        // members are added
+        $response = $this->followingRedirects()->from('/group/new')->post('/group',
+            ['members' => '1,2,3']);
+        $response->assertOk();
+
+        $response = $this->followingRedirects()->from('/group/new')->post('/group',
+            ['members' => '1,1,1']);
+        $response->assertOk();
+
+        $response = $this->followingRedirects()->from('/group/new')->post('/group',
+            []);
+        $response->assertOk();
+
+        $response = $this->followingRedirects()->from('/group/new')->post('/group',
+            ['members' => '2,3,4,3,2']);
+        $response->assertOk();
+
+
+    }
+
+    public function testShow() {
+
+        // test access to all events without being logged in
+        for($i = 1; $i <= SeedConstants::NUM_GROUPS; $i++) {
+
+            $response = $this->get("/group/$i");
+            if(in_array($i, SeedConstants::GROUPS_PUBLIC, true)) {
+                // access to public groups must be granted
+                $response->assertOk();
+            }
+            else {
+                // access to non-public events must be denied (redirect to login page)
+                $response->assertRedirect('/login');
+            }
+        };
+
+        // check accessible groups for each user
+        // make sure that there is enough validation data to test all groups
+        $this->assertTrue(count(self::USERS_MEMBERSHIPS) == SeedConstants::NUM_USERS);
+
+
+        // iterate over all users
+        for($i = 0; $i < SeedConstants::NUM_USERS; $i++) {
+
+            // pseudo login with the current user id
+            $this->loginWithDBUser($i + 1);
+
+            // iterate over all events
+            for($k = 0; $k < SeedConstants::NUM_GROUPS; $k++) {
+
+                $response = $this->get('/group/' . ($k + 1));
+
+                // access must be granted to public events and to events the user belongs to (membership, private)
+                if(in_array($k + 1, SeedConstants::GROUPS_PUBLIC, true) || in_array($k + 1, self::USERS_MEMBERSHIPS[$i], true)) {
+                    $response->assertOk();
+                }
+                else {
+                    $response->assertForbidden();
+                }
+            }
+        }
+
+    }
 
    // public function testEdit() {
 
