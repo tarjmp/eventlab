@@ -131,7 +131,7 @@ class GroupControllerTest extends TestCase
         // -------------------------------------------------------------------------------------------------------
         // permission must be denied, whether members are set or not
         $response = $this->from('/group/new')->post('/group/new',
-            ['members' => '1,2,3']);
+            ['members' => [1,2,3]]);
         $response->assertRedirect('/login');
 
         $response = $this->from('/group/new')->post('/group/new',
@@ -144,11 +144,11 @@ class GroupControllerTest extends TestCase
 
         // members are added
         $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
-            ['members' => '1,2,3']);
+            ['members' => [1,2,3]]);
         $response->assertOk();
 
         $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
-            ['members' => '1,1,1']);
+            ['members' => [1,1,1]]);
         $response->assertOk();
 
         $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
@@ -156,7 +156,7 @@ class GroupControllerTest extends TestCase
         $response->assertOk();
 
         $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
-            ['members' => '2,3,4,3,2']);
+            ['members' => [1,2,3,4,5]]);
         $response->assertOk();
 
 
