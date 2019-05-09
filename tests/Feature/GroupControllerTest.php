@@ -16,7 +16,7 @@ class GroupControllerTest extends TestCase
 
     // this array contains an array of groups (memberships) for each user
     // CAUTION: index = user; for each user: array of memberships
-    private const USERS_MEMBERSHIPS  = [[], [2], [9], [2, 3], [], [], [], [6], [], []];
+    private const USERS_MEMBERSHIPS = [[], [2], [9], [2, 3], [], [], [], [6], [], []];
 
     // test creation page for new groups
     public function testCreate()
@@ -40,11 +40,11 @@ class GroupControllerTest extends TestCase
         // -------------------------------------------------------------------------------------------------------
         // permission must be denied, whether temporary or public is true or false
         $response = $this->from('/group/create')->post('/group',
-            ['name' => 'My custom group #1', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false']);
+            ['name' => 'My custom group #1', 'description' => 'ABC', 'temporary' => 'true', 'privacy' => 'private']);
         $response->assertRedirect('/login');
 
         $response = $this->from('/group/create')->post('/group',
-            ['name' => 'My custom group #2', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true']);
+            ['name' => 'My custom group #2', 'description' => 'ABC', 'temporary' => 'false', 'privacy' => 'public']);
         $response->assertRedirect('/login');
 
         // user logged in
@@ -53,17 +53,17 @@ class GroupControllerTest extends TestCase
 
         // group is not created --> missing members
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
-            ['name' => 'My custom group #3', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false']);
+            ['name' => 'My custom group #3', 'description' => 'ABC', 'temporary' => 'true', 'privacy' => 'private']);
         $response->assertOk();
 
         // group not created --> missing group name
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
-            ['description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '4,5,10']);
+            ['description' => 'ABC', 'temporary' => 'true', 'privacy' => 'private', 'members' => '4,5,10']);
         $response->assertOk();
 
         // group not created --> only logged in user as member
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
-            ['name' => 'My custom group #4', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '1,1,1']);
+            ['name' => 'My custom group #4', 'description' => 'ABC', 'temporary' => 'true', 'privacy' => 'private', 'members' => '1,1,1']);
         $response->assertForbidden();
 
         // group not created --> missing content
@@ -73,19 +73,19 @@ class GroupControllerTest extends TestCase
 
         // group created --> member that has the same id as logged in user is not added to group
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
-            ['name' => 'My custom group #5', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true', 'members' => '1,2']);
+            ['name' => 'My custom group #5', 'description' => 'ABC', 'temporary' => 'false', 'privacy' => 'public', 'members' => '1,2']);
         $response->assertOk();
         $this->assertGroupExists(11);
 
         // group created --> only one member with id 4 is added to the group
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
-            ['name' => 'My custom group #6', 'description' => 'ABC', 'temporary' => 'true', 'public' => 'false', 'members' => '4,4,4']);
+            ['name' => 'My custom group #6', 'description' => 'ABC', 'temporary' => 'true', 'privacy' => 'private', 'members' => '4,4,4']);
         $response->assertOk();
         $this->assertGroupExists(12);
 
         // group created --> all members are added to group
         $response = $this->followingRedirects()->from('/group/create')->post('/group',
-            ['name' => 'My custom group #7', 'description' => 'ABC', 'temporary' => 'false', 'public' => 'true', 'members' => '4,5,10']);
+            ['name' => 'My custom group #7', 'description' => 'ABC', 'temporary' => 'false', 'privacy' => 'public', 'members' => '4,5,10']);
         $response->assertOk();
         $this->assertGroupExists(13);
 
@@ -129,13 +129,14 @@ class GroupControllerTest extends TestCase
     }
 
     // test page to add participants to new group
-    public function testAddParticipants() {
+    public function testAddParticipants()
+    {
 
         // user is not logged in
         // -------------------------------------------------------------------------------------------------------
         // permission must be denied, whether members are set or not
         $response = $this->from('/group/new')->post('/group/new',
-            ['members' => [1,2,3]]);
+            ['members' => [1, 2, 3]]);
         $response->assertRedirect('/login');
 
         $response = $this->from('/group/new')->post('/group/new',
@@ -147,39 +148,44 @@ class GroupControllerTest extends TestCase
         $this->loginWithDBUser(1);
 
         // members are added to group
-        $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
-            ['members' => [1,2,3]]);
-        $response->assertOk();
+        $response = $this->from('/group/new')->post('/group/new',
+            ['members' => [1, 2, 3]]);
+        $response->assertRedirect('/group/create');
 
-        // no members selected --> only the logged in user --> fail
-        $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
-            ['members' => [1,1,1]]);
-        $response->assertOk();
+        // no members selected --> only the logged in user
+        $response = $this->from('/group/new')->post('/group/new',
+            ['members' => [1, 1, 1]]);
+        $response->assertRedirect('/group/create');
 
         // empty content --> fail
-        $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
+        $response = $this->from('/group/new')->post('/group/new',
             []);
-        $response->assertOk();
+        $response->assertRedirect('/group/new');
+
+        // members are null --> fail
+        $response = $this->from('/group/new')->post('/group/new',
+            ['members' => null]);
+        $response->assertRedirect('/group/new');
 
         // members are added to group
-        $response = $this->followingRedirects()->from('/group/new')->post('/group/new',
-            ['members' => [1,2,3,4,5]]);
-        $response->assertOk();
+        $response = $this->from('/group/new')->post('/group/new',
+            ['members' => [1, 2, 3, 4, 5]]);
+        $response->assertRedirect('/group/create');
 
     }
 
     // test display functionality for groups
-    public function testShow() {
+    public function testShow()
+    {
 
         // test access to all groups without being logged in
-        for($i = 1; $i <= SeedConstants::NUM_GROUPS; $i++) {
+        for ($i = 1; $i <= SeedConstants::NUM_GROUPS; $i++) {
 
             $response = $this->get("/group/$i");
-            if(in_array($i, SeedConstants::GROUPS_PUBLIC, true)) {
+            if (in_array($i, SeedConstants::GROUPS_PUBLIC, true)) {
                 // access to public groups must be granted
                 $response->assertOk();
-            }
-            else {
+            } else {
                 // access to non-public groups must be denied (redirect to login page)
                 $response->assertRedirect('/login');
             }
@@ -191,21 +197,20 @@ class GroupControllerTest extends TestCase
 
 
         // iterate over all users
-        for($i = 0; $i < SeedConstants::NUM_USERS; $i++) {
+        for ($i = 0; $i < SeedConstants::NUM_USERS; $i++) {
 
             // pseudo login with the current user id
             $this->loginWithDBUser($i + 1);
 
             // iterate over all groups
-            for($k = 0; $k < SeedConstants::NUM_GROUPS; $k++) {
+            for ($k = 0; $k < SeedConstants::NUM_GROUPS; $k++) {
 
                 $response = $this->get('/group/' . ($k + 1));
 
                 // access must be granted to public groups and to groups the user belongs to (membership)
-                if(in_array($k + 1, SeedConstants::GROUPS_PUBLIC, true) || in_array($k + 1, self::USERS_MEMBERSHIPS[$i], true)) {
+                if (in_array($k + 1, SeedConstants::GROUPS_PUBLIC, true) || in_array($k + 1, self::USERS_MEMBERSHIPS[$i], true)) {
                     $response->assertOk();
-                }
-                else {
+                } else {
                     $response->assertForbidden();
                 }
             }
@@ -214,7 +219,8 @@ class GroupControllerTest extends TestCase
     }
 
     // test edit page for a group
-    public function testEdit() {
+    public function testEdit()
+    {
 
         // user not logged in --> expect redirect to start page
         $response = $this->get('/group/1/edit');
@@ -237,7 +243,8 @@ class GroupControllerTest extends TestCase
     }
 
     // test updating a group
-    public function testUpdate() {
+    public function testUpdate()
+    {
 
         // user not logged in --> permission must be denied
         $response = $this->from('/group/1/edit')->put('/group/1',
@@ -256,7 +263,7 @@ class GroupControllerTest extends TestCase
             ['name' => 'My custom group #3', 'description' => 'ABC']);
         $response->assertForbidden();
 
-        // logged in user whether subscribed or has a membership to group 3 --> fail
+        // logged in user neither subscribed or has a membership to group 3 --> fail
         $response = $this->followingRedirects()->from('/group/3/edit')->put('/group/3',
             ['name' => 'My custom group #3', 'description' => 'ABC']);
         $response->assertForbidden();
@@ -282,7 +289,8 @@ class GroupControllerTest extends TestCase
     }
 
     // test leaving a group
-    public function testLeave() {
+    public function testLeave()
+    {
 
         // user not logged in --> should fail
         $response = $this->from('/group/1/edit')->post('/group/leave',
@@ -325,14 +333,16 @@ class GroupControllerTest extends TestCase
 
 
     // tests if group exists
-    private function assertGroupExists($id) {
+    private function assertGroupExists($id)
+    {
         $group = Group::find($id);
         $this->assertNotNull($group);
 
     }
 
     // test if group is deleted
-    private function assertGroupDeleted($id) {
+    private function assertGroupDeleted($id)
+    {
         $group = Group::find($id);
         $this->assertNull($group);
     }
