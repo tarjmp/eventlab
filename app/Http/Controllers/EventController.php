@@ -150,13 +150,7 @@ class EventController extends Controller
         // fetch event from database
         $event = Event::findOrFail($id);
 
-        // remove foreign key constraints: items, messages and replies for this event
-        $event->items()->delete();
-        $event->messages()->delete();
-        $event->replies()->detach();
-
-
-        // delete event from database
+        // delete event from database - this will trigger all dependencies to be removed as well
         $event->delete();
 
         // redirect to home screen and show alert message
