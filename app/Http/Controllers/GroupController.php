@@ -238,7 +238,6 @@ class GroupController extends Controller {
 
         // Delete the group if there are no members anymore to save database space
         // #LaravelForEnvironment
-        // ToDo remove all subscriptions to the group and events and replies ....
         if (count($group->members) == 0) {
             $group->delete();
         }
