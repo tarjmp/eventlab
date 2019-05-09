@@ -17,7 +17,6 @@ class GroupControllerTest extends TestCase
     // this array contains an array of groups (memberships or subscriptions) for each user
     // CAUTION: index = user; for each user: array of memberships or subscriptions
     private const USERS_MEMBERSHIPS  = [[], [2], [9], [2, 3], [], [], [], [6], [], []];
-    private const USERS_SUBSCRIPTIONS  = [[7], [], [], [], [8, 3], [4], [5], [], [10], [1]];
 
     public function testCreate()
     {
@@ -207,23 +206,116 @@ class GroupControllerTest extends TestCase
 
     }
 
-   // public function testEdit() {
+    public function testEdit() {
 
-    // }
+        // user not logged in - expect redirect to start page
+        $response = $this->get('/group/1/edit');
+        $response->assertRedirect('/login');
 
-   // public function testUpdate() {
+        // user logged in - membership -> should succeed
+        $this->loginWithDBUser(2);
 
-   // }
+        $response = $this->get('/group/2/edit');
+        $response->assertOk();
 
-  //  public function testLeave() {
 
-   // }
+        // user logged in - subscription -> should fail
+        $this->loginWithDBUser(5);
+        $response = $this->get('/event/8/edit');
+        $response->assertForbidden();
+
+
+        $response = $this->get('/event/3/edit');
+        $response->assertForbidden();
+
+    }
+
+    public function testUpdate() {
+
+        // user not logged in -> permission must be denied
+        $response = $this->from('/group/1/edit')->put('/group/1',
+            ['name' => 'My custom group #1', 'description' => 'ABC']);
+        $response->assertRedirect('/login');
+
+        $response = $this->from('/group/2/edit')->put('/group/2',
+            ['name' => 'My custom group #2', 'description' => 'ABC']);
+        $response->assertRedirect('/login');
+
+        // user logged in
+        $this->loginWithDBUser(5);
+
+        // logged in user only subscribed to group 8
+        $response = $this->followingRedirects()->from('/group/8/edit')->put('/group/8',
+            ['name' => 'My custom group #3', 'description' => 'ABC']);
+        $response->assertForbidden();
+
+        $response = $this->followingRedirects()->from('/group/3/edit')->put('/group/3',
+            ['name' => 'My custom group #3', 'description' => 'ABC']);
+        $response->assertForbidden();
+
+        // user logged in
+        $this->loginWithDBUser(4);
+
+        $response = $this->followingRedirects()->from('/group/3/edit')->put('/group/3',
+            ['description' => 'ABC']);
+        $response->assertOk();
+
+        $response = $this->followingRedirects()->from('/group/3/edit')->put('/group/3',
+            ['name' => 'My custom group #4', 'description' => null]);
+        $response->assertOk();
+
+        $response = $this->followingRedirects()->from('/group/2/edit')->put('/group/2',
+            ['name' => 'My custom group #5', 'description' => 'ABC']);
+        $response->assertOk();
+
+    }
+
+    public function testLeave() {
+
+        // user not logged in -> should fail
+        $response = $this->from('/group/1/edit')->post('/group/leave',
+            ['id' => '1']);
+        $response->assertRedirect('/login');
+        $this->assertGroupExists(1);
+
+        $response = $this->from('/group/2/edit')->post('/group/leave',
+            ['id' => '2']);
+        $response->assertRedirect('/login');
+        $this->assertGroupExists(2);
+
+        // user logged in
+        $this->loginWithDBUser(5);
+
+        $response = $this->followingRedirects()->from('/group/8/edit')->post('/group/leave',
+            ['id' => '8']);
+        $response->assertForbidden();
+        $this->assertGroupExists(8);
+
+        $this->loginWithDBUser(4);
+
+        $response = $this->followingRedirects()->from('/group/2/edit')->post('/group/leave',
+            ['id' => '2']);
+        $response->assertOk();
+        $this->assertGroupExists(2);
+
+        $this->loginWithDBUser(2);
+
+        /*$response = $this->followingRedirects()->from('/group/2/edit')->post('/group/leave',
+            ['id' => '2']);
+        $response->assertOk();
+        $this->assertGroupDeleted(2);*/
+    }
 
     private function assertGroupExists($id) {
         $group = Group::find($id);
         $this->assertNotNull($group);
 
     }
+
+   /* private function assertGroupDeleted($id) {
+        $group = Group::find($id);
+        $this->assertNull($group);
+    }*/
 
 
 }

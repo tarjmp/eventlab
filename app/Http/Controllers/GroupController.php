@@ -231,12 +231,14 @@ class GroupController extends Controller {
         $data = $request->all();
         Permission::check(Permission::leaveGroup, $data['id']);
 
+
         // retrieve group from database and remove the user from the members list
         $group = Group::findOrFail($data['id']);
         $group->members()->detach(Auth::user());
 
         // Delete the group if there are no members anymore to save database space
         // #LaravelForEnvironment
+        // ToDo remove all subscriptions to the group and events and replies ....
         if (count($group->members) == 0) {
             $group->delete();
         }
