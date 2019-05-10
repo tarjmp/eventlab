@@ -4,8 +4,6 @@ namespace Tests\Unit;
 
 use App\Tools\Check;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CheckTest extends TestCase
 {
@@ -17,7 +15,7 @@ class CheckTest extends TestCase
     public function testIsLoggedIn()
     {
         // TEST 1: user is not logged in
-        $this->assertNotTrue(Check::isLoggedIn());
+        $this->assertFalse(Check::isLoggedIn());
 
         // TEST 2: user is logged in
         $this->loginWithDBUser(1);
@@ -32,8 +30,8 @@ class CheckTest extends TestCase
         $this->assertTrue(Check::isMemberOfGroup(2));
 
         // TEST 2: user is no member of a group
-        $this->assertNotTrue(Check::isMemberOfGroup(11));
-        $this->assertNotTrue(Check::isMemberOfGroup(17));
+        $this->assertFalse(Check::isMemberOfGroup(11));
+        $this->assertFalse(Check::isMemberOfGroup(17));
     }
 
     public function testIsMemberOfEvent() {
@@ -44,8 +42,8 @@ class CheckTest extends TestCase
         $this->assertTrue(Check::isMemberOfEvent(1));
 
         // TEST 2: user is no member of an event
-        $this->assertNotTrue(Check::isMemberOfEvent(11));
-        $this->assertNotTrue(Check::isMemberOfEvent(3));
+        $this->assertFalse(Check::isMemberOfEvent(11));
+        $this->assertFalse(Check::isMemberOfEvent(27));
     }
 
     public function testIsMyPrivateEvent() {
@@ -56,8 +54,8 @@ class CheckTest extends TestCase
         $this->assertTrue(Check::isMyPrivateEvent(4));
 
         // TEST 2: it is not the private event of the user
-        $this->assertNotTrue(Check::isMyPrivateEvent(7));
-        $this->assertNotTrue(Check::isMyPrivateEvent(2));
+        $this->assertFalse(Check::isMyPrivateEvent(7));
+        $this->assertFalse(Check::isMyPrivateEvent(35));
     }
 
     public function testIsPublicGroup() {
@@ -66,8 +64,8 @@ class CheckTest extends TestCase
         $this->assertTrue(Check::isPublicGroup(8));
 
         // TEST 2: the group is private
-        $this->assertNotTrue(Check::isPublicGroup(6));
-        $this->assertNotTrue(Check::isPublicGroup(9));
+        $this->assertFalse(Check::isPublicGroup(6));
+        $this->assertFalse(Check::isPublicGroup(11));
     }
 
     public function testIsPublicEvent() {
@@ -76,7 +74,7 @@ class CheckTest extends TestCase
         $this->assertTrue(Check::isPublicEvent(2));
 
         // TEST 2: private group is assigned to an event --> private event
-        $this->assertNotTrue(Check::isPublicEvent(1));
-        $this->assertNotTrue(Check::isPublicEvent(7));
+        $this->assertFalse(Check::isPublicEvent(1));
+        $this->assertFalse(Check::isPublicEvent(13));
     }
 }
