@@ -9,9 +9,8 @@ use App\Tools\Permission;
 
 class CreateEventPermission extends Permission
 {
-    static function has($permission, $id = null)
+    static function has($id = null)
     {
         return Check::isLoggedIn();
     }
-
 }

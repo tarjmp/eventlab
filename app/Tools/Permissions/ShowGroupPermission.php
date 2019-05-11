@@ -10,7 +10,7 @@ use App\Tools\Permission;
 class ShowGroupPermission extends Permission
 {
 
-    static function has($permission, $id = null)
+    static function has($id = null)
     {
         return Check::isPublicGroup($id) || (Check::isLoggedIn() && Check::isMemberOfGroup($id));
     }

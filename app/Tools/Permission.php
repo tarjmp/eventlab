@@ -41,12 +41,12 @@ abstract class Permission {
     // This is the permission check implementation. This function returns a boolean value that tells
     // if the permission should be granted.
 
-    abstract static function has($permission, $id = null);
+    abstract static function has($id = null);
 
     // This is the strict implementation of the authorization check: If the request fails, the application
     // instantly terminates and serves a 403 access denied site
-    static function check($permission, $id = null) {
+    public function check($id = null) {
         // throw exception if the required permission is not present
-        self::has($permission, $id) || Navigator::die();
+        self::has($id) || Navigator::die();
     }
 }

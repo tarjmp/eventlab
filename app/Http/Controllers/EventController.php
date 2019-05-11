@@ -7,6 +7,7 @@ use App\Rules\DateTimeValidation;
 use App\Tools\CustomDateTime;
 use App\Tools\Date;
 use App\Tools\Permission;
+use App\Tools\PermissionFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -23,7 +24,7 @@ class EventController extends Controller
     {
 
         // check for permission to create a new event
-        Permission::check(Permission::createEvent);
+        PermissionFactory::createCreateEvent()->check();
 
         // list all current groups for selection and show view
         $groups = Auth::user()->groups()->get();
