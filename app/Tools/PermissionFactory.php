@@ -5,6 +5,7 @@ namespace App\Tools;
 
 
 use App\Tools\Permissions\CreateEventForGroupPermission;
+use App\Tools\Permissions\CreateEventPermission;
 use App\Tools\Permissions\CreateGroupPermission;
 use App\Tools\Permissions\DeleteEventPermission;
 use App\Tools\Permissions\EditEventPermission;
@@ -16,6 +17,7 @@ use App\Tools\Permissions\ShowEventExtendedPermission;
 use App\Tools\Permissions\ShowEventPermission;
 use App\Tools\Permissions\ShowGroupExtendedPermission;
 use App\Tools\Permissions\ShowGroupPermission;
+use App\Tools\Permissions\ShowGroupsPermission;
 use App\Tools\Permissions\ShowHomeCalendarPermission;
 use App\Tools\Permissions\SubscribeToGroupPermission;
 
@@ -76,6 +78,14 @@ class PermissionFactory
 
     static function createShowHomeCalendar() {
         return new ShowHomeCalendarPermission();
+    }
+
+    static function createShowGroups() {
+        return new ShowGroupsPermission();
+    }
+
+    static function createCreateEvent() {
+        return new CreateEventPermission();
     }
 
 
