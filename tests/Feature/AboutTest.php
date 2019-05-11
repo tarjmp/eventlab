@@ -14,6 +14,6 @@ class AboutTest extends TestCase
     public function testExample()
     {
         $response = $this->get('/about');
-        $response->assertStatus(200);
+        $response->assertok();
     }
 }

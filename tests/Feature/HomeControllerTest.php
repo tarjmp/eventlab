@@ -22,6 +22,6 @@ class HomeControllerTest extends TestCase
 
         // user logged in - enters home page
         $response = $this->get('/home');
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 }
