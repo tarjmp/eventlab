@@ -4,7 +4,9 @@
 namespace App\Tools;
 
 
+use App\Tools\Permissions\CreateEventForGroupPermission;
 use App\Tools\Permissions\CreateGroupPermission;
+use App\Tools\Permissions\EditEventPermission;
 use App\Tools\Permissions\EditGroupPermission;
 use App\Tools\Permissions\LeaveGroupPermission;
 use App\Tools\Permissions\ShowEventExtendedPermission;
@@ -46,6 +48,14 @@ class PermissionFactory
 
     static function createShowEventExtended() {
         return new ShowEventExtendedPermission();
+    }
+
+    static function createCreateEventForGroup() {
+        return new CreateEventForGroupPermission();
+    }
+
+    static function createEditEvent() {
+        return new EditEventPermission();
     }
 
 
