@@ -6,8 +6,10 @@ namespace App\Tools;
 
 use App\Tools\Permissions\CreateGroupPermission;
 use App\Tools\Permissions\EditGroupPermission;
+use App\Tools\Permissions\LeaveGroupPermission;
 use App\Tools\Permissions\ShowGroupExtendedPermission;
 use App\Tools\Permissions\ShowGroupPermission;
+use App\Tools\Permissions\SubscribeToGroupPermission;
 
 class PermissionFactory
 {
@@ -27,5 +29,14 @@ class PermissionFactory
     static function createEditGroup() {
         return new EditGroupPermission();
     }
+
+    static function createSubscribeToGroup() {
+        return new SubscribeToGroupPermission();
+    }
+
+    static function createLeaveGroup() {
+        return new LeaveGroupPermission();
+    }
+
 
 }
