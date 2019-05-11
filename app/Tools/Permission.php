@@ -45,7 +45,8 @@ abstract class Permission {
 
     // This is the strict implementation of the authorization check: If the request fails, the application
     // instantly terminates and serves a 403 access denied site
-    public function check($id = null) {
+
+    static function check($id = null) {
         // throw exception if the required permission is not present
         self::has($id) || Navigator::die();
     }

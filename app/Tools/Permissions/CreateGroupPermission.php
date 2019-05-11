@@ -3,7 +3,7 @@
 
 namespace App\Tools\Permissions;
 
-use App\Tools\Check;
+
 use App\Tools\Permission;
 
 class CreateGroupPermission extends Permission
