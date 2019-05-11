@@ -9,7 +9,7 @@ use App\Tools\Permission;
 
 class RespondToEventPermission extends Permission
 {
-    static function has($id = null)
+    public function has($id = null)
     {
         return Check::isLoggedIn() && (Check::isPublicEvent($id) || Check::isMemberOfEvent($id));
     }

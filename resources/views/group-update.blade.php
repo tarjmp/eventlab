@@ -53,7 +53,7 @@
 
                 </form>
                 <br/>
-                @if (\App\Tools\Permission::has(\App\Tools\Permission::leaveGroup, $id))
+                @if (\App\Tools\PermissionFactory::createLeaveGroup()->has($id))
                     <form method="POST" action="{{ route('leave-group', $id) }}">
                         @csrf
                         <input type="hidden" name="id" value="{{$id}}"/>

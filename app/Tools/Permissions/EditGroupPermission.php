@@ -9,7 +9,7 @@ use App\Tools\Permission;
 
 class EditGroupPermission extends Permission
 {
-    static function has($id = null)
+    public function has($id = null)
     {
         return Check::isLoggedIn() && Check::isMemberOfGroup($id);
     }

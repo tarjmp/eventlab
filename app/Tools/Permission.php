@@ -8,46 +8,46 @@ use App;
 abstract class Permission {
 
 
-    // The following constants define the various types of permissions
+    // The following types of permissions exist:
 
     // PLEASE NOTE:
     // The required second parameter $id for the function call is specified in brackets:
     // [g] = Group-ID; [e] = Event-ID; [-] = None
 
-    // Group permissions
-    const showGroup         = 1;   //[g]  show general group info: name, description, events -> but not members or anything
-    const showGroupExtended = 2;   //[g]  show extended group info: members and information that is not intended for guests
+    // +++ Group permissions +++
 
-    const editGroup        = 3;   //[g]  edit a group: add members and edit group info
-    const subscribeToGroup = 4;   //[g]  self-explanatory
-    const leaveGroup       = 5;   //[g]  self-explanatory
+    // showGroup              [g]  Show general group info: name, description, events -> but not members or anything
+    // showGroupExtended      [g]  Show extended group info: members and information that is not intended for guests
+    // editGroup              [g]  Edit a group: add members and edit group info
+    // subscribeToGroup       [g]  Subscribe to a particular group
+    // leaveGroup             [g]  Leave a particular group
 
-    // Event permissions
-    const showEvent           = 6;   //[e] show general event info: name, desc., location, time
-    const showEventExtended   = 7;   //[e] show extended event info: chat, list, replies
-    const createEventForGroup = 8;   //[g] create a new event for this group
-    const editEvent           = 9;  //[e] edit all the event details
-    const deleteEvent         = 10;  //[e] self-explanatory
-    const respondToEvent      = 11;  //[e] reply to an event (accepted, declined, tentative)
+    // +++ Event permissions +++
+    // showEvent              [e]  Show general event info: name, desc., location, time
+    // showEventExtended      [e]  Show extended event info: chat, list, replies
+    // createEventForGroup    [g]  Create a new event for this group
+    // editEvent              [e]  Edit all event details
+    // deleteEvent            [e]  Delete an event
+    // respondToEvent         [e]  Reply to an event (accepted, declined, tentative)
 
-    // Other permissions
-    const editProfile      = 12;   //[-] edit the user profile
-    const showHomeCalendar = 13;   //[-] show the personal calendar page
-    const showGroups       = 14;   //[-] show the groups list
-    const createGroup      = 15;   //[-]  create a new group
-    const createEvent      = 16;   //[-] create a personal event
+    // +++ Other permissions +++
+    // editProfile            [-]  Edit the user profile
+    // showHomeCalendar       [-]  Show the personal calendar page
+    // showGroups             [-]  Show the groups list
+    // createGroup            [-]  Create a new group
+    // createEvent            [-]  Create a personal event
 
 
-    // This is the permission check implementation. This function returns a boolean value that tells
-    // if the permission should be granted.
+    // This is the permission check. This function returns a boolean value that tells
+    // if the permission should be granted. The implementation can be found in each derived class.
 
-    abstract static function has($id = null);
+    public abstract function has($id = null);
 
     // This is the strict implementation of the authorization check: If the request fails, the application
     // instantly terminates and serves a 403 access denied site
 
-    static function check($id = null) {
+    public function check($id = null) {
         // throw exception if the required permission is not present
-        self::has($id) || Navigator::die();
+        $this->has($id) || Navigator::die();
     }
 }

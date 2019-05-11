@@ -17,7 +17,7 @@
                         <h2>{{ __('group.interface_title') }}</h2><br/>
                     </div>
                     <div class="col-md-6">
-                        @if(\App\Tools\Permission::has(\App\Tools\Permission::createGroup))
+                        @if(\App\Tools\PermissionFactory::createCreateGroup()->has())
                             <a id="addGroup" class="btn btn-primary float-right" href="{{ route('participants')}}">
                                 {{ __('group.create_group') }}
                             </a>

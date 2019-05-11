@@ -117,7 +117,7 @@
                     </button>
                 </form>
                 <br>
-                @if (\App\Tools\Permission::has(\App\Tools\Permission::deleteEvent, $id))
+                @if (\App\Tools\PermissionFactory::createDeleteEvent()->has($id))
                     <form method="POST" action="{{ route('event.destroy', $id) }}">
                         @csrf
                         @method('DELETE')
