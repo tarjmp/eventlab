@@ -9,12 +9,14 @@ use App\Tools\Permissions\CreateGroupPermission;
 use App\Tools\Permissions\DeleteEventPermission;
 use App\Tools\Permissions\EditEventPermission;
 use App\Tools\Permissions\EditGroupPermission;
+use App\Tools\Permissions\EditProfilePermission;
 use App\Tools\Permissions\LeaveGroupPermission;
 use App\Tools\Permissions\RespondToEventPermission;
 use App\Tools\Permissions\ShowEventExtendedPermission;
 use App\Tools\Permissions\ShowEventPermission;
 use App\Tools\Permissions\ShowGroupExtendedPermission;
 use App\Tools\Permissions\ShowGroupPermission;
+use App\Tools\Permissions\ShowHomeCalendarPermission;
 use App\Tools\Permissions\SubscribeToGroupPermission;
 
 class PermissionFactory
@@ -66,6 +68,14 @@ class PermissionFactory
 
     static function createRespondToEvent() {
         return new RespondToEventPermission();
+    }
+
+    static function createEditProfile() {
+        return new EditProfilePermission();
+    }
+
+    static function createShowHomeCalendar() {
+        return new ShowHomeCalendarPermission();
     }
 
 
