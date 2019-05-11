@@ -4,8 +4,6 @@ namespace App\Tools;
 
 
 use App;
-use App\Event;
-use App\Group;
 
 class Permission {
 

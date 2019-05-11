@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\Tools\Permission;
 use App\Tools\Query;
 
