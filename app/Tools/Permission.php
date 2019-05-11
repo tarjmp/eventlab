@@ -5,7 +5,7 @@ namespace App\Tools;
 
 use App;
 
-class Permission {
+abstract class Permission {
 
 
     // The following constants define the various types of permissions
@@ -41,75 +41,7 @@ class Permission {
     // This is the permission check implementation. This function returns a boolean value that tells
     // if the permission should be granted.
 
-    static function has($permission, $id = null) {
-
-        // ======================== CAUTION - CRITICAL ZONE! ==========================
-        // This is the actual authorization logic. Please edit this function carefully!
-        // ============================================================================
-
-        try {
-            switch ($permission) {
-
-                case self::showGroup:
-                    return Check::isPublicGroup($id) || (Check::isLoggedIn() && Check::isMemberOfGroup($id));
-
-                case self::showGroupExtended:
-                    return Check::isLoggedIn() && Check::isMemberOfGroup($id);
-
-                case self::createGroup:
-                    return Check::isLoggedIn();
-
-                case self::editGroup:
-                    return Check::isLoggedIn() && Check::isMemberOfGroup($id);
-
-                case self::subscribeToGroup:
-                    return Check::isLoggedIn() && Check::isPublicGroup($id) && !Check::isMemberOfGroup($id);
-
-                case self::leaveGroup:
-                    return Check::isLoggedIn() && Check::isMemberOfGroup($id);
-
-                case self::showEvent:
-                    return Check::isPublicEvent($id) || (Check::isLoggedIn() && Check::isMemberOfEvent($id));
-
-                case self::showEventExtended:
-                    return Check::isLoggedIn() && Check::isMemberOfEvent($id);
-
-                case self::createEventForGroup:
-                    return Check::isLoggedIn() && Check::isMemberOfGroup($id);
-
-                case self::editEvent:
-                    return Check::isLoggedIn() && Check::isMemberOfEvent($id);
-
-                case self::deleteEvent:
-                    return Check::isLoggedIn() && Check::isMemberOfEvent($id);
-
-                case self::respondToEvent:
-                    return Check::isLoggedIn() && (Check::isPublicEvent($id) || Check::isMemberOfEvent($id));
-
-                case self::editProfile:
-                    return Check::isLoggedIn();
-
-                case self::showHomeCalendar:
-                    return Check::isLoggedIn();
-
-                case self::showGroups:
-                    return Check::isLoggedIn();
-
-                case self::createEvent:
-                    return Check::isLoggedIn();
-
-                default:
-                    // Unknown permission requested - something went terribly wrong...
-                    Navigator::die(Navigator::REASON_INTERNAL_SERVER_ERROR);
-            }
-
-        } catch (\Exception $e) {
-            // In case any permission check throws an exception, the permission
-            // will be denied for security reasons as this should never happen...
-            return false;
-        }
-    }
-
+    abstract static function has($permission, $id = null);
 
     // This is the strict implementation of the authorization check: If the request fails, the application
     // instantly terminates and serves a 403 access denied site
