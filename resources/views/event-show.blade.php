@@ -61,7 +61,7 @@
                     </div>
                 </div>
 
-                @if(\App\Tools\Permission::has(\App\Tools\Permission::showEvent, $event->id))
+                @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id))
                     <a id="editEvent" class="btn btn-primary" href="{{ route('event.edit', $event->id) }}">
                         {{ __('event.edit') }}
                     </a>

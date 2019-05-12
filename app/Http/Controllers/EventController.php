@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Item;
-use App\Message;
 use App\Rules\DateTimeValidation;
 use App\Tools\CustomDateTime;
 use App\Tools\Date;
-use App\Tools\Permission;
+use App\Tools\PermissionFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -25,7 +23,7 @@ class EventController extends Controller
     {
 
         // check for permission to create a new event
-        Permission::check(Permission::createEvent);
+        PermissionFactory::createCreateEvent()->check();
 
         // list all current groups for selection and show view
         $groups = Auth::user()->groups()->get();
@@ -42,7 +40,7 @@ class EventController extends Controller
     {
 
         // check for permission to create a new event
-        Permission::check(Permission::createEvent);
+        PermissionFactory::createCreateEvent()->check();
 
         $data = $request->all();
         // never trust any user input
@@ -70,7 +68,7 @@ class EventController extends Controller
     {
 
         // check for permission to show the event
-        Permission::check(Permission::showEvent, $id);
+        PermissionFactory::createShowEvent()->check($id);
 
         // retrieve the corresponding event from database
         $event = Event::findOrFail($id);
@@ -95,7 +93,7 @@ class EventController extends Controller
     {
 
         // check for permission to edit the event
-        Permission::check(Permission::editEvent, $id);
+        PermissionFactory::createEditEvent()->check($id);
 
         // retrieve the corresponding event from database
         $event = Event::findOrFail($id);
@@ -119,7 +117,7 @@ class EventController extends Controller
     {
 
         // check for permission to edit the event
-        Permission::check(Permission::editEvent, $id);
+        PermissionFactory::createEditEvent()->check($id);
 
         // retrieve the corresponding event from database
         $data = $request->all();
@@ -145,7 +143,7 @@ class EventController extends Controller
     public function destroy($id)
     {
 
-        Permission::check(Permission::deleteEvent, $id);
+        PermissionFactory::createDeleteEvent()->check($id);
 
         // fetch event from database
         $event = Event::findOrFail($id);
@@ -213,7 +211,7 @@ class EventController extends Controller
             // if the event shall belong to a group
             if (!empty($data['selectGroup'])) {
                 // check for permission to create an event in this group
-                Permission::check(Permission::createEventForGroup, $data['selectGroup']);
+                PermissionFactory::createCreateEventForGroup()->check($data['selectGroup']);
                 // create event for the group
                 $event->group_id = $data['selectGroup'];
             } else {

@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Tools\Query;
-use App\User;
 use Tests\TestCase;
 
 class QueryTest extends TestCase
