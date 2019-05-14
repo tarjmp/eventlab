@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tools\Permission;
+use App\Tools\PermissionFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +12,7 @@ class UserProfileController extends Controller {
     public function read() {
 
         // require the appropriate permissions
-        Permission::check(Permission::editProfile);
+        PermissionFactory::createEditProfile()->check();
 
         return view('profile');
     }
@@ -19,7 +20,7 @@ class UserProfileController extends Controller {
     public function update(Request $request) {
 
         // require the appropriate permissions
-        Permission::check(Permission::editProfile);
+        PermissionFactory::createEditProfile()->check();
 
         $user = Auth::user();
 

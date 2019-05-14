@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Tools\Query;
-use App\User;
 use SeedConstants;
 use Tests\TestCase;
 
