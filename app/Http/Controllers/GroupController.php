@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Tools\Navigator;
 use App\Tools\Permission;
+use App\Tools\PermissionFactory;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class GroupController extends Controller {
     public function create() {
 
         // check for appropriate permission
-        Permission::check(Permission::createGroup);
+        PermissionFactory::createCreateGroup()->check();
 
         // simply show view
         return view('group-create');
@@ -36,7 +37,7 @@ class GroupController extends Controller {
     public function store(Request $request) {
 
         // check for permission to create a group
-        Permission::check(Permission::createGroup);
+        PermissionFactory::createCreateGroup()->check();
 
         $data = $request->all();
 
@@ -102,7 +103,7 @@ class GroupController extends Controller {
     public function groups() {
 
         // require appropriate permission
-        Permission::check(Permission::showGroups);
+        PermissionFactory::createShowGroups()->check();
 
         // retrieve all groups for the user and pass them to the view
         $groups = Auth::user()->groups()->get();
@@ -120,7 +121,7 @@ class GroupController extends Controller {
     public function participants() {
 
         // check for appropriate permission
-        Permission::check(Permission::createGroup);
+        PermissionFactory::createCreateGroup()->check();
 
         // list all users except for the current user himself
         $participants = User::all()->where('id', '!=', Auth::user()->id);
@@ -140,7 +141,7 @@ class GroupController extends Controller {
     public function addParticipants(Request $request) {
 
         // check for appropriate permission
-        Permission::check(Permission::createGroup);
+        PermissionFactory::createCreateGroup()->check();
 
         // validate the incoming request
         $request->validate(['members' => 'required|array|min:1']);
@@ -161,7 +162,7 @@ class GroupController extends Controller {
     public function show($id) {
 
         // check for appropriate permission to show the group
-        Permission::check(Permission::showGroup, $id);
+        PermissionFactory::createShowGroup()->check($id);
 
         // retrieve the corresponding group from database and show view
         $group = Group::findOrFail($id);
@@ -178,7 +179,7 @@ class GroupController extends Controller {
     public function edit($id) {
 
         // check for appropriate permission to edit the group
-        Permission::check(Permission::editGroup, $id);
+        PermissionFactory::createEditGroup()->check($id);
 
         // retrieve the corresponding event from database
         $group = Group::findOrFail($id);
@@ -196,7 +197,7 @@ class GroupController extends Controller {
     public function update(Request $request, $id) {
 
         // check for appropriate permission to edit the group
-        Permission::check(Permission::editGroup, $id);
+        PermissionFactory::createEditGroup()->check($id);
 
         // retrieve the corresponding group from database
         $data  = $request->all();
@@ -229,8 +230,7 @@ class GroupController extends Controller {
 
         // execute necessary permission check for leaving a group
         $data = $request->all();
-        Permission::check(Permission::leaveGroup, $data['id']);
-
+        PermissionFactory::createLeaveGroup()->check($data['id']);
 
         // retrieve group from database and remove the user from the members list
         $group = Group::findOrFail($data['id']);

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\Tools\Permission;
+use App\Tools\PermissionFactory;
 use App\Tools\Query;
 
 class HomeController extends Controller {
 
     public function index() {
         // require home screen permission
-        Permission::check(Permission::showHomeCalendar);
+        PermissionFactory::createShowHomeCalendar()->check();
 
         // get all events for this user
         $events = Query::getUserEvents();

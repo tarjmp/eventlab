@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                @if(\App\Tools\Permission::has(\App\Tools\Permission::showGroupExtended, $group->id))
+                @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
                     <ul>
                         @foreach($group->members()->orderBy('first_name')->get() as $m)
                             <li>
@@ -43,7 +43,7 @@
                     </ul>
                 @endif
 
-                @if(\App\Tools\Permission::has(\App\Tools\Permission::editGroup, $group->id))
+                @if(\App\Tools\PermissionFactory::createEditGroup()->has($group->id))
                     <a id="btn_editGroup"  class="btn btn-primary" href="{{route('group.edit', $group->id)}}">
                         {{ __('group.edit_button') }}
                     </a>
