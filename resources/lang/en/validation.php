@@ -131,6 +131,9 @@ return [
         'members' => [
             'required' => 'Please select at least one participant.',
         ],
+        'end-total' => [
+            'after' => 'The event must end after it started. Please adjust your dates or times.',
+        ],
     ],
 
     /*
