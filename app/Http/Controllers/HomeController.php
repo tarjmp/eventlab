@@ -23,8 +23,8 @@ class HomeController extends Controller
     public function next()
     {
         // require home screen permission
-        Permission::check(Permission::showHomeCalendar);
-
+        PermissionFactory::createShowHomeCalendar()->check();
+        
         // get all events for this user
         $events = Query::getUserEventsNext()->get();
 
@@ -34,7 +34,7 @@ class HomeController extends Controller
     public function month($year, $month)
     {
         // require home screen permission
-        Permission::check(Permission::showHomeCalendar);
+        PermissionFactory::createShowHomeCalendar()->check();
 
         // get all events for this user
         $events = Query::getUserEventsMonth($year, $month)->get();
@@ -45,7 +45,7 @@ class HomeController extends Controller
     public function week($year, $week)
     {
         // require home screen permission
-        Permission::check(Permission::showHomeCalendar);
+        PermissionFactory::createShowHomeCalendar()->check();
 
         // get all events for this user
         $events = Query::getUserEventsWeek($year, $week)->get();
