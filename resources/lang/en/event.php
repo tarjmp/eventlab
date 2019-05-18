@@ -11,8 +11,8 @@ return [
     'edit'          => 'Edit',
 
     'created' => 'New event created: ":name"',
-    'updated' => 'event with name: ":name" was updated',
-    'deleted' => 'event with name: ":name" was deleted',
+    'updated' => 'Event ":name" was updated.',
+    'deleted' => 'Event ":name" was deleted.',
 
     'name'        => 'Title',
     'description' => 'Description',
