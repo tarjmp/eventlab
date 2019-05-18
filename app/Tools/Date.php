@@ -76,7 +76,9 @@ class Date {
     public static function createFromNow() {
         try {
             // try to instantiate a new datetime object, this might fail due to any strange circumstances
-            return  new DateTime('now', new DateTimeZone('UTC'));
+            $oDateTime = new DateTime('now', new DateTimeZone('UTC'));
+            $oDateTime->setTime(0, 0);
+            return $oDateTime;
         } catch (Exception $e) {
             return null;
         }
