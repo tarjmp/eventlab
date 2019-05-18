@@ -115,6 +115,70 @@ class EventControllerTest extends TestCase
         $response = $this->from('/event/create')->post('/event',
             ['name' => 'My custom event #5', 'description' => 'ABC', 'location' => 'XYZ', 'selectGroup' => 2]);
         $response->assertRedirect('/event/create'); // redirect to input form
+
+
+        // here we test all sorts of invalid datetime inputs by creating private events
+
+        // invalid start date
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => 'ABCDEFG', 'start-time' => '16:00', 'end-date' => '2019-01-01', 'end-time' => '18:30']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // invalid start time
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-01-01', 'start-time' => '25:00', 'end-date' => '2019-01-01', 'end-time' => '18:30']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // invalid end date
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-01-01', 'start-time' => '16:00', 'end-date' => '2019-00-01', 'end-time' => '18:30']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // invalid end time
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-01-01', 'start-time' => '16:00', 'end-date' => '2019-01-01', 'end-time' => 'TIME']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // missing start date
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-time' => '16:00', 'end-date' => '2019-01-01', 'end-time' => '18:30']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // missing start time
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-01-01', 'end-date' => '2019-01-01', 'end-time' => '18:30']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // missing end date
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-01-01', 'start-time' => '16:00', 'end-time' => '18:30']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // missing end time
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-01-01', 'start-time' => '16:00', 'end-date' => '2019-01-01']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // positive event duration, more than one day - should succeed
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-05-05', 'start-time' => '16:00', 'end-date' => '2019-05-06', 'end-time' => '13:00']);
+        $response->assertRedirect('/home');
+
+        // zero duration - does not make sense and should fail
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-05-05', 'start-time' => '16:00', 'end-date' => '2019-05-05', 'end-time' => '16:00']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // negative event duration, start day is larger
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-05-06', 'start-time' => '16:00', 'end-date' => '2019-05-05', 'end-time' => '17:00']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
+        // negative event duration, start time is larger
+        $response = $this->from('/event/create')->post('/event',
+            ['name' => 'My custom event #1', 'description' => 'ABC', 'location' => 'XYZ', 'start-date' => '2019-05-05', 'start-time' => '18:00', 'end-date' => '2019-05-05', 'end-time' => '17:00']);
+        $response->assertRedirect('/event/create'); // redirect to input form
+
     }
 
     // test edit page for an event

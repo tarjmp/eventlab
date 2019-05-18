@@ -28,7 +28,11 @@ Route::view('/about', 'about');
 Route::auth();
 
 // user calendar
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home',                      'HomeController@index')->name('home');
+Route::get('/home/next',                 'HomeController@next')->name('home-next');
+Route::get('/home/month/{year}/{month}', 'HomeController@month')->name('home-month');
+Route::get('/home/week/{year}/{week}',   'HomeController@week')->name('home-week');
+Route::get('/home/day/{year}/{day}',     'HomeController@day')->name('home-day');
 
 // edit user profile
 Route::get('/profile', 'UserProfileController@read')->name('profile');

@@ -50,10 +50,10 @@
                 @empty
                     No events found.
                 @endforelse
-
                 <br>
                 <a id="btn_createEvent" href="{{ route('event.create') }}" role="button"
                    class="btn btn-primary mt-3">{{ __('calendar.create_event')}}</a>
             </div>
         </div>
+    </div>
 @endsection

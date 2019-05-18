@@ -91,26 +91,32 @@
                         <label for="end-date" class="col-md-4">{{ __('event.end_time') }}</label>
                         <div class="col-md-4 col-6">
                             <input id="end-date" type="date"
-                                   class="form-control{{ $errors->has('end-date') ? ' is-invalid' : '' }}"
+                                   class="form-control{{ ($errors->has('end-date') || $errors->has('end-total')) ? ' is-invalid' : '' }}"
                                    name="end-date"
                                    value="{{ old('end-date', '2018-11-23') }}">
                             @if ($errors->has('end-date'))
                                 <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('end-date') }}</strong>
-                            </span>
+                                    <strong>{{ $errors->first('end-date') }}</strong>
+                                </span>
                             @endif
                         </div>
                         <div class="col-md-4 col-6">
                             <input id="end-time" name="end-time" type="time"
-                                   class="form-control {{ $errors->has('end-time') ? ' is-invalid' : '' }}"
+                                   class="form-control {{ ($errors->has('end-time') || $errors->has('end-total')) ? ' is-invalid' : '' }}"
                                    value="{{ old('end-time', '18:00') }}" step="60">
                             @if ($errors->has('end-time'))
                                 <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('end-time') }}</strong>
-                            </span>
+                                    <strong>{{ $errors->first('end-time') }}</strong>
+                                </span>
                             @endif
                         </div>
                     </div>
+
+                    @if ($errors->has('end-total'))
+                        <div class="text-danger col-12 text-right small">
+                            <strong>{{ $errors->first('end-total') }}</strong>
+                        </div>
+                    @endif
 
                     <div class="form-group">
                         <label for="selectGroup">{{ __('event.select_group') }}</label>
