@@ -14,7 +14,7 @@ class Query
     // retrieve the next events for the current user - this includes currently ongoing events
     public static function getUserEventsNext($bIncludeRejected = false)
     {
-        return self::getUserEventsAll($bIncludeRejected)->whereDate('end_time', '>=', date('Y-m-d H:i'));
+        return self::getUserEventsAll($bIncludeRejected)->where('end_time', '>=', date('Y-m-d H:i'));
     }
 
     // retrieve the events for the current user within a specific month
@@ -32,10 +32,15 @@ class Query
     }
 
     // retrieve the events for the current user within a specific day
-    public static function getUserEventsDay($year, $day, $bIncludeRejected = false)
+    public static function getUserEventsDay($oDayBegin, $bIncludeRejected = false)
     {
-        // TODO use parameters
-        return self::getUserEventsAll($bIncludeRejected);
+        $oDayEnd = clone $oDayBegin;
+        $oDayEnd->modify('+1 day');
+
+        // get all events with a start time before the end of the day and an end time after the begin of the day
+        return self::getUserEventsAll($bIncludeRejected)->where('start_time', '<=', Date::formatUTC($oDayEnd, 'Y-m-d H:i'))
+                                                        ->where('end_time',   '>', Date::formatUTC($oDayBegin, 'Y-m-d H:i'));
+
     }
 
     // retrieve all events for the current user - future, present and past
@@ -53,23 +58,26 @@ class Query
     {
 
         // return all private events
-        $events = Event::whereNull('group_id')->where('created_by', Auth::user()->id)
-            // combined with all subscriptions
-            ->orWhere(function ($query) {
-                $query->whereHas('group', function ($query) {
-                    $query->where('public', true)->whereHas('subscribers', function ($query) {
-                        $query->where('id', Auth::user()->id);
+        $events = Event::whereNull('group_id')->where(function ($query) {
+
+            $query->where('created_by', Auth::user()->id)
+                // combined with all subscriptions
+                ->orWhere(function ($query) {
+                    $query->whereHas('group', function ($query) {
+                        $query->where('public', true)->whereHas('subscribers', function ($query) {
+                            $query->where('id', Auth::user()->id);
+                        });
+                    });
+                })
+                // combined with all memberships
+                ->orWhere(function ($query) {
+                    $query->whereHas('group', function ($query) {
+                        $query->whereHas('members', function ($query) {
+                            $query->where('id', Auth::user()->id);
+                        });
                     });
                 });
-            })
-            // combined with all memberships
-            ->orWhere(function ($query) {
-                $query->whereHas('group', function ($query) {
-                    $query->whereHas('members', function ($query) {
-                        $query->where('id', Auth::user()->id);
-                    });
-                });
-            })->orderBy('start_time');
+        })->orderBy('start_time');
 
         // filter out rejected events (if desired)
         if($bIncludeRejected)

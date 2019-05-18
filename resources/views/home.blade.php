@@ -44,7 +44,7 @@
                            class="btn btn-sm btn-primary float-right">{{ __('calendar.create_event')}}</a>
                     </div>
                 </div>
-                <br>
+                <br><br>
 
                 {{-- Print the contents of the actual calendar view - depending on the user's selection --}}
                 @yield('calendar')

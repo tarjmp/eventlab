@@ -2,7 +2,10 @@
 
 @section('calendar')
 
-    {{-- List all events for this user --}}
+    <h4 class="text-center">Upcoming Events</h4>
+    <br>
+
+    {{-- List all upcoming events for this user --}}
     @forelse($events as $e)
 
         <div class="card mb-1">
@@ -20,7 +23,7 @@
             </div>
         </div>
     @empty
-        {{ __('calendar.no_future_events') }}
+        {{ __('calendar.no_events_next') }}
     @endforelse
 
 @endsection
