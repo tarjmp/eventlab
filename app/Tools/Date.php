@@ -173,26 +173,15 @@ class Date {
     }
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // addInterval
+    // modify
     //
     // This function adds a certain interval to a DateTime object
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static function addInterval(DateTime $oDateTime, $sInterval)
+    public static function modify(DateTime $oDateTime, $sInterval)
     {
         $oNewTime = clone $oDateTime;
-        $oNewTime->add(new DateInterval($sInterval));
+        $oNewTime->modify($sInterval);
         return $oNewTime;
     }
 
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // subInterval
-    //
-    // This function subtracts a certain interval from a DateTime object
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static function subInterval(DateTime $oDateTime, $sInterval)
-    {
-        $oNewTime = clone $oDateTime;
-        $oNewTime->sub(new DateInterval($sInterval));
-        return $oNewTime;
-    }
 }

@@ -69,8 +69,8 @@ class HomeController extends Controller
         $events = Query::getUserEventsDay($oDay)->get();
 
         // calculate previous and next day for navigation
-        $aPrev = Date::toAssocArray(Date::subInterval($oDay, 'P1D'));
-        $aNext = Date::toAssocArray(Date::addInterval($oDay, 'P1D'));
+        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 day'));
+        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 day'));
 
         return view('calendars.day', ['events' => $events, 'type' => self::TYPE_DAY, 'day' => Date::format($oDay, 'l, M j Y'), 'prev' => $aPrev, 'next' => $aNext]);
     }
