@@ -17,12 +17,16 @@ class Date {
     // This function translates a given date & time from the user's time zone into a UTC timestamp,
     // so that it can be easily stored in the database.
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static function parseFromInput(string $sDate, string $sTime = '00:00', string $sTimezone = null) {
+    static function parseFromInput($sDate, $sTime = '00:00', $sTimezone = null) {
 
         try {
             $dateTime = self::createFromInput($sDate, $sTime, $sTimezone);
-            $dateTime->setTimezone(new DateTimeZone('UTC'));
-            return $dateTime->format('Y-m-d H:i:s');
+
+            if($dateTime != null) {
+                $dateTime->setTimezone(new DateTimeZone('UTC'));
+                return $dateTime->format('Y-m-d H:i:s');
+            }
+            return null;
 
         } catch (Exception $e) {
             // the input could not be parsed, probably due to invalid format or non-existent date
@@ -35,7 +39,7 @@ class Date {
     //
     // This function translates a given date & time from the user's time zone into a DateTime object.
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static function createFromInput(string $sDate, string $sTime = '00:00', string $sTimezone = null)
+    public static function createFromInput($sDate, $sTime = '00:00', $sTimezone = null)
     {
         // take the specified timezone if given, otherwise take the user's timezone as default
         $sTimezone = $sTimezone ?? self::getDefaultTimezone();
@@ -57,7 +61,7 @@ class Date {
     //
     // This function translates a given date from the user's time zone into a DateTime object.
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static function createFromYMD(int $iYear, int $iMonth, int $iDay, string $sTimezone = null)
+    public static function createFromYMD(int $iYear, int $iMonth, int $iDay, $sTimezone = null)
     {
         $iYear = intval($iYear);
         $iMonth = intval($iMonth);
@@ -83,7 +87,7 @@ class Date {
     //
     // This function translates a given UTC timestamp to the user's time zone
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static function toUserOutput(string $sTimestamp, string $sFormat = 'd/m/Y H:i', string $sTimezone = null) {
+    static function toUserOutput($sTimestamp, $sFormat = 'd/m/Y H:i', $sTimezone = null) {
 
         try {
             // try to instantiate a new datetime object that takes the local time zone into account
@@ -100,7 +104,7 @@ class Date {
     //
     // This function translates a given DateTime object to the user's time zone
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static function format(DateTime $oDateTime, string $sFormat, string $sTimezone = null) {
+    static function format(DateTime $oDateTime, $sFormat, $sTimezone = null) {
 
         // take the specified timezone if given, otherwise take the user's timezone as default
         $sTimezone = $sTimezone ?? self::getDefaultTimezone();
@@ -121,7 +125,7 @@ class Date {
     //
     // This function translates a given DateTime object to UTC for database comparison
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static function formatUTC(DateTime $oDateTime, string $sFormat)
+    static function formatUTC(DateTime $oDateTime, $sFormat)
     {
         return self::format($oDateTime, $sFormat, 'UTC');
     }
@@ -132,7 +136,7 @@ class Date {
     // This function translates a given UTC timestamp date and time in the user's time zone
     // The values are set by reference.
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static function toDateAndTime(string $sTimestamp, string &$sDate, string &$sTime, string $sTimezone = null) {
+    static function toDateAndTime($sTimestamp, &$sDate, &$sTime, $sTimezone = null) {
         $sDate = self::toUserOutput($sTimestamp, 'Y-m-d', $sTimezone);
         $sTime = self::toUserOutput($sTimestamp, 'H:i', $sTimezone);
     }
@@ -171,7 +175,7 @@ class Date {
     //
     // This function adds a certain interval to a DateTime object
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static function addInterval(DateTime $oDateTime, string $sInterval)
+    public static function addInterval(DateTime $oDateTime, $sInterval)
     {
         $oNewTime = clone $oDateTime;
         $oNewTime->add(new DateInterval($sInterval));
@@ -183,7 +187,7 @@ class Date {
     //
     // This function subtracts a certain interval from a DateTime object
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static function subInterval(DateTime $oDateTime, string $sInterval)
+    public static function subInterval(DateTime $oDateTime, $sInterval)
     {
         $oNewTime = clone $oDateTime;
         $oNewTime->sub(new DateInterval($sInterval));

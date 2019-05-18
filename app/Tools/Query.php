@@ -58,9 +58,9 @@ class Query
     {
 
         // return all private events
-        $events = Event::whereNull('group_id')->where(function ($query) {
+        $events = Event::where(function ($query) {
 
-            $query->where('created_by', Auth::user()->id)
+            $query->whereNull('group_id')->where('created_by', Auth::user()->id)
                 // combined with all subscriptions
                 ->orWhere(function ($query) {
                     $query->whereHas('group', function ($query) {

@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-6">
                         <a id="btn_createEvent" href="{{ route('event.create') }}" role="button"
-                           class="btn btn-sm btn-primary float-right">{{ __('calendar.create_event')}}</a>
+                           class="btn btn-primary float-right">{{ __('calendar.create_event')}}</a>
                     </div>
                 </div>
                 <br><br>
