@@ -33,18 +33,25 @@
                     </div>
                 </div>
 
-                @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
-                    <ul>
-                        @foreach($group->members()->orderBy('first_name')->get() as $m)
-                            <li>
-                                {{$m->first_name.' '.$m->last_name}}
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
+                <div class="form-group">
+                    <label for="subscribers">{{ __('group.subscription',  ['subscribers' => $numberSubscriptions]) }}</label>
+                    <br>
+                    <label for="members">{{ __('group.membership') }}</label>
+
+                    @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
+                        <ul>
+                            @foreach($group->members()->orderBy('first_name')->get() as $m)
+                                <li>
+                                    {{$m->first_name.' '.$m->last_name}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+
 
                 @if(\App\Tools\PermissionFactory::createEditGroup()->has($group->id))
-                    <a id="btn_editGroup"  class="btn btn-primary" href="{{route('group.edit', $group->id)}}">
+                    <a id="btn_editGroup" class="btn btn-primary" href="{{route('group.edit', $group->id)}}">
                         {{ __('group.edit_button') }}
                     </a>
                 @endif

@@ -15,6 +15,9 @@ return [
     'public'      => 'Public',
     'private'     => 'Private',
     'select'      => 'Select participants',
+    'subscription'=> 'Subscribers: :subscribers',
+    'membership'  => 'Members: ',
+
 
     'interface_title' => 'My Groups',
     'create_group'    => 'Add Group',

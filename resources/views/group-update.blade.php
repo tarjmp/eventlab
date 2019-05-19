@@ -59,6 +59,7 @@
                             <label class="custom-control-label" for="private">{{ __('group.private') }}</label>
                         </div>
                     </div>
+                    <label for="members">{{ __('group.membership') }}</label>
                     @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
                         <ul>
                             @foreach($group->members()->orderBy('first_name')->get() as $m)

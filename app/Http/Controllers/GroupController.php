@@ -141,7 +141,10 @@ class GroupController extends Controller
         // retrieve the corresponding group from database and show view
         $group = Group::findOrFail($id);
 
-        return view('group-show')->with(['group' => $group]);
+        $numberSubscriptions = count($group->subscribers);
+
+
+        return view('group-show')->with(['group' => $group, 'numberSubscriptions' => $numberSubscriptions]);
 
     }
 
