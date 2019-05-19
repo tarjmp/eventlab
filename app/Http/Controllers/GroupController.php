@@ -11,14 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class GroupController extends Controller {
+class GroupController extends Controller
+{
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
 
         // check for appropriate permission
         PermissionFactory::createCreateGroup()->check();
@@ -30,11 +32,12 @@ class GroupController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         // check for permission to create a group
         PermissionFactory::createCreateGroup()->check();
@@ -97,10 +100,11 @@ class GroupController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function groups() {
+    public function groups()
+    {
 
         // require appropriate permission
         PermissionFactory::createShowGroups()->check();
@@ -114,11 +118,12 @@ class GroupController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
 
-    public function participants() {
+    public function participants()
+    {
 
         // check for appropriate permission
         PermissionFactory::createCreateGroup()->check();
@@ -127,18 +132,19 @@ class GroupController extends Controller {
         $participants = User::all()->where('id', '!=', Auth::user()->id);
 
         // show the corresponding view
-        return view('group-select-participants')->with(['participants' => $participants]);
+        return view('group-select-participants')->with(['participants' => $participants, 'edit' => false]);
 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
 
-    public function addParticipants(Request $request) {
+    public function addParticipants(Request $request)
+    {
 
         // check for appropriate permission
         PermissionFactory::createCreateGroup()->check();
@@ -148,6 +154,7 @@ class GroupController extends Controller {
 
         // this function handles selected members of the group and passes them on to the group create function
         $data = $request->all();
+
         return redirect(route('group.create'))->with('members', implode(',', $data['members']));
 
     }
@@ -155,11 +162,12 @@ class GroupController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id) {
+    public function show($id)
+    {
 
         // check for appropriate permission to show the group
         PermissionFactory::createShowGroup()->check($id);
@@ -173,10 +181,11 @@ class GroupController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
 
         // check for appropriate permission to edit the group
         PermissionFactory::createEditGroup()->check($id);
@@ -184,17 +193,76 @@ class GroupController extends Controller {
         // retrieve the corresponding event from database
         $group = Group::findOrFail($id);
 
+
         return view('group-update')->with(['id' => $id, 'group' => $group]);
+
+    }
+
+    public function newParticipants($id)
+    {
+
+        // check for appropriate permission to edit the group
+        PermissionFactory::createEditGroup()->check($id);
+
+        $members = Group::findOrFail($id)->members;
+
+        //  $arrayOfMembers = [];
+
+        /*  foreach ($members as $m) {
+              // find the corresponding user
+              $user = User::findOrFail($m->id);
+              $arrayOfMembers [] = $user;
+          } */
+
+        // $participants = User::all();
+
+        //foreach ($members as $m) {
+        $participants = User::all()->diff($members);
+        // }
+
+        // show the corresponding view
+        return view('group-select-participants')->with(['participants' => $participants, 'edit' => true, 'id' => $id]);
+    }
+
+    public function addNewParticipants(Request $request, $id)
+    {
+
+        // check for appropriate permission
+        PermissionFactory::createEditGroup()->check($id);
+
+        $data  = $request->all();
+        $group = Group::findOrFail($id);
+
+        // validate the incoming request
+        $request->validate(['members' => 'required|array|min:1']);
+
+        // read all members into an array
+        $members = $data['members'];
+
+        // this variable will store all valid members
+        $participants = User::all()->whereIn('id', $members)->diff($group->members);
+
+        $subscribers = $participants->intersect($group->subscribers);
+
+        $group->subscribers()->detach($subscribers);
+
+        $group->members()->attach($participants, ['status' => Group::TYPE_MEMBERSHIP]);
+
+
+        return redirect(route('group.edit', $id));
+
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
 
         // check for appropriate permission to edit the group
         PermissionFactory::createEditGroup()->check($id);
@@ -223,10 +291,11 @@ class GroupController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function leave(Request $request) {
+    public function leave(Request $request)
+    {
 
         // execute necessary permission check for leaving a group
         $data = $request->all();

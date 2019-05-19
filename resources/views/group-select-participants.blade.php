@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form method="POST" action="{{ route('addParticipants') }}">
+                <form method="POST" action="@if (!$edit){{ route('addParticipants') }} @else {{ route('addNewParticipants', ['id' => $id])}} @endif">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">

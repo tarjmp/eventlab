@@ -4,11 +4,20 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2>{{ __('group.update_title') }}</h2><br/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>{{ __('group.update_title') }}</h2><br/>
+                    </div>
+                    <div class="col-md-6">
+                            <a id="newParticipant" class="btn btn-primary float-right" href="{{ route('newParticipants', ['id' => $id])}}">
+                                {{ __('group.participants') }}
+                            </a>
+                    </div>
+                </div>
 
-               <form method="POST" action="{{ route('group.update', $id) }}">
-                        @csrf
-                   @method('PUT')
+                <form method="POST" action="{{ route('group.update', $id) }}">
+                    @csrf
+                    @method('PUT')
 
                     <div class="form-group">
                         <label for="name">{{ __('group.name') }}</label>
@@ -39,17 +48,29 @@
 
 
                     <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input id="public" name="privacy" value="public" type="radio" class="custom-control-input" {{ $group->public ? 'checked' : '' }} disabled required>
-                                <label class="custom-control-label" for="public">{{ __('group.public') }}</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input id="private" name="privacy" value="private" type="radio" class="custom-control-input" {{ !$group->public ? 'checked' : '' }} disabled required>
-                                <label class="custom-control-label" for="private">{{ __('group.private') }}</label>
-                            </div>
+                        <div class="custom-control custom-radio">
+                            <input id="public" name="privacy" value="public" type="radio" class="custom-control-input"
+                                   {{ $group->public ? 'checked' : '' }} disabled required>
+                            <label class="custom-control-label" for="public">{{ __('group.public') }}</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="private" name="privacy" value="private" type="radio" class="custom-control-input"
+                                   {{ !$group->public ? 'checked' : '' }} disabled required>
+                            <label class="custom-control-label" for="private">{{ __('group.private') }}</label>
+                        </div>
                     </div>
+                    @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
+                        <ul>
+                            @foreach($group->members()->orderBy('first_name')->get() as $m)
+                                <li>
+                                    {{$m->first_name.' '.$m->last_name}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
 
-                    <input id="btn_createGroup" type="submit" class="btn btn-primary" value="{{ __('group.update_submit') }}"/>
+                    <input id="btn_createGroup" type="submit" class="btn btn-primary"
+                           value="{{ __('group.update_submit') }}"/>
 
                 </form>
                 <br/>

@@ -25,5 +25,5 @@ return [
     'participants_submit' => 'Next',
 
     'created' => 'New group created: ":name"',
-    'left'    => 'Left group: ":name"'
+    'left'    => 'Left group: ":name"',
 ];
