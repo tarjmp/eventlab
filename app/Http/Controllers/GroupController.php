@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\Tools\Navigator;
-use App\Tools\Permission;
 use App\Tools\PermissionFactory;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,11 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class GroupController extends Controller
 {
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Show the form for creating a new resource
     public function create()
     {
 
@@ -29,13 +24,7 @@ class GroupController extends Controller
         return view('group-create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-
+    // Store a newly created resource in storage
     public function store(Request $request)
     {
 
@@ -97,12 +86,7 @@ class GroupController extends Controller
         return redirect('groups')->with('newGroup', $data['name']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+    //Display the specified resource
     public function groups()
     {
 
@@ -115,13 +99,7 @@ class GroupController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-
+    // Show the form for adding participants to the group
     public function participants()
     {
 
@@ -136,13 +114,7 @@ class GroupController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-
+    // Adding participants to group
     public function addParticipants(Request $request)
     {
 
@@ -159,13 +131,7 @@ class GroupController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-
+    // Show the form for editing the specified resource
     public function show($id)
     {
 
@@ -174,56 +140,43 @@ class GroupController extends Controller
 
         // retrieve the corresponding group from database and show view
         $group = Group::findOrFail($id);
+
         return view('group-show')->with(['group' => $group]);
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+    // Show the form for editing the specified resource
     public function edit($id)
     {
 
         // check for appropriate permission to edit the group
         PermissionFactory::createEditGroup()->check($id);
 
-        // retrieve the corresponding event from database
+        // retrieve the corresponding group from database
         $group = Group::findOrFail($id);
-
 
         return view('group-update')->with(['id' => $id, 'group' => $group]);
 
     }
 
+    // Show the form for adding new participants to an existing group
     public function newParticipants($id)
     {
 
         // check for appropriate permission to edit the group
         PermissionFactory::createEditGroup()->check($id);
 
+        //retrieve all members of the corresponding group from database
         $members = Group::findOrFail($id)->members;
 
-        //  $arrayOfMembers = [];
-
-        /*  foreach ($members as $m) {
-              // find the corresponding user
-              $user = User::findOrFail($m->id);
-              $arrayOfMembers [] = $user;
-          } */
-
-        // $participants = User::all();
-
-        //foreach ($members as $m) {
+        // list all users except for the members of the group
         $participants = User::all()->diff($members);
-        // }
 
         // show the corresponding view
         return view('group-select-participants')->with(['participants' => $participants, 'edit' => true, 'id' => $id]);
     }
 
+    // Adding new participants to existing group
     public function addNewParticipants(Request $request, $id)
     {
 
@@ -231,6 +184,8 @@ class GroupController extends Controller
         PermissionFactory::createEditGroup()->check($id);
 
         $data  = $request->all();
+
+        // retrieve the corresponding group from database
         $group = Group::findOrFail($id);
 
         // validate the incoming request
@@ -239,28 +194,24 @@ class GroupController extends Controller
         // read all members into an array
         $members = $data['members'];
 
-        // this variable will store all valid members
+        // list all users except for the members of the group
         $participants = User::all()->whereIn('id', $members)->diff($group->members);
 
+        // list all subscribers from the participants
         $subscribers = $participants->intersect($group->subscribers);
 
+        // remove subscriptions
         $group->subscribers()->detach($subscribers);
 
+        // add participants as new members
         $group->members()->attach($participants, ['status' => Group::TYPE_MEMBERSHIP]);
 
-
+        // return to the group edit view
         return redirect(route('group.edit', $id));
-
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+    // Update the specified resource in storage
     public function update(Request $request, $id)
     {
 
@@ -288,12 +239,7 @@ class GroupController extends Controller
         return redirect(route('group.show', $id));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+    // Remove the specified resource from storage
     public function leave(Request $request)
     {
 
