@@ -61,19 +61,24 @@ class Date {
     //
     // This function translates a given date from the user's time zone into a DateTime object.
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static function createFromYMD(int $iYear, int $iMonth, int $iDay, $sTimezone = null)
+    public static function createFromYMD(int $iYear, int $iMonth, int $iDay, $sTimezone = null, $sTime = '00:00')
     {
         $iYear = intval($iYear);
         $iMonth = intval($iMonth);
         $iDay = intval($iDay);
 
         if($iYear > 0 && $iMonth > 0 &&  $iDay > 0) {
-            return self::createFromInput( "$iYear-$iMonth-$iDay", '00:00', $sTimezone);
+            return self::createFromInput( "$iYear-$iMonth-$iDay", $sTime, $sTimezone);
         }
         return null;
     }
 
-    public static function createFromNow() {
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // createFromToday
+    //
+    // This function creates a DateTime object for the current day
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public static function createFromToday() {
         try {
             // try to instantiate a new datetime object, this might fail due to any strange circumstances
             $oDateTime = new DateTime('now', new DateTimeZone('UTC'));
@@ -82,6 +87,15 @@ class Date {
         } catch (Exception $e) {
             return null;
         }
+    }
+
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // createFromFirstDayOfCurrentMonth
+    //
+    // This function creates a DateTime object for first day of the current month
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public static function createFromFirstDayOfMonth($iYear, $iMonth, $sTimezone = null) {
+        return self::createFromYMD($iYear, $iMonth, 1, $sTimezone);
     }
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -127,7 +141,7 @@ class Date {
     //
     // This function translates a given DateTime object to UTC for database comparison
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static function formatUTC(DateTime $oDateTime, $sFormat)
+    static function formatUTC(DateTime $oDateTime, $sFormat = 'Y-m-d H:i')
     {
         return self::format($oDateTime, $sFormat, 'UTC');
     }
@@ -173,6 +187,24 @@ class Date {
     }
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // getNumDaysInMonth
+    //
+    // Returns the number of days in the current month
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    static function getNumDaysInMonth(DateTime $oDateTime) {
+        return intval(self::format($oDateTime, 't'));
+    }
+
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // getDayOfWeek
+    //
+    // Returns the day of week for the given date, from 1 = Monday to 7 = Sunday
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    static function getDayOfWeek(DateTime $oDateTime) {
+        return intval(self::format($oDateTime, 'N'));
+    }
+
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // modify
     //
     // This function adds a certain interval to a DateTime object
@@ -183,5 +215,4 @@ class Date {
         $oNewTime->modify($sInterval);
         return $oNewTime;
     }
-
 }

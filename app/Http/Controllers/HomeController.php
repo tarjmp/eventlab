@@ -33,15 +33,32 @@ class HomeController extends Controller
         return view('calendars.next', ['events' => $events, 'type' => self::TYPE_NEXT]);
     }
 
-    public function month($year = 0, $month = 0) // TODO implement default value (timezone!)
+    public function month($year = 0, $month = 0)
     {
         // require home screen permission
         PermissionFactory::createShowHomeCalendar()->check();
 
-        // get all events for this user
-        $events = Query::getUserEventsMonth($year, $month)->get();
+        $oDay = null;
 
-        return view('calendars.month', ['events' => $events, 'type' => self::TYPE_MONTH]);
+        // take given year and month (if specified)
+        if ($year > 0  && $month > 0) {
+            $oDay = Date::createFromFirstDayOfMonth($year, $month);
+        }
+
+        // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
+        if ($oDay == null) {
+            $aTodayInfo = Date::toAssocArray(Date::createFromToday());
+            $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
+        }
+
+        // get all events for this user
+        $aDays = Query::getUserEventsMonth($oDay);
+
+        // calculate previous and next day for navigation
+        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
+        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
+
+        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
     }
 
     public function week($year = 0, $week = 0) // TODO implement default value (timezone!)
@@ -59,7 +76,7 @@ class HomeController extends Controller
     {
         $oDay = Date::createFromYMD($year, $month, $day);
         if ($oDay == null) {
-            $oDay = Date::createFromNow();
+            $oDay = Date::createFromToday();
         }
 
         // require home screen permission
