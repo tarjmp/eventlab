@@ -106,8 +106,8 @@ class GroupController extends Controller
         // check for appropriate permission
         PermissionFactory::createCreateGroup()->check();
 
-        // list all users except for the current user himself
-        $participants = User::all()->where('id', '!=', Auth::user()->id);
+        // list all users except for the current user himself ordered by first name of participants (asc)
+        $participants = User::where('id', '!=', Auth::user()->id)->orderBy('first_name')->get();
 
         // show the corresponding view
         return view('group-select-participants')->with(['participants' => $participants, 'edit' => false]);
@@ -171,6 +171,8 @@ class GroupController extends Controller
 
         // list all users except for the members of the group
         $participants = User::all()->diff($members);
+        // sort array by first name of participants (asc)
+        $participants = $participants->sortby('first_name');
 
         // show the corresponding view
         return view('group-select-participants')->with(['participants' => $participants, 'edit' => true, 'id' => $id]);
@@ -183,7 +185,7 @@ class GroupController extends Controller
         // check for appropriate permission
         PermissionFactory::createEditGroup()->check($id);
 
-        $data  = $request->all();
+        $data = $request->all();
 
         // retrieve the corresponding group from database
         $group = Group::findOrFail($id);
