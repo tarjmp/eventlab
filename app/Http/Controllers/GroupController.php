@@ -94,7 +94,7 @@ class GroupController extends Controller
         PermissionFactory::createShowGroups()->check();
 
         // retrieve all groups for the user and pass them to the view
-        $groups = Auth::user()->groups()->get();
+        $groups = Auth::user()->groups()->orderBy('name')->get();
         return view('group-interface')->with(['groups' => $groups]);
 
     }
