@@ -7,10 +7,12 @@ return [
     'no_events_next'      => 'There are no events scheduled in the future.',
     'no_events_day'       => 'There are no events scheduled for this day.',
 
-    'next'         => 'Next',
+    'next'         => 'Next Events',
     'month'        => 'Month',
     'week'         => 'Week',
     'day'          => 'Day',
+
+    'upcoming'     => 'Upcoming Events',
 
     'monday'    => 'Monday',
     'tuesday'   => 'Tuesday',

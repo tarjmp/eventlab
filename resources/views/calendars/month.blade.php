@@ -38,9 +38,8 @@
 
                     {{-- fill the actual days --}}
                     @for($i = 1; $i <= count($days); $i++)
-                        <td style="width:14%">
-
-                            <a href="{{ route('home-day-param', ['year' => $date['year'], 'month' => $date['month'], 'day' => $i]) }}"><strong>{{ $i }}</strong></a>
+                        <td style="width:14%; cursor:pointer;" onclick="window.location.href='{{ route('home-day-param', ['year' => $date['year'], 'month' => $date['month'], 'day' => $i]) }}';">
+                            <strong>{{ $i }}</strong>
                             <br>
                             @foreach($days[$i]['events'] as $event)
                                 <a href="{{ route('event.show', $event['id']) }}">{{ $event['name'] }}</a><br>

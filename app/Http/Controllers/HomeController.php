@@ -19,7 +19,7 @@ class HomeController extends Controller
     public function index()
     {
         // default view can be chosen here
-        return $this->next();
+        return $this->month();
     }
 
     public function next()

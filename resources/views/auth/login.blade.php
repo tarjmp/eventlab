@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2>{{ __('Login') }}</h2><br/>
+                <h2>{{ __('Login') }}</h2><br>
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf

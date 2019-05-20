@@ -2,7 +2,7 @@
 
 @section('calendar')
 
-    <h4 class="text-center">Upcoming Events</h4>
+    <h4 class="text-center">{{ __('calendar.upcoming') }}</h4>
     <br>
 
     {{-- List all upcoming events for this user --}}
