@@ -8,7 +8,7 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
-                            <h2>{{ __('group.participants') }}</h2><br/>
+                            <h2>{{ __('group.participants') }}</h2><br>
                         </div>
                         {{-- if there are no possible participants, we do not need to show the continue button --}}
                         @if(count($participants) > 0)
@@ -23,7 +23,7 @@
                             {{ $errors->first('members') }}
                         </div>
                     @endif
-                    <br/>
+                    <br>
                     <div class="row">
                         @forelse($participants as $p)
 

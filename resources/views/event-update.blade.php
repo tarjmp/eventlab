@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-                <h2>{{ __('event.update_title') }}</h2><br/>
+                <h2>{{ __('event.update_title') }}</h2><br>
 
                 <form method="POST" action="{{ route('event.update', $id) }}">
                     @csrf
@@ -53,7 +53,7 @@
 
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" name="all-day-event" type="checkbox" value="all-day-event"
+                            <input class="form-check-input" name="all-day-event" id="all-day-event" type="checkbox" value="all-day-event"
                                    id="all-day-event"
                                 {{ old('all-day-event', $event->all_day) ? 'checked' : '' }}>
                             <label class="form-check-label" for="all-day-event">
@@ -63,6 +63,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="start-date" class="col-md-4">{{ __('event.start_time') }}</label>
+                        <div class="col-md-4 col-6" id="start-placeholder" style="display:none;"></div>
                         <div class="col-md-4 col-6">
                             <input id="start-date" type="date"
                                    class="form-control{{ $errors->has('start-date') ? ' is-invalid' : '' }}"
@@ -129,4 +130,5 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="{{ asset('js/event.js') }}"></script>
 @endsection

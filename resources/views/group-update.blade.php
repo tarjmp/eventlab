@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2>{{ __('group.update_title') }}</h2><br/>
+                <h2>{{ __('group.update_title') }}</h2><br>
 
                <form method="POST" action="{{ route('group.update', $id) }}">
                         @csrf
@@ -52,7 +52,7 @@
                     <input id="btn_createGroup" type="submit" class="btn btn-primary" value="{{ __('group.update_submit') }}"/>
 
                 </form>
-                <br/>
+                <br>
                 @if (\App\Tools\PermissionFactory::createLeaveGroup()->has($id))
                     <form method="POST" action="{{ route('leave-group', $id) }}">
                         @csrf
