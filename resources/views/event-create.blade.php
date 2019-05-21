@@ -61,7 +61,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="start-date" class="col-md-4">{{ __('event.start_time') }}</label>
-                        <div class="col-md-4 col-6" id="start-placeholder"></div>
+                        <div class="col-md-4 col-6" id="start-placeholder" style="display:none;"></div>
                         <div class="col-md-4 col-6">
                             <input id="start-date" type="date"
                                    class="form-control{{ $errors->has('start-date') ? ' is-invalid' : '' }}"
