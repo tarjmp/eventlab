@@ -9,9 +9,10 @@
                         <h2>{{ __('group.update_title') }}</h2><br>
                     </div>
                     <div class="col-md-6">
-                            <a id="newParticipant" class="btn btn-primary float-right" href="{{ route('newParticipants', ['id' => $id])}}">
-                                {{ __('group.participants') }}
-                            </a>
+                        <a id="newParticipant" class="btn btn-primary float-right"
+                           href="{{ route('newParticipants', ['id' => $id])}}">
+                            {{ __('group.participants') }}
+                        </a>
                     </div>
                 </div>
 
@@ -60,15 +61,13 @@
                         </div>
                     </div>
                     <label for="members">{{ __('group.membership') }}</label>
-                    @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
-                        <ul>
-                            @foreach($group->members()->orderBy('first_name')->get() as $m)
-                                <li>
-                                    {{$m->first_name.' '.$m->last_name}}
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
+                    <ul>
+                        @foreach($group->members()->orderBy('first_name')->get() as $m)
+                            <li>
+                                {{$m->first_name.' '.$m->last_name}}
+                            </li>
+                        @endforeach
+                    </ul>
 
                     <input id="btn_createGroup" type="submit" class="btn btn-primary"
                            value="{{ __('group.update_submit') }}"/>

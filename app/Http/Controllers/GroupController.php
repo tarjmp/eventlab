@@ -212,7 +212,7 @@ class GroupController extends Controller
         $group->members()->attach($participants, ['status' => Group::TYPE_MEMBERSHIP]);
 
         // return to the group edit view
-        return redirect(route('group.edit', $id));
+        return redirect(route('group.show', $id));
 
     }
 

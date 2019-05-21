@@ -36,9 +36,8 @@
                 <div class="form-group">
                     <label for="subscribers">{{ __('group.subscription',  ['subscribers' => $numberSubscriptions]) }}</label>
                     <br>
-                    <label for="members">{{ __('group.membership') }}</label>
-
                     @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
+                        <label for="members">{{ __('group.membership') }}</label>
                         <ul>
                             @foreach($group->members()->orderBy('first_name')->get() as $m)
                                 <li>
