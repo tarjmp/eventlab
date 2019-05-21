@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>{{ __('group.update_title') }}</h2><br/>
+                        <h2>{{ __('group.update_title') }}</h2><br>
                     </div>
                     <div class="col-md-6">
                             <a id="newParticipant" class="btn btn-primary float-right" href="{{ route('newParticipants', ['id' => $id])}}">
@@ -74,7 +74,7 @@
                            value="{{ __('group.update_submit') }}"/>
 
                 </form>
-                <br/>
+                <br>
                 @if (\App\Tools\PermissionFactory::createLeaveGroup()->has($id))
                     <form method="POST" action="{{ route('leave-group', $id) }}">
                         @csrf

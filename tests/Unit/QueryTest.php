@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Tools\Query;
+use SeedConstants;
 use Tests\TestCase;
 
 class QueryTest extends TestCase
@@ -20,19 +21,19 @@ class QueryTest extends TestCase
     public function testGetUserEvents()
     {
         // make sure that there is enough validation data to test all events
-        $this->assertTrue(count(self::USERS_EVENTS) == \SeedConstants::NUM_USERS);
+        $this->assertTrue(count(self::USERS_EVENTS) == SeedConstants::NUM_USERS);
 
         // iterate over all users
-        for($i = 0; $i < \SeedConstants::NUM_USERS; $i++) {
+        for($i = 0; $i < SeedConstants::NUM_USERS; $i++) {
 
             // pseudo login with the current user id
             $this->loginWithDBUser($i + 1);
 
             // call the function to be tested and only save the column 'id' of the events
-            $aTestResult = array_column(Query::getUserEvents()->toArray(), 'id');
+            $aTestResult = array_column(Query::getUserEvents(true)->get()->toArray(), 'id');
 
             // iterate over all events
-            for($k = 0; $k < \SeedConstants::NUM_EVENTS; $k++) {
+            for($k = 0; $k < SeedConstants::NUM_EVENTS; $k++) {
 
                 if(in_array($k + 1, self::USERS_EVENTS[$i], true)) {
                     $this->assertTrue(in_array($k + 1, $aTestResult, true));

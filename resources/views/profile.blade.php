@@ -13,7 +13,7 @@
                     </div>
                 @endisset
 
-                <h2>{{ __('profile.title') }}</h2><br/>
+                <h2>{{ __('profile.title') }}</h2><br>
                 <form method="POST" action="{{ route('profileUpdate') }}">
                     @csrf
 
