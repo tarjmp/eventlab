@@ -15,6 +15,9 @@ return [
     'public'      => 'Public',
     'private'     => 'Private',
     'select'      => 'Select participants',
+    'subscription'=> 'Subscribers: :subscribers',
+    'membership'  => 'Members: ',
+
 
     'interface_title' => 'My Groups',
     'create_group'    => 'Add Group',
@@ -25,5 +28,5 @@ return [
     'participants_submit' => 'Next',
 
     'created' => 'New group created: ":name"',
-    'left'    => 'Left group: ":name"'
+    'left'    => 'Left group: ":name"',
 ];

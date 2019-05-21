@@ -14,7 +14,7 @@
                 @endif
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>{{ __('group.interface_title') }}</h2><br/>
+                        <h2>{{ __('group.interface_title') }}</h2><br>
                     </div>
                     <div class="col-md-6">
                         @if(\App\Tools\PermissionFactory::createCreateGroup()->has())

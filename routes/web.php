@@ -28,7 +28,18 @@ Route::view('/about', 'about');
 Route::auth();
 
 // user calendar
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home',                      'HomeController@index')->name('home');
+Route::get('/home/next',                 'HomeController@next')->name('home-next');
+
+// each calendar view can be called with or without a specified date
+Route::get('/home/month/{year}/{month}', 'HomeController@month')->name('home-month-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}']);
+Route::get('/home/month',                'HomeController@month')->name('home-month');
+
+Route::get('/home/week/{year}/{week}',   'HomeController@week')->name('home-week-param')->where(['year' => '[0-9]{1,4}', 'week' => '[0-9]{1,2}']);
+Route::get('/home/week',                 'HomeController@week')->name('home-week');
+
+Route::get('/home/day/{year}/{month}/{day}',  'HomeController@day')->name('home-day-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}', 'day' => '[0-9]{1,2}']);
+Route::get('/home/day',                       'HomeController@day')->name('home-day');
 
 // edit user profile
 Route::get('/profile', 'UserProfileController@read')->name('profile');
@@ -43,6 +54,8 @@ Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'e
 // Otherwise, there is a conflict between /group/[id] and /group/new and you will get a 403 error.
 Route::get('/group/new', 'GroupController@participants')->name('participants');
 Route::post('/group/new', 'GroupController@addParticipants')->name('addParticipants');
+Route::get('/group/{id}/update', 'GroupController@newParticipants')->name('newParticipants');
+Route::post('/group/{id}/update', 'GroupController@addNewParticipants')->name('addNewParticipants');
 Route::post('/group/leave', 'GroupController@leave')->name('leave-group');
 Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::get('/groups', 'GroupController@groups')->name('groups');

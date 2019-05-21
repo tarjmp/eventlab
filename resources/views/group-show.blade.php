@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2>{{ __('group.show_title') }}</h2><br/>
+                <h2>{{ __('group.show_title') }}</h2><br>
 
                 <div class="form-group">
                     <label for="name">{{ __('group.name') }}</label>
@@ -33,18 +33,26 @@
                     </div>
                 </div>
 
-                @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
-                    <ul>
-                        @foreach($group->members()->orderBy('first_name')->get() as $m)
-                            <li>
-                                {{$m->first_name.' '.$m->last_name}}
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
+                <div class="form-group">
+                    @if($group->public)
+                    <label for="subscribers">{{ __('group.subscription',  ['subscribers' => $numberSubscriptions]) }}</label>
+                    <br>
+                    @endif
+                    @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
+                        <label for="members">{{ __('group.membership') }}</label>
+                        <ul>
+                            @foreach($group->members()->orderBy('first_name')->get() as $m)
+                                <li>
+                                    {{$m->first_name.' '.$m->last_name}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+
 
                 @if(\App\Tools\PermissionFactory::createEditGroup()->has($group->id))
-                    <a id="btn_editGroup"  class="btn btn-primary" href="{{route('group.edit', $group->id)}}">
+                    <a id="btn_editGroup" class="btn btn-primary" href="{{route('group.edit', $group->id)}}">
                         {{ __('group.edit_button') }}
                     </a>
                 @endif

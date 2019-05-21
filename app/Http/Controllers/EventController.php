@@ -162,6 +162,17 @@ class EventController extends Controller
     private function validateInput(array $data)
     {
 
+        // workaround for array index access later on
+        // see null-coalescing operator in PHP manual for details
+        $data['start-date'] = $data['start-date'] ?? '';
+        $data['end-date']   = $data['end-date']   ?? '';
+        $data['start-time'] = $data['start-time'] ?? '';
+        $data['end-time']   = $data['end-time']   ?? '';
+
+        // concatenate date and time for later validation
+        $data['start-total'] = $data['start-date'] . ' ' . $data['start-time'];
+        $data['end-total']   = $data['end-date'] . ' ' . $data['end-time'];
+
         // validate all input data against the following rules
         $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
@@ -175,20 +186,13 @@ class EventController extends Controller
             return !isset($input['all-day-event']);
         };
 
-        // workaround for array index access below
-        if(empty($data['start-date'])) {
-            $data['start-date'] = '';
-        }
-        if(empty($data['end-date'])) {
-            $data['end-date'] = '';
-        }
-
         // require times and end-date if the event is not an all-day event
-        $validator->sometimes('start-time', new DateTimeValidation($data['start-date']), $notAllDay);
+        $validator->sometimes('start-time', 'required|date_format:H:i', $notAllDay);
         $validator->sometimes('end-date', 'required|date', $notAllDay);
-        $validator->sometimes('end-time', new DateTimeValidation($data['end-date']), $notAllDay);
+        $validator->sometimes('end-time', 'required|date_format:H:i', $notAllDay);
 
-        // TODO: check if the event duration is positive, i.e. start timestamp < end timestamp
+        // check for positive event duration -> therefore, use combine dates and times
+        $validator->sometimes('end-total', 'required|date_format:Y-m-d H:i|after:start-total', $notAllDay);
 
         $validator->validate();
     }

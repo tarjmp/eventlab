@@ -14,54 +14,35 @@
                     </div>
                 @endisset
 
-                <h2>{{ __('event.show_title') }}</h2><br/>
+                <h2>{{$event->name}}</h2><br>
+                @if($event->description != '')
+                    <p class="text-muted">{{$event->description}}</p><br>
+                @endif
 
-                <div class="form-group">
-                    <label for="name">{{ __('event.name') }}</label>
-                    <input id="name" type="text" class="form-control" name="name" value="{{$event->name}}" readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="description">{{ __('event.description') }}</label>
-                    <textarea id="description" class="form-control" name="description"
-                              readonly>{{$event->description}}</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="location">{{ __('event.location') }}</label>
-                    <input id="location" type="text" class="form-control" name="location" value="{{$event->location}}"
-                           readonly>
-                </div>
-                @if($event->all_day)
-                    <div class="form-group">
-                        <label for="all-day-event">{{ __('event.all_day') }}</label>
+                @if($event->location != '')
+                    <div class="row mb-4">
+                        <div class="col-md-4">{{ __('event.location') }}:</div>
+                        <div class="col-md-8 text-right">{{ $event->location }}</div>
                     </div>
                 @endif
-                <div class="form-group row">
-                    <label for="start-date" class="col-md-4">{{ __('event.start_time') }}</label>
-                    <div class="col-md-4 col-6">
-                        <input id="start-date" type="date" class="form-control" name="start-date"
-                               value="{{ $start->date() }}" readonly>
+                @if($event->all_day)
+                    <div class="row mb-4">
+                        <div class="col-md-4">{{ __('event.date') }}:</div>
+                        <div class="col-md-8 text-right">{{ \App\Tools\Date::toUserOutput($event->start_time, 'M j Y') . ', '. __('event.all_day_small') }}</div>
                     </div>
-                    <div class="col-md-4 col-6">
-                        <input id="start-time" name="start-time" type="time" class="form-control"
-                               value="{{ $start->time() }}" step="60" readonly>
+                @else
+                    <div class="row mb-4">
+                        <div class="col-md-4">{{ __('event.start_time') }}:</div>
+                        <div class="col-md-8 text-right">{{ \App\Tools\Date::toUserOutput($event->start_time, 'M j Y, H:i') }}</div>
                     </div>
-                </div>
-
-                <div class="form-group row" id="end-row">
-                    <label for="end-date" class="col-md-4">{{ __('event.end_time') }}</label>
-                    <div class="col-md-4 col-6">
-                        <input id="end-date" type="date" class="form-control" name="end-date" value="{{ $end->date() }}"
-                               readonly>
+                    <div class="row mb-4">
+                        <div class="col-md-4">{{ __('event.end_time') }}:</div>
+                        <div class="col-md-8 text-right">{{ \App\Tools\Date::toUserOutput($event->end_time, 'M j Y, H:i') }}</div>
                     </div>
-                    <div class="col-md-4 col-6">
-                        <input id="end-time" name="end-time" type="time" class="form-control" value="{{ $end->time() }}"
-                               step="60" readonly>
-                    </div>
-                </div>
+                @endif
 
                 @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id))
+                    <br>
                     <a id="editEvent" class="btn btn-primary" href="{{ route('event.edit', $event->id) }}">
                         {{ __('event.edit') }}
                     </a>
