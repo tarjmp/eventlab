@@ -54,6 +54,8 @@ Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'e
 // Otherwise, there is a conflict between /group/[id] and /group/new and you will get a 403 error.
 Route::get('/group/new', 'GroupController@participants')->name('participants');
 Route::post('/group/new', 'GroupController@addParticipants')->name('addParticipants');
+Route::get('/group/{id}/update', 'GroupController@newParticipants')->name('newParticipants');
+Route::post('/group/{id}/update', 'GroupController@addNewParticipants')->name('addNewParticipants');
 Route::post('/group/leave', 'GroupController@leave')->name('leave-group');
 Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::get('/groups', 'GroupController@groups')->name('groups');
