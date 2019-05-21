@@ -98,7 +98,7 @@ class Query
         $oDayEnd->modify('+1 day');
 
         // get all events with a start time before the end of the day and an end time after the begin of the day
-        return self::getUserEventsAll($bIncludeRejected)->where('start_time', '<=', Date::formatUTC($oDayEnd))
+        return self::getUserEventsAll($bIncludeRejected)->where('start_time', '<', Date::formatUTC($oDayEnd))
                                                         ->where('end_time',   '>', Date::formatUTC($oDayBegin));
 
     }
