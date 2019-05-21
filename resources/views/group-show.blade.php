@@ -34,8 +34,10 @@
                 </div>
 
                 <div class="form-group">
+                    @if($group->public)
                     <label for="subscribers">{{ __('group.subscription',  ['subscribers' => $numberSubscriptions]) }}</label>
                     <br>
+                    @endif
                     @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
                         <label for="members">{{ __('group.membership') }}</label>
                         <ul>
