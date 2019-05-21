@@ -118,7 +118,7 @@ class Query
     {
 
         // return all private events
-        $events = Event::where(function ($query) {
+        $oEvents = Event::where(function ($query) {
 
             $query->whereNull('group_id')->where('created_by', Auth::user()->id)
                 // combined with all subscriptions
@@ -141,9 +141,9 @@ class Query
 
         // filter out rejected events (if desired)
         if($bIncludeRejected)
-            return $events;
+            return $oEvents;
         else
-            return self::filterRejected($events);
+            return self::filterRejected($oEvents);
     }
 
     // Filter for removing rejected events

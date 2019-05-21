@@ -28,9 +28,9 @@ class HomeController extends Controller
         PermissionFactory::createShowHomeCalendar()->check();
         
         // get all events for this user
-        $events = Query::getUserEventsNext()->get();
+        $cEvents = Query::getUserEventsNext()->get();
 
-        return view('calendars.next', ['events' => $events, 'type' => self::TYPE_NEXT]);
+        return view('calendars.next', ['events' => $cEvents, 'type' => self::TYPE_NEXT]);
     }
 
     public function month($year = 0, $month = 0)
@@ -61,7 +61,7 @@ class HomeController extends Controller
         return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
     }
 
-    public function week($year = 0, $week = 0) // TODO implement default value (timezone!)
+    public function week($year = 0, $week = 0)
     {
         // require home screen permission
         PermissionFactory::createShowHomeCalendar()->check();
@@ -83,12 +83,12 @@ class HomeController extends Controller
         PermissionFactory::createShowHomeCalendar()->check();
 
         // get all events for this user
-        $events = Query::getUserEventsDay($oDay)->get();
+        $cEvents = Query::getUserEventsDay($oDay)->get();
 
         // calculate previous and next day for navigation
         $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 day'));
         $aNext = Date::toAssocArray(Date::modify($oDay, '+1 day'));
 
-        return view('calendars.day', ['events' => $events, 'type' => self::TYPE_DAY, 'day' => Date::format($oDay, 'l, M j Y'), 'prev' => $aPrev, 'next' => $aNext]);
+        return view('calendars.day', ['events' => $cEvents, 'type' => self::TYPE_DAY, 'day' => Date::format($oDay, 'l, M j Y'), 'prev' => $aPrev, 'next' => $aNext]);
     }
 }
