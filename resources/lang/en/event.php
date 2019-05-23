@@ -23,6 +23,12 @@ return [
     'all_day_small' => 'all day',
     'location'      => 'Location',
     'select_group'  => 'Group',
-    'private_group' => '(Private)'
+    'private_group' => '(Private)',
+
+    'event_replies_title' => 'Notifications',
+    'notifications_submit' => 'Submit',
+    'notifications_reject' => 'Reject',
+    'notifications_text' => 'You were added to the Event ":name". Do you want to accept and join the event?',
+    'details_text' => '(To get more details click here)'
 
 ];

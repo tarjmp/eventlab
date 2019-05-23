@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Group;
 use App\Rules\DateTimeValidation;
 use App\Tools\CustomDateTime;
 use App\Tools\Date;
@@ -236,5 +237,30 @@ class EventController extends Controller
             $event->end_time = Date::parseFromInput($data['end-date'], $data['end-time']);
         }
         return $event;
+    }
+
+    public function replies()
+    {
+
+        /*// check for permission to create a new event
+        PermissionFactory::createCreateEvent()->check();
+
+        // list all current groups for selection and show view
+        $groups = Auth::user()->groups()->get(); */
+
+        /*$event = Event::all();
+        $group = Group::findOrFail($event[0]->group_id);
+        $members = $group->members;
+
+        foreach ($members as $m) {
+            $user = $m->id;
+        }
+        $replies = $event[0]->replies();
+        var_dump($replies->{0});
+        foreach ($replies as $r) {
+            var_dump($r);
+        }*/
+        //return view('event-replies');
+        //->with(['event' => $event])
     }
 }

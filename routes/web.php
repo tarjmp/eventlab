@@ -45,6 +45,8 @@ Route::get('/home/day',                       'HomeController@day')->name('home-
 Route::get('/profile', 'UserProfileController@read')->name('profile');
 Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
+// event notifications
+Route::get('/notifications', 'EventController@replies')->name('notifications');
 
 // CRUD Event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
