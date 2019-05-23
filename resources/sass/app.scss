@@ -13,8 +13,25 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-// All day event vs. end date
-#all-day-event:checked ~ #start-time,
-#all-day-event:checked ~ #end-row {
-  display: none;
+.msg-default {
+  background-color: #f7fcff;
+  border: 1px solid white;
+  word-wrap: break-word;
 }
+
+.msg-default:hover {
+  border: 1px solid #dddddd;
+}
+
+.msg-trashed {
+  background-color: #fff7f7;
+}
+
+.msg-own {
+  background-color: #e8f8ff;
+}
+
+.msg-top {
+  cursor: default;
+}
+
