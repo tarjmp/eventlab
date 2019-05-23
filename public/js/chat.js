@@ -6,7 +6,11 @@ function addChatMessage() {
     // the form containing all the input data
     let form  = $('#msg-form');
     let input = $('#message');
+    let submit = $('#msg-submit');
     let msgId = form.children('input[name="msg-id"]');
+
+    // disable submit button to prevent further submissions
+    submit.prop('disabled', true);
 
     msgId.val(getLastMessageId());
 
@@ -20,6 +24,9 @@ function addChatMessage() {
         addNewMessages(data);
         // clear input field and focus it
         input.val('').focus();
+    }, () => {
+        // enable submit button again
+        submit.prop('disabled', false);
     });
 
     return false;
@@ -79,7 +86,7 @@ function getLastMessageId() {
     return parseInt(lastMessage.attr('id').substring(4));
 }
 
-function sendFormViaPost(form, callback) {
+function sendFormViaPost(form, callback, final = () => {}) {
 
     // the url where the post request must go
     let url = form.attr('action');
@@ -94,6 +101,7 @@ function sendFormViaPost(form, callback) {
         if (status === 'success') {
             callback(data);
         }
+        final();
 
     });
 }
