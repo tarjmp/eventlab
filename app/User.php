@@ -18,7 +18,7 @@ class User extends Authenticatable {
 
     // All groups the user is a member in
     public function groups($sType = Group::TYPE_MEMBERSHIP) {
-        return $this->belongsToMany(Group::class)->where('status', $sType)->withTimestamps();
+        return $this->belongsToMany(Group::class)->where('status', $sType)->withTimestamps()->orderBy('name');
     }
 
     // All items the user brought or will bring

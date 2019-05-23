@@ -7,6 +7,6 @@ return [
     'send'           => 'Send',
 
     'delete'         => 'Click to remove',
-    'deleted'        => '[Deleted]',
+    'deleted'        => '- Deleted -',
 
 ];

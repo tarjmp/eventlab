@@ -28,7 +28,7 @@ class Event extends Model {
 
     // All messages in the chat of the event
     public function messages() {
-        return $this->hasMany(Message::class)->orderBy('id');
+        return $this->hasMany(Message::class)->withTrashed()->orderBy('id');
     }
 
     // All replies to this event

@@ -52,6 +52,7 @@ Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'e
 // Chat messages for events
 Route::post('/message/add', 'MessageController@add')->name('add-message');
 Route::post('/message/delete', 'MessageController@delete')->name('delete-message');
+Route::post('/message/get', 'MessageController@get')->name('get-messages');
 
 // CRUD Group
 // Note that the custom routes need to be defined before the resource route

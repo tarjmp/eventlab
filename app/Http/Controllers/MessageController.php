@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
+    // Add a new chat message
     public function add(Request $oRequest) {
 
         // check for a valid event id and text message
         $oRequest->validate([
             'event'   => 'required|integer',
             'message' => 'required|string|max:255',
+            'msg-id'  => 'required|integer',
 
         ]);
 
@@ -24,6 +26,7 @@ class MessageController extends Controller
         $aData = $oRequest->all();
 
         $iEventId = intval($aData['event']);
+        $iMsgId   = intval($aData['msg-id']);
 
         // now, really validate the event id by checking for the required permissions
         PermissionFactory::createShowEventExtended()->check($iEventId);
@@ -36,10 +39,34 @@ class MessageController extends Controller
 
         $oMessage->save();
 
-        return view('chat.messages', ['messages' => Query::getNewMessagesForEvent($iEventId, $oMessage->id)]);
+        return view('chat.messages', ['messages' => Query::getNewMessagesForEvent($iEventId, $iMsgId + 1)]);
 
     }
 
+    // Retrieve all new chat messages - the given message id is excluded from the return values
+    public function get(Request $oRequest) {
+
+        // check for a valid event id and text message
+        $oRequest->validate([
+            'event'   => 'required|integer',
+            'msg-id'  => 'required|integer',
+
+        ]);
+
+        // retrieve form data into array
+        $aData = $oRequest->all();
+        $iEventId = intval($aData['event']);
+        $iMsgId   = intval($aData['msg-id']);
+
+        // validate the event id by checking for the required permissions
+        PermissionFactory::createShowEventExtended()->check($iEventId);
+
+        // everything looks good, retrieve all new messages
+        return view('chat.messages', ['messages' => Query::getNewMessagesForEvent($iEventId, $iMsgId + 1)]);
+
+    }
+
+    // Delete a chat message
     public function delete(Request $oRequest) {
 
         // check for a valid event id and text message
@@ -54,10 +81,9 @@ class MessageController extends Controller
         // check if the user has permission to delete the requested message
         PermissionFactory::createDeleteMessage()->check($iMessageID);
 
-        // everything looks good, simply override message text (do not delete message from database)
+        // everything looks good, simply soft-delete message (do not delete message from database)
         $oMessage = Message::findOrFail($iMessageID);
-        $oMessage->text = __('chat.deleted');
-        $oMessage->save();
+        $oMessage->delete();
 
         return redirect(route('event.show', $oMessage->event->id));
 

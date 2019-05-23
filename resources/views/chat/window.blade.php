@@ -14,7 +14,7 @@
                     @include('chat.messages', ['messages' => $event->messages])
                 @else
                     {{-- no chat messages - show default text --}}
-                    <div class="mt-2 p-2 rounded-lg" style="background-color:#f3f3f3">
+                    <div class="mt-2 p-2 rounded-lg" style="background-color:#f3f3f3" id="msg-0">
                         <div class="mt-1 text-muted">No messages yet... Start typing!</div>
                     </div>
                 @endif
@@ -25,6 +25,7 @@
             <form id="msg-form" class="input-group input-group-sm mb-3" onsubmit="return addChatMessage();" action="{{ route('add-message') }}">
                 @csrf
                 <input type="hidden" name="event" value="{{ $event->id }}"/>
+                <input type="hidden" name="msg-id" value="0"/>
                 <input type="text" name="message" id="message" class="form-control" placeholder="{{ __('chat.enter_message') }}">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">{{ __('chat.send') }}</button>
@@ -33,6 +34,11 @@
             <form id="msg-delete" method="POST" action="{{ route('delete-message') }}">
                 @csrf
                 <input type="hidden" name="id" value="0"/>
+            </form>
+            <form id="msg-refresh" method="POST" action="{{ route('get-messages') }}">
+                @csrf
+                <input type="hidden" name="event" value="{{ $event->id }}"/>
+                <input type="hidden" name="msg-id" value="0"/>
             </form>
         </li>
     </ul>
