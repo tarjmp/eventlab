@@ -14,8 +14,8 @@
                     @include('chat.messages', ['messages' => $event->messages, 'private' => $private])
                 @else
                     {{-- no chat messages - show default text --}}
-                    <div class="mt-2 p-2 rounded-lg" style="background-color:#f3f3f3" id="msg-0">
-                        <div class="mt-1 text-muted">No messages yet... Start typing!</div>
+                    <div class="mt-2 p-2 rounded-lg msg-empty" id="msg-0">
+                        <div class="mt-1 text-muted">{{ __('chat.empty') }}</div>
                     </div>
                 @endif
             </div>

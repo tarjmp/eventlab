@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Message;
+use App\Tools\Check;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class MessageController extends Controller
 
         $oMessage->save();
 
-        return view('chat.messages', ['messages' => Query::getNewMessagesForEvent($iEventId, $iMsgId + 1)]);
+        return view('chat.messages', ['messages' => Query::getNewMessagesForEvent($iEventId, $iMsgId + 1), 'private' => Check::isMyPrivateEvent($iEventId)]);
 
     }
 
@@ -62,7 +63,7 @@ class MessageController extends Controller
         PermissionFactory::createShowEventExtended()->check($iEventId);
 
         // everything looks good, retrieve all new messages
-        return view('chat.messages', ['messages' => Query::getNewMessagesForEvent($iEventId, $iMsgId + 1)]);
+        return view('chat.messages', ['messages' => Query::getNewMessagesForEvent($iEventId, $iMsgId + 1), 'private' => Check::isMyPrivateEvent($iEventId)]);
 
     }
 

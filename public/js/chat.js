@@ -113,5 +113,5 @@ function setMessageTimeout() {
     timeoutExpired = false;
     window.setTimeout(() => {
         timeoutExpired = true;
-    }, 1000);
+    }, 250);
 }
