@@ -11,7 +11,7 @@ class EventObserver
     public function deleting(Event $event) {
 
         $event->items()->delete();
-        $event->messages()->delete();
+        $event->messages()->forceDelete();
         $event->replies()->detach();
     }
 }

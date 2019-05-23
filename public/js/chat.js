@@ -1,5 +1,5 @@
 scrollToBottom();
-window.setInterval(refreshMessages, 10000);
+window.setInterval(refreshMessages, 30000);
 
 function addChatMessage() {
 
