@@ -4,6 +4,7 @@ namespace App\Tools;
 
 use App\Event;
 use App\Group;
+use App\Message;
 use Illuminate\Support\Facades\Auth;
 
 // This class provides functionality for permission checks.
@@ -40,7 +41,7 @@ class Check {
     public static function isMyPrivateEvent($id) {
         $event = Event::find($id);
         if ($event) {
-            return $event->group == null && $event->created_by == Auth::user()->id;
+            return $event->group == null && $event->created_by == Auth::id();
         }
         return false;
     }
@@ -59,6 +60,19 @@ class Check {
         $event = Event::find($id);
         if ($event && $event->group) {
             return boolval($event->group->public);
+        }
+        return false;
+    }
+
+    // Returns true for my messages in any of the user's events (membership) created by the user himself
+    public static function isMyMessage($id) {
+        $message = Message::find($id);
+        // message must exist and user needs to be member of event
+        if($message && $message->event && self::isMemberOfEvent($message->event->id)) {
+            // and message needs to be from this user
+            if($message->user_id == Auth::id()) {
+                return true;
+            }
         }
         return false;
     }

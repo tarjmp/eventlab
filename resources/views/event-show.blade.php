@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-lg-6 mb-5 mx-2 mx-lg-0 pr-lg-4">
 
                 @isset($updated)
                     <div class="alert alert-success" role="alert">
@@ -48,6 +48,14 @@
                     </a>
                 @endif
             </div>
+
+            {{-- Include chat window --}}
+            @if(\App\Tools\PermissionFactory::createShowEventExtended()->has($event->id))
+                @include('chat.window', ['event' => $event])
+            @endif
+
         </div>
     </div>
+
+    <script type="text/javascript" src="{{ asset('js/chat.js') }}"></script>
 @endsection
