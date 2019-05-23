@@ -18,7 +18,7 @@ class User extends Authenticatable {
 
     // All groups the user is a member in
     public function groups($sType = Group::TYPE_MEMBERSHIP) {
-        return $this->belongsToMany(Group::class)->where('status', $sType)->withTimestamps();
+        return $this->belongsToMany(Group::class)->where('status', $sType)->withTimestamps()->orderBy('name');
     }
 
     // All items the user brought or will bring
@@ -34,5 +34,9 @@ class User extends Authenticatable {
     // All events the user replied to
     public function replies() {
         return $this->belongsToMany(Event::class, 'event_replies')->withTimestamps();
+    }
+
+    public function name() {
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

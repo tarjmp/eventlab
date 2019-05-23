@@ -162,6 +162,10 @@ class Basic extends Migration {
 
             // information about creation date; created_at
             $table->timestamps();
+
+            // information on deleted messages
+            $table->softDeletes();
+
         });
 
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

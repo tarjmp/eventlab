@@ -153,4 +153,11 @@ class Query
             $query->where('status', Event::STATUS_REJECTED);
         });
     }
+
+    // Retrieve all messages for a given event with a message id GREATER OR EQUAL to the given one
+    // This method qualifies for being used with automatic message updates (only new messages are loaded.)
+    public static function getNewMessagesForEvent($iEventId, $iMessageId = 0)
+    {
+        return Event::findOrFail($iEventId)->messages()->where('id', '>=', intval($iMessageId))->orderBy('id')->get();
+    }
 }

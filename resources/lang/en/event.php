@@ -23,6 +23,6 @@ return [
     'all_day_small' => 'all day',
     'location'      => 'Location',
     'select_group'  => 'Group',
-    'private_group' => '(Private)'
+    'private_group' => '[Private]'
 
 ];
