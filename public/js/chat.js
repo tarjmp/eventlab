@@ -61,7 +61,7 @@ function addNewMessages(data) {
     msgCount.text(numOldMsg + numNewMsg);
 
     // remove "no messages - start typing" message if it is present
-    if (numOldMsg === 0) {
+    if (numOldMsg === 0 && numNewMsg > 0) {
         messages.html('');
     }
 
