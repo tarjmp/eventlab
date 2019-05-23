@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Rules\DateTimeValidation;
+use App\Tools\Check;
 use App\Tools\CustomDateTime;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
@@ -78,9 +79,7 @@ class EventController extends Controller
         $end = new CustomDateTime($event->end_time);
 
         // pass all data to the view
-        return view('event-show')->with(['event' => $event, 'start' => $start, 'end' => $end]);
-
-        // TODO show details (chat, etc. to members with the appropriate permissions (showEventExtended)
+        return view('event-show')->with(['event' => $event, 'start' => $start, 'end' => $end, 'private' => Check::isMyPrivateEvent($id)]);
     }
 
     /**

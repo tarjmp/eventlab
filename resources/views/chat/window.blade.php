@@ -4,14 +4,14 @@
 <div class="col-lg-6 mx-2 mx-lg-0 pl-lg-4">
     <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            {{ __('chat.title') }}
+            @if($private) {{ __('chat.title_private') }} @else {{ __('chat.title') }} @endif
             <span class="badge badge-primary badge-pill" id="msg-count">{{ $event->messages()->count() }}</span>
         </li>
-        <li class="list-group-item" style="max-height: 500px; overflow-y: auto;">
+        <li class="list-group-item" id="msg-scroll" style="max-height: 500px; overflow-y: auto;">
             <div id="messages" class="my-2">
                 {{-- include chat messages here --}}
                 @if($event->messages()->count() > 0)
-                    @include('chat.messages', ['messages' => $event->messages])
+                    @include('chat.messages', ['messages' => $event->messages, 'private' => $private])
                 @else
                     {{-- no chat messages - show default text --}}
                     <div class="mt-2 p-2 rounded-lg" style="background-color:#f3f3f3" id="msg-0">

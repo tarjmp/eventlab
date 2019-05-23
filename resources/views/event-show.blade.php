@@ -51,7 +51,7 @@
 
             {{-- Include chat window --}}
             @if(\App\Tools\PermissionFactory::createShowEventExtended()->has($event->id))
-                @include('chat.window', ['event' => $event])
+                @include('chat.window', ['event' => $event, 'private' => $private])
             @endif
 
         </div>

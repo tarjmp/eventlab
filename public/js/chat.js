@@ -1,16 +1,18 @@
 scrollToBottom();
 window.setInterval(refreshMessages, 30000);
 
+var timeoutExpired = true;
+
 function addChatMessage() {
+
+    if(!timeoutExpired) {
+        return false;
+    }
 
     // the form containing all the input data
     let form  = $('#msg-form');
     let input = $('#message');
-    let submit = $('#msg-submit');
     let msgId = form.children('input[name="msg-id"]');
-
-    // disable submit button to prevent further submissions
-    submit.prop('disabled', true);
 
     msgId.val(getLastMessageId());
 
@@ -24,16 +26,16 @@ function addChatMessage() {
         addNewMessages(data);
         // clear input field and focus it
         input.val('').focus();
-    }, () => {
-        // enable submit button again
-        submit.prop('disabled', false);
     });
+
+    setMessageTimeout();
 
     return false;
 }
 
 function scrollToBottom() {
-    location.hash = '#msg-bottom';
+    let scroll = $("#msg-scroll");
+    scroll.animate({ scrollTop: scroll.prop("scrollHeight")}, 250);
 }
 
 function deleteChatMessage(id) {
@@ -72,10 +74,12 @@ function addNewMessages(data) {
         messages.html('');
     }
 
-    // append chat messages
-    messages.append(data);
+    if(numNewMsg > 0) {
+        // append chat messages
+        messages.append(data);
 
-    scrollToBottom();
+        scrollToBottom();
+    }
 }
 
 function getLastMessageId() {
@@ -86,7 +90,7 @@ function getLastMessageId() {
     return parseInt(lastMessage.attr('id').substring(4));
 }
 
-function sendFormViaPost(form, callback, final = () => {}) {
+function sendFormViaPost(form, callback) {
 
     // the url where the post request must go
     let url = form.attr('action');
@@ -101,7 +105,13 @@ function sendFormViaPost(form, callback, final = () => {}) {
         if (status === 'success') {
             callback(data);
         }
-        final();
 
     });
+}
+
+function setMessageTimeout() {
+    timeoutExpired = false;
+    window.setTimeout(() => {
+        timeoutExpired = true;
+    }, 1000);
 }
