@@ -8,6 +8,7 @@ use App\Tools\Permissions\CreateEventForGroupPermission;
 use App\Tools\Permissions\CreateEventPermission;
 use App\Tools\Permissions\CreateGroupPermission;
 use App\Tools\Permissions\DeleteEventPermission;
+use App\Tools\Permissions\DeleteMessagePermission;
 use App\Tools\Permissions\EditEventPermission;
 use App\Tools\Permissions\EditGroupPermission;
 use App\Tools\Permissions\EditProfilePermission;
@@ -70,6 +71,10 @@ class PermissionFactory
 
     static function createRespondToEvent() {
         return new RespondToEventPermission();
+    }
+
+    static function createDeleteMessage() {
+        return new DeleteMessagePermission();
     }
 
     static function createEditProfile() {

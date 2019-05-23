@@ -35,4 +35,8 @@ class User extends Authenticatable {
     public function replies() {
         return $this->belongsToMany(Event::class, 'event_replies')->withTimestamps();
     }
+
+    public function name() {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
