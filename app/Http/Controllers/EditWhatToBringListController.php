@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
+use App\Item;
 use App\Tools\PermissionFactory;
 
 class EditWhatToBringListController extends Controller
@@ -15,7 +17,7 @@ class EditWhatToBringListController extends Controller
         PermissionFactory::createShowEventExtended()->check($id);
 
         //retrieve the information stored in the database
-        $items = array();
+        $items = Item::where('event_id', $id)->get();
 
         return view('what_to_bring_list_show')->with(['items' => $items]);
     }

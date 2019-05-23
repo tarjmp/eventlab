@@ -48,6 +48,7 @@ Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
 // CRUD Event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+Route::get('/event/{id}/list', 'EditWhatToBringListController@show')->name('list');
 
 // Chat messages for events
 Route::post('/message/add', 'MessageController@add')->name('add-message');
