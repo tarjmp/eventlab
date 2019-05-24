@@ -28,6 +28,7 @@ return [
     'event_replies_title'  => 'Notifications',
     'notifications_accept' => 'Accept',
     'notifications_reject' => 'Reject',
+    'notifications_tentative' => 'Tentative',
     'notifications_text'   => 'You were added to the Event ":name". Do you want to accept and join the event?',
     'details_text'         => '(To get more details click here)',
     'no_notifications'     => 'No notifications found'

@@ -244,9 +244,9 @@ class EventController extends Controller
 
     public function replies()
     {
-        $eventTentative = Query::getNotifications();
+        $eventWithoutReply = Query::getNotifications();
 
-        return view('event-replies')->with(['tentative' => $eventTentative]);
+        return view('event-replies')->with(['noReply' => $eventWithoutReply]);
     }
 
     public function updateReplies(Request $request, $status, $event)
