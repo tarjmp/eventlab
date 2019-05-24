@@ -47,6 +47,8 @@ Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
 // event notifications
 Route::get('/notifications', 'EventController@replies')->name('notifications');
+Route::post('/notifications/{event}/{status}', 'EventController@updateReplies')->name('notificationsUpdate');
+
 
 // CRUD Event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);

@@ -25,10 +25,11 @@ return [
     'select_group'  => 'Group',
     'private_group' => '(Private)',
 
-    'event_replies_title' => 'Notifications',
-    'notifications_submit' => 'Submit',
+    'event_replies_title'  => 'Notifications',
+    'notifications_accept' => 'Accept',
     'notifications_reject' => 'Reject',
-    'notifications_text' => 'You were added to the Event ":name". Do you want to accept and join the event?',
-    'details_text' => '(To get more details click here)'
+    'notifications_text'   => 'You were added to the Event ":name". Do you want to accept and join the event?',
+    'details_text'         => '(To get more details click here)',
+    'no_notifications'     => 'No notifications found'
 
 ];

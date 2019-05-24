@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\Group;
 use App\Rules\DateTimeValidation;
+use App\Tools\Check;
 use App\Tools\CustomDateTime;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
+use App\Tools\Query;
+use DemeterChain\C;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -241,26 +244,16 @@ class EventController extends Controller
 
     public function replies()
     {
+        $eventTentative = Query::getNotifications();
 
-        /*// check for permission to create a new event
-        PermissionFactory::createCreateEvent()->check();
+        return view('event-replies')->with(['tentative' => $eventTentative]);
+    }
 
-        // list all current groups for selection and show view
-        $groups = Auth::user()->groups()->get(); */
+    public function updateReplies(Request $request, $status, $event)
+    {
+       // $eventTentative = Query::getUserEvents()->whereDoesntHave('replies')->get();
 
-        /*$event = Event::all();
-        $group = Group::findOrFail($event[0]->group_id);
-        $members = $group->members;
-
-        foreach ($members as $m) {
-            $user = $m->id;
-        }
-        $replies = $event[0]->replies();
-        var_dump($replies->{0});
-        foreach ($replies as $r) {
-            var_dump($r);
-        }*/
-        //return view('event-replies');
-        //->with(['event' => $event])
+        var_dump($status);
+       // return view('event-replies')->with(['tentative' => $eventTentative]);
     }
 }

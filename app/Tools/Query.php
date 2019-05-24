@@ -160,4 +160,9 @@ class Query
     {
         return Event::findOrFail($iEventId)->messages()->where('id', '>=', intval($iMessageId))->orderBy('id')->get();
     }
+
+    public static function getNotifications() {
+
+       return Query::getUserEventsNext()->whereDoesntHave('replies')->where('created_by', '!=', Auth::id())->get();
+    }
 }
