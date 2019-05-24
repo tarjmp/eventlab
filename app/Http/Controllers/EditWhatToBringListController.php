@@ -17,7 +17,14 @@ class EditWhatToBringListController extends Controller
         PermissionFactory::createShowEventExtended()->check($id);
 
         //retrieve the information stored in the database
-        $items = Item::where('event_id', $id)->get();
+        $event = Event::findOrFail($id);
+        $items = $event->items;
+
+        foreach ($items as $item) {
+            echo $item;
+        }
+
+        die();
 
         return view('what_to_bring_list_show')->with(['items' => $items]);
     }
