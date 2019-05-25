@@ -4,13 +4,15 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Basic extends Migration {
+class Basic extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         //  USERS
         //      - contains all personal information about users of the application
@@ -183,7 +185,7 @@ class Basic extends Migration {
 
             // event and corresponding user that will bring the item
             $table->unsignedInteger('event_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
 
             $table->foreign('event_id')->references('id')->on('events');
             $table->foreign('user_id')->references('id')->on('users');
@@ -198,7 +200,8 @@ class Basic extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('items');
         Schema::dropIfExists('messages');
         Schema::dropIfExists('event_replies');
