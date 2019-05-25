@@ -28,7 +28,7 @@ Route::view('/about', 'about');
 Route::auth();
 
 // search functionality
-Route::post('/search', 'SearchController@search')->name('search');
+Route::get('/search', 'SearchController@search')->name('search');
 
 // user calendar
 Route::get('/home',                      'HomeController@index')->name('home');

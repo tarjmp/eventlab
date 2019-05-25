@@ -7,10 +7,17 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function search(Request $request) {
+    public function search(Request $oRequest) {
 
         PermissionFactory::createSearch()->check();
 
-        return view('search', ['search' => 'Bananenkuchen', 'results' => ['7']]);
+        // check for a valid event id and text message
+        $oRequest->validate([
+            'term' => 'required|string|max:255',
+        ]);
+
+        $aData = $oRequest->all();
+
+        return view('search', ['search' => $aData['term'], 'results' => ['7']]);
     }
 }
