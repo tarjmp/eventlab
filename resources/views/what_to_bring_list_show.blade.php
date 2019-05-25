@@ -18,7 +18,8 @@
                                 <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
                                 <td>
-                                    @if(isset($item->full_name)) &check;
+                                    @if(isset($item->full_name)) &#x2611;
+                                    @else &#x2610;
                                     @endif </td>
                                 <td>  {{ $item->full_name }} </td>
                             </tr>
