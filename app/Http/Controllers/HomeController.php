@@ -61,17 +61,6 @@ class HomeController extends Controller
         return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
     }
 
-    public function week($year = 0, $week = 0)
-    {
-        // require home screen permission
-        PermissionFactory::createShowHomeCalendar()->check();
-
-        // get all events for this user
-        $events = Query::getUserEventsWeek($year, $week)->get();
-
-        return view('calendars.week', ['events' => $events, 'type' => self::TYPE_WEEK]);
-    }
-
     public function day($year = 0, $month = 0, $day = 0) // TODO implement default value (timezone!)
     {
         $oDay = Date::createFromYMD($year, $month, $day);

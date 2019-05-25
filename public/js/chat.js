@@ -1,7 +1,13 @@
 scrollToBottom();
 window.setInterval(refreshMessages, 30000);
 
+var timeoutExpired = true;
+
 function addChatMessage() {
+
+    if(!timeoutExpired) {
+        return false;
+    }
 
     // the form containing all the input data
     let form  = $('#msg-form');
@@ -22,11 +28,14 @@ function addChatMessage() {
         input.val('').focus();
     });
 
+    setMessageTimeout();
+
     return false;
 }
 
 function scrollToBottom() {
-    location.hash = '#msg-bottom';
+    let scroll = $("#msg-scroll");
+    scroll.animate({ scrollTop: scroll.prop("scrollHeight")}, 250);
 }
 
 function deleteChatMessage(id) {
@@ -61,14 +70,16 @@ function addNewMessages(data) {
     msgCount.text(numOldMsg + numNewMsg);
 
     // remove "no messages - start typing" message if it is present
-    if (numOldMsg === 0) {
+    if (numOldMsg === 0 && numNewMsg > 0) {
         messages.html('');
     }
 
-    // append chat messages
-    messages.append(data);
+    if(numNewMsg > 0) {
+        // append chat messages
+        messages.append(data);
 
-    scrollToBottom();
+        scrollToBottom();
+    }
 }
 
 function getLastMessageId() {
@@ -96,4 +107,11 @@ function sendFormViaPost(form, callback) {
         }
 
     });
+}
+
+function setMessageTimeout() {
+    timeoutExpired = false;
+    window.setTimeout(() => {
+        timeoutExpired = true;
+    }, 250);
 }

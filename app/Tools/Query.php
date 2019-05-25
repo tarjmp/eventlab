@@ -42,7 +42,6 @@ class Query
         // events    -> assoc array containing information about the events for this day:
         //      id    => event id
         //      name  => the name of the event
-        // TODO maybe also date (attention: all-day events!)
 
         $aDays = [];
 
@@ -82,13 +81,6 @@ class Query
         }
 
         return $aDays;
-    }
-
-    // retrieve the events for the current user within a specific week
-    public static function getUserEventsWeek($year, $week, $bIncludeRejected = false)
-    {
-        // TODO use parameters
-        return self::getUserEventsAll($bIncludeRejected);
     }
 
     // retrieve the events for the current user within a specific day
