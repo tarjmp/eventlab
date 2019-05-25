@@ -41,14 +41,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-					@auth
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('groups') }}">Groups</a>
-						</li>
-					@endauth
+                    @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/about') }}">About</a>
+                            <a class="nav-link" href="{{ route('groups') }}">Groups</a>
                         </li>
+                    @endauth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/about') }}">About</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -65,19 +65,15 @@
                         </li>
                     @else
 
-                        <div class="input-group input-group-sm mb-3 mr-5" style="margin-top: 0.35rem;">
-                            <input type="text" class="form-control" placeholder="{{ __('navigation.search') }}">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button">&#x2315;</button>
+                        <form method="POST" action="{{ route('search') }}" class="mr-5">
+                            @csrf
+                            <div class="input-group input-group-sm mb-3" style="margin-top: 0.35rem;">
+                                <input type="text" class="form-control" name="search" placeholder="{{ __('navigation.search') }}">
+                                <div class="input-group-append">
+                                    <input type="submit" class="btn btn-outline-secondary" value="&#x2315;">
+                                </div>
                             </div>
-                        </div>
-
-                        <!--<div class="input-group input-group-sm mt-2 mr-5">
-                            <input type="text" class="form-control" placeholder="{{ __('navigation.search') }}">
-                            <div class="input-group-append">
-                                <span class="input-group-text">&#x2315;</span>
-                            </div>
-                        </div> -->
+                        </form>
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
