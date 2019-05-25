@@ -9,6 +9,17 @@
                     {{-- use str_replace as trans_choice does not handle user input with a pipe correctly (it interprets the pipe as one choice in the language text) --}}
                     {{ str_replace(':search', $search, trans_choice('search.results', $num_results, ['num_results' => $num_results])) }}
                 </div>
+
+                @if(!empty($groups))
+                    <h3>{{ __('search.groups') }}</h3>
+                @endif
+                @foreach($groups as $group)
+                    {{ $group->name }}<br>
+                @endforeach
+
+                @if(!empty($events))
+                    <h3>{{ __('search.events') }}</h3>
+                @endif
                 @foreach($events as $event)
                     {{ $event->name }}<br>
                 @endforeach

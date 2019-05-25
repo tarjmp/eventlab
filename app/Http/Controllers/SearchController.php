@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
+use App\User;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -25,13 +27,16 @@ class SearchController extends Controller
         // transform search term into regex
         $sTerm = '.*(' . $this->escapeRegex($sTerm) . ').*';
 
-        $iNumResults = 0;
+        // search all events: title and description by using regex
+        $cEvents = $this->filterResults(Query::getAllAccessibleEvents(), $sTerm);
 
         // search all events: title and description by using regex
-        $cEvents = Query::getUserEvents(true)->where('name', '~*', $sTerm)->orWhere('description', '~*', $sTerm)->orderBy('name')->get();
-        $iNumResults += count($cEvents);
+        $cGroups = $this->filterResults(Query::getAllAccessibleGroups(), $sTerm);
 
-        return view('search', ['search' => $aData['term'], 'num_results' => $iNumResults, 'events' => $cEvents]);
+        // number of total results
+        $iNumResults = count($cEvents) + count($cGroups);
+
+        return view('search', ['search' => $aData['term'], 'num_results' => $iNumResults, 'events' => $cEvents, 'groups' => $cGroups]);
     }
 
     private function escapeRegex(string $sStatement, string $char = '\\')
@@ -46,5 +51,11 @@ class SearchController extends Controller
         // replace all spaces with pipe -> only one of the terms needs to be found
         $sStatement = str_replace(' ', '|', $sStatement);
         return $sStatement;
+    }
+
+    private function filterResults($oAllResults, $sTerm) {
+        return $oAllResults->where(function ($oQuery) use($sTerm) {
+            $oQuery->where('name', '~*', $sTerm)->orWhere('description', '~*', $sTerm)->orderBy('name')->get();
+        })->orderBy('name')->get();
     }
 }
