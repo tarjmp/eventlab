@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
-use App\User;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
