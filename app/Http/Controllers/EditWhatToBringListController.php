@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Tools\PermissionFactory;
+use App\User;
 
 class EditWhatToBringListController extends Controller
 {
@@ -18,6 +19,11 @@ class EditWhatToBringListController extends Controller
         //retrieve the information stored in the database
         $event = Event::findOrFail($id);
         $items = $event->items;
+
+        foreach ($items as $item) {
+            $user = User::findOrFail($item->user_id);
+            $item['full_name'] = $user->name();
+        }
 
         return view('what_to_bring_list_show')->with(['items' => $items]);
     }
