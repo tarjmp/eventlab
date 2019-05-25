@@ -11,6 +11,6 @@ class SearchController extends Controller
 
         PermissionFactory::createSearch()->check();
 
-        return view('search');
+        return view('search', ['search' => 'Bananenkuchen', 'results' => ['7']]);
     }
 }
