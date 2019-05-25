@@ -20,11 +20,17 @@ class EditWhatToBringListController extends Controller
         $event = Event::findOrFail($id);
         $items = $event->items;
 
+        /*
         foreach ($items as $item) {
             echo $item;
         }
 
+        echo $items[1]->name;
+        echo $items[1]->amount;
+        echo $items[1]->user_id;
+
         die();
+*/
 
         return view('what_to_bring_list_show')->with(['items' => $items]);
     }
