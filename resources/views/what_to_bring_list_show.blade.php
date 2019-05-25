@@ -8,13 +8,13 @@
                 <div>
                     <table class="table table-striped table-hover table-reflow">
                         <tr>
-                            <th> {{ __('list.name') }}</th>
-                            <td> {{ __('list.amount') }}</td>
-                            <td> {{ __('list.user') }}</td>
+                            <th><strong> {{ __('list.name') }}</strong></th>
+                            <td><strong> {{ __('list.amount') }}</strong></td>
+                            <td><strong> {{ __('list.user') }}</strong></td>
                         </tr>
                         @foreach($items as $item)
                             <tr>
-                                <th> {{ $item->name }} </th>
+                                <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
                                 <td>  {{ $item->user_id }} </td>
                             </tr>
