@@ -64,6 +64,21 @@
                             @endif
                         </li>
                     @else
+
+                        <div class="input-group input-group-sm mb-3 mr-5" style="margin-top: 0.35rem;">
+                            <input type="text" class="form-control" placeholder="{{ __('navigation.search') }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button">&#x2315;</button>
+                            </div>
+                        </div>
+
+                        <!--<div class="input-group input-group-sm mt-2 mr-5">
+                            <input type="text" class="form-control" placeholder="{{ __('navigation.search') }}">
+                            <div class="input-group-append">
+                                <span class="input-group-text">&#x2315;</span>
+                            </div>
+                        </div> -->
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
