@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function search(Request $oRequest) {
+    public function search(Request $oRequest)
+    {
 
         PermissionFactory::createSearch()->check();
 
@@ -53,8 +54,9 @@ class SearchController extends Controller
         return $sStatement;
     }
 
-    private function filterResults($oAllResults, $sTerm) {
-        return $oAllResults->where(function ($oQuery) use($sTerm) {
+    private function filterResults($oAllResults, $sTerm)
+    {
+        return $oAllResults->where(function ($oQuery) use ($sTerm) {
             $oQuery->where('name', '~*', $sTerm)->orWhere('description', '~*', $sTerm)->orderBy('name')->get();
         })->orderBy('name')->get();
     }
