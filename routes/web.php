@@ -35,9 +35,6 @@ Route::get('/home/next',                 'HomeController@next')->name('home-next
 Route::get('/home/month/{year}/{month}', 'HomeController@month')->name('home-month-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}']);
 Route::get('/home/month',                'HomeController@month')->name('home-month');
 
-Route::get('/home/week/{year}/{week}',   'HomeController@week')->name('home-week-param')->where(['year' => '[0-9]{1,4}', 'week' => '[0-9]{1,2}']);
-Route::get('/home/week',                 'HomeController@week')->name('home-week');
-
 Route::get('/home/day/{year}/{month}/{day}',  'HomeController@day')->name('home-day-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}', 'day' => '[0-9]{1,2}']);
 Route::get('/home/day',                       'HomeController@day')->name('home-day');
 
