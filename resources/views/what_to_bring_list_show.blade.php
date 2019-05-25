@@ -16,7 +16,7 @@
                             <tr>
                                 <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
-                                <td>  {{ $item->user_id }} </td>
+                                <td>  {{ $item->full_name }} </td>
                             </tr>
                         @endforeach
                     </table>
