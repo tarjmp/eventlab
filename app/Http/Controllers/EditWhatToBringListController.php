@@ -21,8 +21,12 @@ class EditWhatToBringListController extends Controller
         $items = $event->items;
 
         foreach ($items as $item) {
-            $user = User::findOrFail($item->user_id);
-            $item['full_name'] = $user->name();
+            if (isset($item->user_id)) {
+                $user = User::find($item->user_id);
+                $item['full_name'] = $user->name();
+            } else {
+                $item['full_name'] = null;
+            }
         }
 
         return view('what_to_bring_list_show')->with(['items' => $items]);

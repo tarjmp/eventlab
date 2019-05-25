@@ -10,12 +10,16 @@
                         <tr>
                             <th><strong> {{ __('list.name') }}</strong></th>
                             <td><strong> {{ __('list.amount') }}</strong></td>
+                            <td></td>
                             <td><strong> {{ __('list.user') }}</strong></td>
                         </tr>
                         @foreach($items as $item)
                             <tr>
                                 <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
+                                <td>
+                                    @if(isset($item->full_name)) &check;
+                                    @endif </td>
                                 <td>  {{ $item->full_name }} </td>
                             </tr>
                         @endforeach
