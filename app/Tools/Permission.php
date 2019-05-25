@@ -37,6 +37,7 @@ abstract class Permission {
     // showGroups             [-]  Show the groups list
     // createGroup            [-]  Create a new group
     // createEvent            [-]  Create a personal event
+    // search                 [-]  Use the site's search functionality
 
 
     // This is the permission check. This function returns a boolean value that tells
