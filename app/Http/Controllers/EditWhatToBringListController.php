@@ -48,9 +48,11 @@ class EditWhatToBringListController extends Controller
         $item->event_id = $id;
         $item->name = $data['name'];
         $item->amount = $data['amount'];
-        if (isset($data['user'])) $item->user_id = Auth::user()->id;
-        else $item->user_id = null;
-
+        if (isset($data['user'])) {
+            $item->user_id = Auth::user()->id;
+        } else {
+            $item->user_id = null;
+        }
         $item->save();
 
         return view('what-to-bring-list-show')->with(['eventID' => $id, 'updated' => true, 'items' => $this->getItems($id)]);
