@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A web calendar application">
+    <meta name="keywords" content="calendar,web,events,groups,meeting,appointment,friends,party">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -45,6 +47,17 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('groups') }}">Groups</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('notifications') }}">Notifications
+                                @if(\App\Tools\Query::getMessageCount() > 0)
+                                    <sup>
+                                        <span class="badge badge-primary badge-pill">{{\App\Tools\Query::getMessageCount()}}</span>
+                                    </sup>
+                                @endif
+                            </a>
+                        </li>
+
                     @endauth
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/about') }}">About</a>
