@@ -6,5 +6,6 @@ return [
     'name'          => 'Name of the item',
     'amount'        => 'Amount',
     'user'          => 'User',
-    'show'          => 'Show What-to-bring list'
+    'show'          => 'Show What-to-bring list',
+    'updated'       => 'The item was successfully added to the list.'
 ];
