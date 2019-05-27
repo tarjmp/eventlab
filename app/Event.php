@@ -33,6 +33,6 @@ class Event extends Model {
 
     // All replies to this event
     public function replies() {
-        return $this->belongsToMany(User::class, 'event_replies')->withTimestamps();
+        return $this->belongsToMany(User::class, 'event_replies')->withPivot('status')->withTimestamps();
     }
 }

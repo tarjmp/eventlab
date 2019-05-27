@@ -24,6 +24,7 @@ return [
     'location'      => 'Location',
     'select_group'  => 'Group',
     'private_group' => '(Private)',
+    'status'        => 'Status',
 
     'event_replies_title'     => 'Notifications',
     'notifications_accept'    => 'Accept',

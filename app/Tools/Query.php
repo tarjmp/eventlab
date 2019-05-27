@@ -172,4 +172,31 @@ class Query
         $notifications = self::getNotifications();
         return count($notifications);
     }
+
+    public static function getStatusEvent($id) {
+
+        $replies = Auth::user()->replies()->where('id','=', $id)->get();
+
+        foreach ($replies as $reply) {
+            $status = $reply->pivot->status;
+        }
+
+         return $status;
+    }
+
+    public static function getHasEventReply($id) {
+
+        $replies = Auth::user()->replies()->where('id','=', $id)->get();
+
+        foreach ($replies as $reply) {
+            if(empty($reply) == false) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+
+    }
 }

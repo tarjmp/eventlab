@@ -45,18 +45,18 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('groups') }}">Groups</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('notifications') }}">Notifications
+                                @if(\App\Tools\Query::getMessageCount() > 0)
+                                    <sup>
+                                        <span class="badge badge-primary badge-pill">{{\App\Tools\Query::getMessageCount()}}</span>
+                                    </sup>
+                                @endif
+                            </a>
+                        </li>
                     @endauth
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/about') }}">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('notifications') }}">Notifications
-                            @if(\App\Tools\Query::getMessageCount() > 0)
-                                <sup>
-                                    <span class="badge badge-primary badge-pill">{{\App\Tools\Query::getMessageCount()}}</span>
-                                </sup>
-                            @endif
-                        </a>
                     </li>
                 </ul>
 
