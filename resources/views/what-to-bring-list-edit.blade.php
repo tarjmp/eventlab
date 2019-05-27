@@ -20,16 +20,23 @@
                                     <td> {{ $item->name }} </td>
                                     <td>  {{ $item->amount }} </td>
                                     <td>
-                                        @if(isset($item->full_name)) <input id="alreadyBrought"
-                                                                            type="checkbox"
-                                                                            class="form-control"
-                                                                            name="alreadyBrought"
-                                                                            checked>
-                                        @else <input id="alreadyBrought"
-                                                     type="checkbox"
-                                                     class="form-control"
-                                                     name="alreadyBrought">
-                                        @endif </td>
+                                        @if(isset($item->full_name))
+                                            <div class="form-check">
+                                                <input id="alreadyBrought"
+                                                       type="checkbox"
+                                                       class="form-check-input"
+                                                       value=""
+                                                       name="alreadyBrought"
+                                                       checked>
+                                            </div>
+                                        @else
+                                            <div class="form-check">
+                                                <input id="alreadyBrought"
+                                                       type="checkbox"
+                                                       class="form-check-input"
+                                                       value=""
+                                                       name="alreadyBrought">
+                                            </div> @endif </td>
                                     <td>  {{ $item->full_name }} </td>
                                     <input id="itemID"
                                            type="hidden"
@@ -54,10 +61,13 @@
                                            required>
                                 </td>
                                 <td>
-                                    <input id="user"
-                                           type="checkbox"
-                                           class="form-control"
-                                           name="user"></td>
+                                    <div class="form-check">
+                                        <input id="user"
+                                               type="checkbox"
+                                               class="form-check-input"
+                                               value=""
+                                               name="user"></div>
+                                </td>
                                 <td> {{ __('list.assignMe') }}</td>
                             </tr>
                         </table>
