@@ -49,6 +49,11 @@
                                 <td> {{ __('list.assignMe') }}</td>
                             </tr>
                         </table>
+                        <input id="eventID"
+                               type="hidden"
+                               class="form-control"
+                               value="{{ $eventID }}"
+                               name="eventID">
                         <button id="btn_submit" type="submit" class="btn btn-primary">
                             {{ __('list.submit') }}
                         </button>
