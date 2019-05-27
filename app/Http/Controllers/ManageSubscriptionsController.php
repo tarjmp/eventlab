@@ -23,6 +23,8 @@ class ManageSubscriptionsController extends Controller
     {
         $data = $request->all();
 
+        //User permission check is not required as the user is not submitted
+        //Sending an invalid group id will refresh the page
         $condition = ['user_id' => Auth::user()->id, 'group_id' => $data['groupID']];
 
         DB::table('group_user')->where($condition)->delete();
