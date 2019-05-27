@@ -7,7 +7,6 @@ use App\Item;
 use App\Tools\PermissionFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 
 class EditWhatToBringListController extends Controller
 {
@@ -31,16 +30,18 @@ class EditWhatToBringListController extends Controller
         return view('what-to-bring-list-edit')->with(['eventID' => $id, 'items' => $this->getItems($id)]);
     }
 
-    public function add(Request $request)
+    public function add(Request $request, $id)
     {
-        $data = $request->all();
-        // never trust any user input
-        $this->validateInput($data);
-
-        $id = $data['eventID'];
 
         // check for permission to edit the event
         PermissionFactory::createEditEvent()->check($id);
+
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'amount' => 'nullable|string|max:255',
+            'user' => 'nullable|string|max:100',
+        ]);
 
         // Update the event with passed data
         $item = new Item();
@@ -48,68 +49,45 @@ class EditWhatToBringListController extends Controller
         $item->name = $data['name'];
         $item->amount = $data['amount'];
         if (isset($data['user'])) {
-            $item->user_id = Auth::user()->id;
+            $item->user_id = Auth::id();
         } else {
             $item->user_id = null;
         }
         $item->save();
 
-        return view('what-to-bring-list-show')->with(['eventID' => $id, 'updated' => true, 'items' => $this->getItems($id)]);
+        return redirect(route('list', $id))->with(['item-added' => true]);
     }
 
-    public function bring(Request $request)
+    public function bring(Request $request, $id)
     {
-
         $data = $request->all();
-
-        $id = $data['eventID'];
 
         // check for permission to edit the event
         PermissionFactory::createEditEvent()->check($id);
 
-        $item = Item::findOrFail($id);
+        $item = Event::findOrFail($id)->items()->where('id', '=', $data['item'])->first();
 
-        if (isset($data['user'])){
-            $item->user_id = Auth::user()->id;
-        } else {
-            $item->user_id = null;
+        if ($item) {
+            // assign if nobody else is assigned
+            if (isset($data['user']) && !$item->user) {
+                $item->user_id = Auth::id();
+            }
+            // unassign if one self is assigned
+            else if (!isset($data['user']) && $item->user && $item->user->id == Auth::id()) {
+                $item->user_id = null;
+            }
+
+            $item->save();
         }
 
-        $item->save();
-
-        return view('what-to-bring-list-show')->with(['eventID' => $id, 'updated' => true, 'items' => $this->getItems($id)]);
+        return redirect(route('list', $id));
     }
 
     private function getItems($id)
     {
         //retrieve the information stored in the database
         $event = Event::findOrFail($id);
-        $items = $event->items;
-
-        foreach ($items as $item) {
-            if (isset($item->user)) {
-                $item['full_name'] = $item->user->name();
-            } else {
-                $item['full_name'] = null;
-            }
-        }
-        return $items;
-    }
-
-
-    //  validateInput
-    //
-    //  This function determines whether the given data for an event is valid.
-    //
-    private function validateInput(array $data)
-    {
-        // validate all input data against the following rules
-        $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'amount' => 'required|string|max:255',
-        ]);
-
-        $validator->validate();
+        return $event->items()->orderBy('name')->get();
     }
 
 }

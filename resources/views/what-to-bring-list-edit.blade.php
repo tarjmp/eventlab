@@ -10,48 +10,13 @@
                         <tr>
                             <th> {{ __('list.name') }}</th>
                             <th> {{ __('list.amount') }}</th>
-                            <th> {{ __('list.alreadyBrought') }}</th>
                             <th> {{ __('list.user') }}</th>
                         </tr>
                         @foreach($items as $item)
                             <tr>
                                 <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
-                                <td>
-                                    @if(isset($item->full_name))
-
-                                        @if($item->full_name == Auth::user()->first_name.' '.Auth::user()->last_name)
-                                            <form method="POST" action="{{ route('listBring', $eventID) }}">
-                                                <input id="eventID"
-                                                       type="hidden"
-                                                       class="form-control"
-                                                       value="{{ $eventID }}"
-                                                       name="eventID">
-                                                <input id="alreadyBrought"
-                                                       type="checkbox"
-                                                       class="form-check-input"
-                                                       value="on"
-                                                       name="alreadyBrought"
-                                                       checked
-                                                       onchange="this.form.submit()">
-                                            </form>
-                                        @else
-                                            <input id="alreadyBrought"
-                                                   type="checkbox"
-                                                   class="form-check-input"
-                                                   value=""
-                                                   name="alreadyBrought"
-                                                   checked>
-                                        @endif
-
-                                    @else
-                                        <input id="alreadyBrought"
-                                               type="checkbox"
-                                               class="form-check-input"
-                                               value=""
-                                               name="alreadyBrought">
-                                    @endif </td>
-                                <td>  {{ $item->full_name }} </td>
+                                <td>  @if ($item->user) {{ $item->user->name() }} @else <span class="text-muted">{{ __('list.nobody') }}</span> @endif </td>
                                 <input id="itemID"
                                        type="hidden"
                                        class="form-control"
@@ -67,23 +32,25 @@
                                            type="text"
                                            class="form-control"
                                            name="name"
-                                           required>
+                                           placeholder="{{ __('list.placeholder_name') }}"
+                                           required
+                                           autofocus>
                                 </td>
                                 <td>
                                     <input id="amount"
                                            type="text"
                                            class="form-control"
                                            name="amount"
-                                           required>
+                                           placeholder="{{ __('list.placeholder_amount') }}">
                                 </td>
-                                <td>
-                                    <input id="user"
-                                           type="checkbox"
-                                           class="form-check-input"
-                                           value="on"
-                                           name="user">
+                                <td style="vertical-align: middle;">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="on" id="user" name="user">
+                                        <label class="form-check-label" for="user">
+                                            {{ __('list.assignMe') }}
+                                        </label>
+                                    </div>
                                 </td>
-                                <td> {{ __('list.assignMe') }}</td>
                             </tr>
                             <tr>
                                 <input id="eventID"
@@ -91,8 +58,11 @@
                                        class="form-control"
                                        value="{{ $eventID }}"
                                        name="eventID">
-                                <td colspan="4">
-                                    <button id="btn_submit" type="submit" class="btn btn-primary">
+                                <td colspan="3">
+                                    <a class="btn btn-secondary btn-sm float-left" href="{{ route('list', $eventID) }}">
+                                        {{ __('list.back') }}
+                                    </a>
+                                    <button id="btn_submit" type="submit" class="btn btn-primary btn-sm float-right">
                                         {{ __('list.submit') }}
                                     </button>
                                 </td>
