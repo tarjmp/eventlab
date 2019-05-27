@@ -24,6 +24,11 @@
                                         @else &#x2610;
                                         @endif </td>
                                     <td>  {{ $item->full_name }} </td>
+                                    <input id="itemID"
+                                           type="hidden"
+                                           class="form-control"
+                                           name="itemID"
+                                           value="{{ $item->id }}">
                                 </tr>
                             @endforeach
                             <tr>
