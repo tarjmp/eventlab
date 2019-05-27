@@ -238,6 +238,7 @@ class EventController extends Controller
         return $event;
     }
 
+    // Gets all notification of the logged in user and returns notification view
     public function replies()
     {
         $eventWithoutReply = Query::getNotifications();
@@ -245,6 +246,8 @@ class EventController extends Controller
         return view('event-replies')->with(['noReply' => $eventWithoutReply]);
     }
 
+    // Stores the reply of an event(accept, reject, tentative)
+    // Returns to home view
     public function updateReplies(Request $request, $eventReplyID)
     {
         $data = $request->all();

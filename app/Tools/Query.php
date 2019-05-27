@@ -154,6 +154,7 @@ class Query
         return Event::findOrFail($iEventId)->messages()->where('id', '>=', intval($iMessageId))->orderBy('id')->get();
     }
 
+    // Retrieve all events of the logged in user without a reply
     public static function getNotifications()
     {
         return Query::getUserEventsNext()->whereDoesntHave('replies')->where(function ($q) {
@@ -161,6 +162,7 @@ class Query
         })->get();
     }
 
+    // Get the number of the events of the logged in user without a reply
     public static function getMessageCount()
     {
         $notifications = self::getNotifications();
