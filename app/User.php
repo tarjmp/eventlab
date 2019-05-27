@@ -33,7 +33,7 @@ class User extends Authenticatable {
 
     // All events the user replied to
     public function replies() {
-        return $this->belongsToMany(Event::class, 'event_replies')->withTimestamps();
+        return $this->belongsToMany(Event::class, 'event_replies')->withPivot('status')->withTimestamps();
     }
 
     public function name() {

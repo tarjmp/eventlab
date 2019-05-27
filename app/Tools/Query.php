@@ -142,8 +142,10 @@ class Query
     private static function filterRejected($data)
     {
         return $data->whereDoesntHave('replies', function ($query) {
-            $query->where('status', Event::STATUS_REJECTED);
+
+            $query->where('event_replies.status', '=', Event::STATUS_REJECTED)->where('id', '=', Auth::id());
         });
+
     }
 
     // Retrieve all messages for a given event with a message id GREATER OR EQUAL to the given one
