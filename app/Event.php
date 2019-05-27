@@ -56,6 +56,6 @@ class Event extends Model
     // Returns if an event has been replied to or not
     public function hasEventReply()
     {
-        return $this->myReply() == null;
+        return $this->myReply() != null;
     }
 }

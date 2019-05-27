@@ -42,7 +42,7 @@
                 @endif
 
                 @if(\App\Tools\PermissionFactory::createShowEventExtended()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
-                    @if(!$event->hasEventReply($event->id))
+                    @if($event->hasEventReply($event->id))
                         <br>
                         <div class="row mb-4">
                             <div class="col-md-4">{{ __('event.status') }}:</div>
