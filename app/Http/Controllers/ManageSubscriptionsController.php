@@ -7,6 +7,7 @@ use App\Group;
 use App\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ManageSubscriptionsController extends Controller
@@ -20,7 +21,11 @@ class ManageSubscriptionsController extends Controller
 
     public function update(Request $request)
     {
-        //TODO delete subscription
+        $data = $request->all();
+
+        $condition = ['user_id' => Auth::user()->id, 'group_id' => $data['groupID']];
+
+        DB::table('group_user')->where($condition)->delete();
 
         return view('manage-subscriptions')->with(['items' => $this->getItems()]);
     }
@@ -29,7 +34,7 @@ class ManageSubscriptionsController extends Controller
     {
         //retrieve the information stored in the database
         $user = Auth::user();
-        $items = $user->groups(Group::TYPE_SUBSCRIPTION);
+        $items = $user->groups(Group::TYPE_SUBSCRIPTION)->get();
 
         return $items;
     }

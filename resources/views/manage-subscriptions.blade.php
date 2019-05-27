@@ -19,7 +19,11 @@
                                 <td>
                                     <form method="POST" action="{{ route('UpdateSubscriptions') }}">
                                         @csrf
-
+                                        <input id="groupID"
+                                               type="hidden"
+                                               class="form-control"
+                                               name="groupID"
+                                               value="{{ $item->id }}">
                                         <button id="btn_submit" type="submit"
                                                 class="btn btn-primary">{{ __('subscriptions.unsubscribe') }}</button>
                                     </form>
