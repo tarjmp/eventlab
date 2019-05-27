@@ -45,4 +45,17 @@ class Event extends Model {
         }
         return null;
     }
+
+    public function hasEventReply($id)
+    {
+        $replies = Auth::user()->replies()->where('id', '=', $id)->get();
+
+        foreach ($replies as $reply) {
+            if (empty($reply) == false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }
