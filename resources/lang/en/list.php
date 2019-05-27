@@ -10,5 +10,6 @@ return [
     'updated'       => 'The item was successfully added to the list.',
     'submit'        => 'Submit',
     'edit'          => 'Edit list',
-    'assignMe'      => 'Assign me'
+    'assignMe'      => 'Assign me',
+    'alreadyBrought'=> 'Brought'
 ];

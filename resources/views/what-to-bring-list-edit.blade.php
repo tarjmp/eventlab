@@ -12,7 +12,7 @@
                             <tr>
                                 <th> {{ __('list.name') }}</th>
                                 <th> {{ __('list.amount') }}</th>
-                                <th></th>
+                                <th> {{ __('list.alreadyBrought') }}</th>
                                 <th> {{ __('list.user') }}</th>
                             </tr>
                             @foreach($items as $item)
@@ -20,8 +20,15 @@
                                     <td> {{ $item->name }} </td>
                                     <td>  {{ $item->amount }} </td>
                                     <td>
-                                        @if(isset($item->full_name)) &#x2611;
-                                        @else &#x2610;
+                                        @if(isset($item->full_name)) <input id="alreadyBrought"
+                                                                            type="checkbox"
+                                                                            class="form-control"
+                                                                            name="alreadyBrought"
+                                                                            checked>
+                                        @else <input id="alreadyBrought"
+                                                     type="checkbox"
+                                                     class="form-control"
+                                                     name="alreadyBrought">
                                         @endif </td>
                                     <td>  {{ $item->full_name }} </td>
                                     <input id="itemID"
