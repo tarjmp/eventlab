@@ -54,16 +54,8 @@ class Event extends Model
     }
 
     // Returns if an event has been replied to or not
-    public function hasEventReply($id)
+    public function hasEventReply()
     {
-        $replies = Auth::user()->replies()->where('id', '=', $id)->get();
-
-        foreach ($replies as $reply) {
-            if (empty($reply) == false) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        return $this->myReply() == null;
     }
 }

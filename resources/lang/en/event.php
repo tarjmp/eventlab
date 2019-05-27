@@ -25,6 +25,7 @@ return [
     'select_group'  => 'Group',
     'private_group' => '(Private)',
     'status'        => 'Status',
+    'status_text'   => ':status',
 
     'event_replies_title'     => 'Notifications',
     'notifications_accept'    => 'Accept',

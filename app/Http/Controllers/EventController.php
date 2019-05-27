@@ -241,6 +241,9 @@ class EventController extends Controller
     // Gets all notification of the logged in user and returns notification view
     public function replies()
     {
+        // check for permission to create a new event
+        PermissionFactory::createCreateEvent()->check();
+
         $eventWithoutReply = Query::getNotifications();
 
         return view('event-replies')->with(['noReply' => $eventWithoutReply]);
@@ -250,6 +253,9 @@ class EventController extends Controller
     // Returns to home view
     public function updateReplies(Request $request, $eventReplyID)
     {
+        // check for permission to create a new event
+        PermissionFactory::createCreateEvent()->check();
+
         $data = $request->all();
 
         $event = Event::findOrFail($eventReplyID);
