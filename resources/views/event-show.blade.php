@@ -113,11 +113,13 @@
                     @endif
                 @endif
 
-                @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id))
+                @if(\App\Tools\PermissionFactory::createEditEvent()->has($event->id))
                     <br>
                     <a id="editEvent" class="btn btn-primary" href="{{ route('event.edit', $event->id) }}">
                         {{ __('event.edit') }}
                     </a>
+                @endif
+                @if(\App\Tools\PermissionFactory::createShowEventExtended()->has($event->id))
                     <a id="showList" class="btn btn-primary" href="{{ route('list', $event->id) }}">
                         {{ __('list.show') }}
                     </a>
