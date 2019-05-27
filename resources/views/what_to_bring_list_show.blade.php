@@ -8,10 +8,10 @@
                 <div>
                     <table class="table table-striped table-hover table-reflow">
                         <tr>
-                            <th><strong> {{ __('list.name') }}</strong></th>
-                            <td><strong> {{ __('list.amount') }}</strong></td>
-                            <td></td>
-                            <td><strong> {{ __('list.user') }}</strong></td>
+                            <th> {{ __('list.name') }}</th>
+                            <th> {{ __('list.amount') }}</th>
+                            <th></th>
+                            <th> {{ __('list.user') }}</th>
                         </tr>
                         @foreach($items as $item)
                             <tr>
