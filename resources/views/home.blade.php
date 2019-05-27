@@ -28,23 +28,9 @@
                         </button>
                     </div>
                 @endif
-                @if (isset(session('newReply')['accept']))
+                @if (session('newReply'))
                     <div class="alert alert-info" role="alert">
-                        {{ __('event.replied', ['name' => session('event'), 'status' => "accept"]) }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @elseif (isset(session('newReply')['reject']))
-                    <div class="alert alert-info" role="alert">
-                        {{ __('event.replied', ['name' => session('event'), 'status' => "reject"]) }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @else
-                    <div class="alert alert-info" role="alert">
-                        {{ __('event.replied', ['name' => session('event'), 'status' => "tentative"]) }}
+                        {{ __('event.replied', ['name' => session('event'), 'status' => session('newReply')]) }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
