@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Tools\PermissionFactory;
-use App\User;
 
 class EditWhatToBringListController extends Controller
 {
