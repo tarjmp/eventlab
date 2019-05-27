@@ -19,7 +19,7 @@ class EditWhatToBringListController extends Controller
         return view('what-to-bring-list-show')->with(['items' => $this->getItems($id)]);
     }
 
-    public function instert(Request $request)
+    public function insert(Request $request)
     {
 
         //check if the user is allow to see this list
