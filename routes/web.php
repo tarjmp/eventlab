@@ -42,9 +42,17 @@ Route::get('/home/day',                       'HomeController@day')->name('home-
 Route::get('/profile', 'UserProfileController@read')->name('profile');
 Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
+// event notifications
+Route::get('/notifications', 'EventController@replies')->name('notifications');
+Route::post('/notifications/{event}', 'EventController@updateReplies')->name('notificationsUpdate');
+
 
 // CRUD Event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+Route::get('/event/{id}/list', 'EditWhatToBringListController@show')->name('list');
+Route::get('event/{id}/list/edit', 'EditWhatToBringListController@edit')->name('listEdit');
+Route::post('/event/{id}/list/edit', 'EditWhatToBringListController@store')->name('listStore');
 
 // Chat messages for events
 Route::post('/message/add', 'MessageController@add')->name('add-message');
@@ -61,4 +69,3 @@ Route::post('/group/{id}/update', 'GroupController@addNewParticipants')->name('a
 Route::post('/group/leave', 'GroupController@leave')->name('leave-group');
 Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::get('/groups', 'GroupController@groups')->name('groups');
-
