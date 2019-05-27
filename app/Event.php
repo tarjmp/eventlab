@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Event extends Model {
 
@@ -34,5 +35,14 @@ class Event extends Model {
     // All replies to this event
     public function replies() {
         return $this->belongsToMany(User::class, 'event_replies')->withPivot('status')->withTimestamps();
+    }
+
+    // My reply to this event. This will return Event::STATUS_ACCEPTED, etc.
+    public function myReply() {
+        $reply = $this->replies()->where('id', '=', Auth::id())->first();
+        if($reply) {
+            return $reply->pivot->status;
+        }
+        return null;
     }
 }

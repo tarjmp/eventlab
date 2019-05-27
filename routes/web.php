@@ -35,9 +35,6 @@ Route::get('/home/next',                 'HomeController@next')->name('home-next
 Route::get('/home/month/{year}/{month}', 'HomeController@month')->name('home-month-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}']);
 Route::get('/home/month',                'HomeController@month')->name('home-month');
 
-Route::get('/home/week/{year}/{week}',   'HomeController@week')->name('home-week-param')->where(['year' => '[0-9]{1,4}', 'week' => '[0-9]{1,2}']);
-Route::get('/home/week',                 'HomeController@week')->name('home-week');
-
 Route::get('/home/day/{year}/{month}/{day}',  'HomeController@day')->name('home-day-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}', 'day' => '[0-9]{1,2}']);
 Route::get('/home/day',                       'HomeController@day')->name('home-day');
 
@@ -52,6 +49,10 @@ Route::post('/notifications/{event}', 'EventController@updateReplies')->name('no
 
 // CRUD Event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+Route::get('/event/{id}/list', 'EditWhatToBringListController@show')->name('list');
+Route::get('event/{id}/list/edit', 'EditWhatToBringListController@edit')->name('listEdit');
+Route::post('/event/{id}/list/edit', 'EditWhatToBringListController@store')->name('listStore');
 
 // Chat messages for events
 Route::post('/message/add', 'MessageController@add')->name('add-message');
@@ -68,4 +69,3 @@ Route::post('/group/{id}/update', 'GroupController@addNewParticipants')->name('a
 Route::post('/group/leave', 'GroupController@leave')->name('leave-group');
 Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::get('/groups', 'GroupController@groups')->name('groups');
-

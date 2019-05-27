@@ -41,18 +41,9 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="btn-group" role="group">
-                            <a role="button"
-                               class="btn btn-sm @if ($type == \App\Http\Controllers\HomeController::TYPE_MONTH) btn-primary @else btn-outline-primary @endif"
-                               href="{{ route('home-month') }}">{{ __('calendar.month') }}</a>
-                            <a role="button"
-                               class="btn btn-sm @if ($type == \App\Http\Controllers\HomeController::TYPE_WEEK)  btn-primary @else btn-outline-primary @endif"
-                               href="{{ route('home-week' ) }}">{{ __('calendar.week') }}</a>
-                            <a role="button"
-                               class="btn btn-sm @if ($type == \App\Http\Controllers\HomeController::TYPE_DAY)   btn-primary @else btn-outline-primary @endif"
-                               href="{{ route('home-day'  ) }}">{{ __('calendar.day') }}</a>
-                            <a role="button"
-                               class="btn btn-sm @if ($type == \App\Http\Controllers\HomeController::TYPE_NEXT)  btn-primary @else btn-outline-primary @endif"
-                               href="{{ route('home-next' ) }}">{{ __('calendar.next') }}</a>
+                            <a role="button" class="btn btn-sm @if ($type == \App\Http\Controllers\HomeController::TYPE_MONTH) btn-primary @else btn-outline-primary @endif" href="{{ route('home-month') }}">{{ __('calendar.month') }}</a>
+                            <a role="button" class="btn btn-sm @if ($type == \App\Http\Controllers\HomeController::TYPE_DAY)   btn-primary @else btn-outline-primary @endif" href="{{ route('home-day'  ) }}">{{ __('calendar.day') }}</a>
+                            <a role="button" class="btn btn-sm @if ($type == \App\Http\Controllers\HomeController::TYPE_NEXT)  btn-primary @else btn-outline-primary @endif" href="{{ route('home-next' ) }}">{{ __('calendar.next') }}</a>
                         </div>
                     </div>
                     <div class="col-6">

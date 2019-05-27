@@ -9762,3 +9762,7 @@ h3 {
 .msg-top {
   cursor: default;
 }
+
+.msg-empty {
+  background-color: #f7f7f7;
+}
