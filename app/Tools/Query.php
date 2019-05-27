@@ -75,8 +75,10 @@ class Query
             $iMax = intval(Date::format($oMax, 'j'));
 
             // iterate over all days affected by the event and add it to their 'events' entry
-            for ($k = $iMin; $k <= $iMax; $k++) {
-                $aDays[$k]['events'][] = ['id' => $e->id, 'name' => $e->name];
+
+            for($k = $iMin; $k <= $iMax; $k++) {
+                $aDays[$k]['events'][] = ['id' => $e->id, 'name' => $e->name, 'status' => $e->myReply()];
+
             }
         }
 

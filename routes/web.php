@@ -27,6 +27,9 @@ Route::view('/about', 'about');
 // login, register, etc.
 Route::auth();
 
+// configuration
+Route::post('/config/toggle-rejected', 'HomeController@toggleRejected')->name('toggle-rejected');
+
 // search functionality
 Route::get('/search', 'SearchController@search')->name('search');
 

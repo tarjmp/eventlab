@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Tools\Date;
-use App\Tools\Permission;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
-use DateInterval;
+use Illuminate\Contracts\Session\Session;
 
 class HomeController extends Controller
 {
@@ -15,6 +14,8 @@ class HomeController extends Controller
     const TYPE_MONTH = "month";
     const TYPE_WEEK = "week";
     const TYPE_DAY = "day";
+
+    const SHOW_REJECTED_EVENTS = 'show-rejected';
 
     public function index()
     {
@@ -28,7 +29,7 @@ class HomeController extends Controller
         PermissionFactory::createShowHomeCalendar()->check();
         
         // get all events for this user
-        $cEvents = Query::getUserEventsNext()->get();
+        $cEvents = Query::getUserEventsNext($this->showRejectedEvents())->get();
 
         return view('calendars.next', ['events' => $cEvents, 'type' => self::TYPE_NEXT]);
     }
@@ -52,7 +53,7 @@ class HomeController extends Controller
         }
 
         // get all events for this user
-        $aDays = Query::getUserEventsMonth($oDay);
+        $aDays = Query::getUserEventsMonth($oDay, $this->showRejectedEvents());
 
         // calculate previous and next day for navigation
         $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
@@ -61,7 +62,7 @@ class HomeController extends Controller
         return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
     }
 
-    public function day($year = 0, $month = 0, $day = 0) // TODO implement default value (timezone!)
+    public function day($year = 0, $month = 0, $day = 0)
     {
         $oDay = Date::createFromYMD($year, $month, $day);
         if ($oDay == null) {
@@ -72,12 +73,28 @@ class HomeController extends Controller
         PermissionFactory::createShowHomeCalendar()->check();
 
         // get all events for this user
-        $cEvents = Query::getUserEventsDay($oDay)->get();
+        $cEvents = Query::getUserEventsDay($oDay, $this->showRejectedEvents())->get();
 
         // calculate previous and next day for navigation
         $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 day'));
         $aNext = Date::toAssocArray(Date::modify($oDay, '+1 day'));
 
         return view('calendars.day', ['events' => $cEvents, 'type' => self::TYPE_DAY, 'day' => Date::format($oDay, 'l, M j Y'), 'prev' => $aPrev, 'next' => $aNext]);
+    }
+
+    // Function to show / hide rejected events in the calendar view
+    public function toggleRejected() {
+
+        PermissionFactory::createShowHomeCalendar()->check();
+
+        // toggle parameter
+        session([self::SHOW_REJECTED_EVENTS => ! $this->showRejectedEvents()]);
+
+        // redirect to last page
+        return redirect()->back();
+    }
+
+    private function showRejectedEvents() {
+        return session(self::SHOW_REJECTED_EVENTS);
     }
 }
