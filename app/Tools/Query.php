@@ -167,4 +167,9 @@ class Query
            $q->where('group_id', '!=', null)->orWhere('created_by', '!=', Auth::id());
        })->get();
     }
+
+    public static function getMessageCount() {
+        $notifications = self::getNotifications();
+        return count($notifications);
+    }
 }

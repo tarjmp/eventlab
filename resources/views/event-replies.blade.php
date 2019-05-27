@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <p>{{ __('event.notifications_text', ['name' => $n->name]) }}</p>
-                                <a class="nav" href="{{ route('participants')}}">
+                                <a class="nav" href="{{ route('event.show', $n->id)}}">
                                     {{ __('event.details_text') }}
                                 </a>
                             </div>

@@ -50,7 +50,11 @@
                         <a class="nav-link" href="{{ url('/about') }}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('notifications') }}">Notifications <sup><strong>1</strong></sup></a>
+                        <a class="nav-link" href="{{ route('notifications') }}">Notifications
+                            <sup>
+                                <span class="badge badge-primary badge-pill">{{\App\Tools\Query::getMessageCount()}}</span>
+                            </sup>
+                        </a>
                     </li>
                 </ul>
 
