@@ -27,6 +27,9 @@ Route::view('/about', 'about');
 // login, register, etc.
 Route::auth();
 
+// search functionality
+Route::get('/search', 'SearchController@search')->name('search');
+
 // user calendar
 Route::get('/home',                      'HomeController@index')->name('home');
 Route::get('/home/next',                 'HomeController@next')->name('home-next');
@@ -41,6 +44,10 @@ Route::get('/home/day',                       'HomeController@day')->name('home-
 // edit user profile
 Route::get('/profile', 'UserProfileController@read')->name('profile');
 Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
+
+// event notifications
+Route::get('/notifications', 'EventController@replies')->name('notifications');
+Route::post('/notifications/{event}', 'EventController@updateReplies')->name('notificationsUpdate');
 
 
 // CRUD Event
