@@ -46,7 +46,13 @@
                         <br>
                         <div class="row mb-4">
                             <div class="col-md-4">{{ __('event.status') }}:</div>
-                            <div class="col-md-8 text-right">{{ __('event.status_text', ['status' => $event->myReply()]) }}</div>
+                            @if($event->myReply() == 'accepted')
+                                <div class="col-md-8 text-right">{{ __('event.status_accepted') }}</div>
+                            @elseif ($event->myReply() == 'rejected')
+                                <div class="col-md-8 text-right">{{ __('event.status_rejected') }}</div>
+                            @else
+                                <div class="col-md-8 text-right">{{ __('event.status_tentative') }}</div>
+                            @endif
                         </div>
 
                     @else
