@@ -26,7 +26,7 @@ class EditWhatToBringListController extends Controller
                 $item['full_name'] = null;
             }
         }
-        return view('what_to_bring_list_show')->with(['items' => $items]);
+        return view('what-to-bring-list-show')->with(['items' => $items]);
     }
 
 }
