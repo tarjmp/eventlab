@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Tools\PermissionFactory;
+use Illuminate\Http\Request;
 
 class EditWhatToBringListController extends Controller
 {
@@ -16,6 +17,15 @@ class EditWhatToBringListController extends Controller
         PermissionFactory::createShowEventExtended()->check($id);
 
         return view('what-to-bring-list-show')->with(['items' => $this->getItems($id)]);
+    }
+
+    public function instert(Request $request)
+    {
+
+        //check if the user is allow to see this list
+        PermissionFactory::createShowEventExtended()->check($id);
+
+        return view('what-to-bring-list-show')->with(['updated' => true, 'items' => $this->getItems($id)]);
     }
 
     private function getItems($id)
