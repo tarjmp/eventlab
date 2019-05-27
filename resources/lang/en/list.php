@@ -2,14 +2,18 @@
 
 return [
 
-    'show_title'    => 'What-to-bring list',
-    'name'          => 'Name of the item',
-    'amount'        => 'Amount',
-    'user'          => 'User',
-    'show'          => 'Show What-to-bring list',
-    'updated'       => 'The item was successfully added to the list.',
-    'submit'        => 'Submit',
-    'edit'          => 'Edit list',
-    'assignMe'      => 'Assign me',
-    'alreadyBrought'=> 'Brought'
+    'show_title'                => 'What-to-bring list',
+    'name'                      => 'Item',
+    'placeholder_name'          => 'Item',
+    'amount'                    => 'Quantity',
+    'placeholder_amount'        => 'Quantity (optional)',
+    'user'                      => 'User',
+    'show'                      => 'What-to-bring list',
+    'updated'                   => 'The item was successfully added to the list.',
+    'submit'                    => 'Add item',
+    'edit'                      => 'Edit list',
+    'back'                      => 'Back',
+    'assignMe'                  => 'Assign me',
+    'unassignMe'                => 'Unassign me',
+    'nobody'                    => 'Nobody',
 ];
