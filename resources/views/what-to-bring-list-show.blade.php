@@ -34,6 +34,12 @@
                         @endforeach
                     </table>
                 </div>
+                    @if(\App\Tools\PermissionFactory::createEditEvent()->has($eventID))
+                        <br>
+                        <a id="editEvent" class="btn btn-primary" href="{{ route('listEdit', $eventID) }}">
+                            {{ __('list.edit') }}
+                        </a>
+                    @endif
             </div>
         </div>
     </div>
