@@ -37,7 +37,7 @@ class ManageSubscriptionsController extends Controller
         $data = $request->all();
 
         DB::table('group_user')->insert(
-            ['user_id' => Auth::user()->id, 'group_id' => $data['groupID']]
+            ['user_id' => Auth::user()->id, 'group_id' => $data['groupID'], 'status' => 'subscription']
         );
 
         return view('manage-subscriptions')->with(['items' => $this->getItems()]);
