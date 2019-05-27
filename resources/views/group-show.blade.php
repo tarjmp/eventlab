@@ -58,6 +58,7 @@
                 @endif
 
                 <form method="POST" action="{{ route('AddSubscription') }}">
+                    @csrf
                     <br>
                     <input id="groupID"
                            type="hidden"
