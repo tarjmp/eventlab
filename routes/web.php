@@ -27,6 +27,10 @@ Route::view('/about', 'about');
 // login, register, etc.
 Route::auth();
 
+
+// configuration
+Route::post('/config/toggle-rejected', 'HomeController@toggleRejected')->name('toggle-rejected');
+
 // user calendar
 Route::get('/home',                      'HomeController@index')->name('home');
 Route::get('/home/next',                 'HomeController@next')->name('home-next');
