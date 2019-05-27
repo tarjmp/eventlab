@@ -15,6 +15,11 @@ class EditWhatToBringListController extends Controller
         //check if the user is allow to see this list
         PermissionFactory::createShowEventExtended()->check($id);
 
+        return view('what-to-bring-list-show')->with(['items' => $this->getItems($id)]);
+    }
+
+    private function getItems($id)
+    {
         //retrieve the information stored in the database
         $event = Event::findOrFail($id);
         $items = $event->items;
@@ -26,7 +31,7 @@ class EditWhatToBringListController extends Controller
                 $item['full_name'] = null;
             }
         }
-        return view('what-to-bring-list-show')->with(['items' => $items]);
+        return $items;
     }
 
 }
