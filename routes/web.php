@@ -76,3 +76,4 @@ Route::get('/groups', 'GroupController@groups')->name('groups');
 //Manage subscriptions
 Route::get('/managesubscriptions', 'ManageSubscriptionsController@show')->name('UpdateSubscriptions');
 Route::post('/managesubscriptions', 'ManageSubscriptionsController@update')->name('UpdateSubscriptions');
+Route::post('managesubscriptions/add', 'ManageSubscriptionsController@add')->name('AddSubscription');

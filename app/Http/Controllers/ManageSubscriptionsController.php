@@ -32,6 +32,17 @@ class ManageSubscriptionsController extends Controller
         return view('manage-subscriptions')->with(['items' => $this->getItems()]);
     }
 
+    public function add(Request $request)
+    {
+        $data = $request->all();
+
+        DB::table('group_user')->insert(
+            ['user_id' => Auth::user()->id, 'group_id' => $data['groupID']]
+        );
+
+        return view('manage-subscriptions')->with(['items' => $this->getItems()]);
+    }
+
     private function getItems()
     {
         //retrieve the information stored in the database

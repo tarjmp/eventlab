@@ -35,8 +35,8 @@
 
                 <div class="form-group">
                     @if($group->public)
-                    <label for="subscribers">{{ __('group.subscription',  ['subscribers' => $numberSubscriptions]) }}</label>
-                    <br>
+                        <label for="subscribers">{{ __('group.subscription',  ['subscribers' => $numberSubscriptions]) }}</label>
+                        <br>
                     @endif
                     @if(\App\Tools\PermissionFactory::createShowGroupExtended()->has($group->id))
                         <label for="members">{{ __('group.membership') }}</label>
@@ -56,6 +56,17 @@
                         {{ __('group.edit_button') }}
                     </a>
                 @endif
+
+                <form method="POST" action="{{ route('AddSubscription') }}">
+                    <br>
+                    <input id="groupID"
+                           type="hidden"
+                           class="form-control"
+                           value="{{ $group->id }}"
+                           name="groupID">
+                    <button id="btn_subscribe" type="submit" class="btn btn-primary">
+                        {{ __('group.subscribe') }}</button>
+                </form>
             </div>
         </div>
     </div>
