@@ -33,15 +33,15 @@ class EditWhatToBringListController extends Controller
 
     public function store(Request $request)
     {
-
-        // check for permission to edit the event
-        //PermissionFactory::createEditEvent()->check();
-
         $data = $request->all();
+
         // never trust any user input
         $this->validateInput($data);
 
         $id = $data['eventID'];
+
+        // check for permission to edit the event
+        PermissionFactory::createEditEvent()->check($id);
 
         // Update the event with passed data
         $item = new Item();
