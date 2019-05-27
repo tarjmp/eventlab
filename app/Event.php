@@ -39,6 +39,10 @@ class Event extends Model {
 
     // My reply to this event. This will return Event::STATUS_ACCEPTED, etc.
     public function myReply() {
-        return $this->replies()->where('id', '=', Auth::id())->first()->pivot->status;
+        $reply = $this->replies()->where('id', '=', Auth::id())->first();
+        if($reply) {
+            return $reply->pivot->status;
+        }
+        return null;
     }
 }
