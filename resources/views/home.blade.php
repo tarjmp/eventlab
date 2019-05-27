@@ -28,6 +28,14 @@
                         </button>
                     </div>
                 @endif
+                @if (session('newReply'))
+                    <div class="alert alert-info" role="alert">
+                        {{ __('event.replied', ['name' => session('event'), 'status' => session('newReply')]) }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <h2>{{ __('calendar.title') }}</h2>
                 <br>
                 <div class="row">

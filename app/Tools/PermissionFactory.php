@@ -14,6 +14,7 @@ use App\Tools\Permissions\EditGroupPermission;
 use App\Tools\Permissions\EditProfilePermission;
 use App\Tools\Permissions\LeaveGroupPermission;
 use App\Tools\Permissions\RespondToEventPermission;
+use App\Tools\Permissions\SearchPermission;
 use App\Tools\Permissions\ShowEventExtendedPermission;
 use App\Tools\Permissions\ShowEventPermission;
 use App\Tools\Permissions\ShowGroupExtendedPermission;
@@ -91,6 +92,10 @@ class PermissionFactory
 
     static function createCreateEvent() {
         return new CreateEventPermission();
+    }
+
+    static function createSearch() {
+        return new SearchPermission();
     }
 
 
