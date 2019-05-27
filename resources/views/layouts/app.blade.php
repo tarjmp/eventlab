@@ -97,6 +97,9 @@
                                 <a id="update_profile" class="dropdown-item" href="{{ route('profile') }}">
                                     {{ __('navigation.profile') }}
                                 </a>
+                                <a id="manage_subscriptions" class="dropdown-item" href="{{ route('UpdateSubscriptions') }}">
+                                    {{ __('navigation.manage_subscriptions') }}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
