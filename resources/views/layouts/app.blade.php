@@ -51,9 +51,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('notifications') }}">Notifications
-                            <sup>
-                                <span class="badge badge-primary badge-pill">{{\App\Tools\Query::getMessageCount()}}</span>
-                            </sup>
+                            @if(\App\Tools\Query::getMessageCount() > 0)
+                                <sup>
+                                    <span class="badge badge-primary badge-pill">{{\App\Tools\Query::getMessageCount()}}</span>
+                                </sup>
+                            @endif
                         </a>
                     </li>
                 </ul>
