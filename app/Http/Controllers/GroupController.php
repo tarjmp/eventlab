@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Tools\Navigator;
 use App\Tools\PermissionFactory;
+use App\Tools\Query;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,13 +90,13 @@ class GroupController extends Controller
     //Display the specified resource
     public function groups()
     {
-
         // require appropriate permission
         PermissionFactory::createShowGroups()->check();
 
         // retrieve all groups for the user and pass them to the view
         $groups = Auth::user()->groups()->orderBy('name')->get();
-        return view('group-interface')->with(['groups' => $groups]);
+        $publicGroups = Group::where('public', true)->orderBy('name')->get()->diff($groups);
+        return view('group-interface')->with(['groups' => $groups, 'publicGroups' => $publicGroups]);
 
     }
 
@@ -141,10 +142,7 @@ class GroupController extends Controller
         // retrieve the corresponding group from database and show view
         $group = Group::findOrFail($id);
 
-        $numberSubscriptions = count($group->subscribers);
-
-
-        return view('group-show')->with(['group' => $group, 'numberSubscriptions' => $numberSubscriptions]);
+        return view('group-show')->with(['group' => $group]);
 
     }
 
