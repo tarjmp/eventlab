@@ -265,6 +265,6 @@ class EventController extends Controller
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_TENTATIVE]);
         }
 
-        return redirect('home')->with('newReply', $event->name);
+        return redirect('home')->with(['event' => $event->name, 'newReply' => $data]);
     }
 }
