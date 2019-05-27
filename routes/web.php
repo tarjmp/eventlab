@@ -58,7 +58,8 @@ Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'e
 
 Route::get('/event/{id}/list', 'EditWhatToBringListController@show')->name('list');
 Route::get('event/{id}/list/edit', 'EditWhatToBringListController@edit')->name('listEdit');
-Route::post('/event/{id}/list/edit', 'EditWhatToBringListController@store')->name('listStore');
+Route::post('/event/{id}/list/add', 'EditWhatToBringListController@add')->name('listAdd');
+Route::post('/event/{id}/list/bring', 'EditWhatToBringListController@bring')->name('listBring');
 
 // Chat messages for events
 Route::post('/message/add', 'MessageController@add')->name('add-message');
