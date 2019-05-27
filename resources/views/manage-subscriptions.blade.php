@@ -6,7 +6,27 @@
             <div class="col-md-8">
                 <h2>{{ __('subscriptions.show_title') }}</h2><br>
                 <div>
+                    <table class="table table-striped table-hover table-reflow">
+                        <tr>
+                            <th>{{ __('subscriptions.name') }}</th>
+                            <th>{{ __('subscriptions.description') }}</th>
+                            <th>{{ __('subscriptions.unsubscribe') }}</th>
+                        </tr>
+                        @foreach($items as $item)
+                            <tr>
+                                <td> {{ $item->name }} </td>
+                                <td> {{ $item->description }} </td>
+                                <td>
+                                    <form method="POST" action="{{ route('UpdateSubscriptions') }}">
+                                        @csrf
 
+                                        <button id="btn_submit" type="submit"
+                                                class="btn btn-primary">{{ __('subscriptions.unsubscribe') }}</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
