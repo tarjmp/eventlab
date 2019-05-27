@@ -3,6 +3,7 @@
 namespace App\Tools;
 
 use App\Event;
+use App\Group;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 
@@ -108,15 +109,15 @@ class Query
     private static function getUserEventsAll($bIncludeRejected = false)
     {
 
-        // return all private events
         $oEvents = Event::where(function ($query) {
 
-            $query->whereNull('group_id')->where('created_by', Auth::user()->id)
+            // return all private events
+            $query->whereNull('group_id')->where('created_by', Auth::id())
                 // combined with all subscriptions
                 ->orWhere(function ($query) {
                     $query->whereHas('group', function ($query) {
                         $query->where('public', true)->whereHas('subscribers', function ($query) {
-                            $query->where('id', Auth::user()->id);
+                            $query->where('id', Auth::id());
                         });
                     });
                 })
@@ -124,7 +125,7 @@ class Query
                 ->orWhere(function ($query) {
                     $query->whereHas('group', function ($query) {
                         $query->whereHas('members', function ($query) {
-                            $query->where('id', Auth::user()->id);
+                            $query->where('id', Auth::id());
                         });
                     });
                 });
@@ -152,6 +153,29 @@ class Query
     public static function getNewMessagesForEvent($iEventId, $iMessageId = 0)
     {
         return Event::findOrFail($iEventId)->messages()->where('id', '>=', intval($iMessageId))->orderBy('id')->get();
+    }
+
+    // Retrieve all groups a user can access. This includes public groups and memberships
+    public static function getAllAccessibleGroups()
+    {
+        return Group::where(function($group) {
+            $group->where('public', true)->orWhereHas('members',
+                function ($query) {
+                    $query->where('id', Auth::id());
+            });
+        });
+    }
+    
+    // Retrieve all events a user can access. This includes public events, memberships and private events
+    public static function getAllAccessibleEvents()
+    {
+        return Event::where(function($event) {
+            $event->whereHas('group', function($query) {
+                $query->whereIn('id', Query::getAllAccessibleGroups()->pluck('id')->toArray());
+            })->orWhere(function ($query) {
+                $query->whereNull('group_id')->where('created_by', Auth::id());
+            });
+        });
     }
 
     // Retrieve all events of the logged in user without a reply
