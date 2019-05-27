@@ -21,46 +21,36 @@
                                     @if(isset($item->full_name))
 
                                         @if($item->full_name == Auth::user()->first_name.' '.Auth::user()->last_name)
-                                            <form method="POST" action="{{ route('listStore', $eventID) }}">
-                                                <div class="form-check">
-                                                    <input id="eventID"
-                                                           type="hidden"
-                                                           class="form-control"
-                                                           value="{{ $eventID }}"
-                                                           name="eventID">
-                                                    <input id="liveUpdate"
-                                                           type="hidden"
-                                                           class="form-control"
-                                                           value="true"
-                                                           name="liveUpdate">
-                                                    <input id="alreadyBrought"
-                                                           type="checkbox"
-                                                           class="form-check-input"
-                                                           value=""
-                                                           name="alreadyBrought"
-                                                           checked
-                                                           onclick="this.form.submit()">
-                                                </div>
-                                            </form>
-                                        @else
-                                            <div class="form-check">
+                                            <form method="POST" action="{{ route('listBring', $eventID) }}">
+                                                <input id="eventID"
+                                                       type="hidden"
+                                                       class="form-control"
+                                                       value="{{ $eventID }}"
+                                                       name="eventID">
                                                 <input id="alreadyBrought"
                                                        type="checkbox"
                                                        class="form-check-input"
-                                                       value=""
+                                                       value="on"
                                                        name="alreadyBrought"
-                                                       checked>
-                                            </div>
-                                        @endif
-
-                                    @else
-                                        <div class="form-check">
+                                                       checked
+                                                       onchange="this.form.submit()">
+                                            </form>
+                                        @else
                                             <input id="alreadyBrought"
                                                    type="checkbox"
                                                    class="form-check-input"
                                                    value=""
-                                                   name="alreadyBrought">
-                                        </div> @endif </td>
+                                                   name="alreadyBrought"
+                                                   checked>
+                                        @endif
+
+                                    @else
+                                        <input id="alreadyBrought"
+                                               type="checkbox"
+                                               class="form-check-input"
+                                               value=""
+                                               name="alreadyBrought">
+                                    @endif </td>
                                 <td>  {{ $item->full_name }} </td>
                                 <input id="itemID"
                                        type="hidden"
@@ -69,7 +59,7 @@
                                        value="{{ $item->id }}">
                             </tr>
                         @endforeach
-                        <form method="POST" action="{{ route('listStore', $eventID) }}">
+                        <form method="POST" action="{{ route('listAdd', $eventID) }}">
                             <tr>
                                 @csrf
                                 <td>
@@ -87,12 +77,11 @@
                                            required>
                                 </td>
                                 <td>
-                                    <div class="form-check">
-                                        <input id="user"
-                                               type="checkbox"
-                                               class="form-check-input"
-                                               value=""
-                                               name="user"></div>
+                                    <input id="user"
+                                           type="checkbox"
+                                           class="form-check-input"
+                                           value="on"
+                                           name="user">
                                 </td>
                                 <td> {{ __('list.assignMe') }}</td>
                             </tr>

@@ -31,14 +31,9 @@ class EditWhatToBringListController extends Controller
         return view('what-to-bring-list-edit')->with(['eventID' => $id, 'items' => $this->getItems($id)]);
     }
 
-    public function store(Request $request)
+    public function add(Request $request)
     {
         $data = $request->all();
-
-        if (isset($data['liveUpdate'])) {
-            return $this->liveUpdate($request);
-        }
-
         // never trust any user input
         $this->validateInput($data);
 
@@ -62,7 +57,7 @@ class EditWhatToBringListController extends Controller
         return view('what-to-bring-list-show')->with(['eventID' => $id, 'updated' => true, 'items' => $this->getItems($id)]);
     }
 
-    private function liveUpdate(Request $request)
+    public function bring(Request $request)
     {
 
         $data = $request->all();
@@ -74,7 +69,7 @@ class EditWhatToBringListController extends Controller
 
         $item = Item::findOrFail($id);
 
-        if (isset($data['alreadyBrought'])){
+        if (isset($data['user'])){
             $item->user_id = Auth::user()->id;
         } else {
             $item->user_id = null;
