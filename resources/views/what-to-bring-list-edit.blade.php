@@ -6,46 +6,46 @@
             <div class="col-md-8">
                 <h2>{{ __('list.show_title') }}</h2><br>
                 <div>
-                    <form method="POST" action="{{ route('listStore', $eventID) }}">
-                        @csrf
-                        <table class="table table-striped table-hover table-reflow">
+                    <table class="table table-striped table-hover table-reflow">
+                        <tr>
+                            <th> {{ __('list.name') }}</th>
+                            <th> {{ __('list.amount') }}</th>
+                            <th> {{ __('list.alreadyBrought') }}</th>
+                            <th> {{ __('list.user') }}</th>
+                        </tr>
+                        @foreach($items as $item)
                             <tr>
-                                <th> {{ __('list.name') }}</th>
-                                <th> {{ __('list.amount') }}</th>
-                                <th> {{ __('list.alreadyBrought') }}</th>
-                                <th> {{ __('list.user') }}</th>
+                                <td> {{ $item->name }} </td>
+                                <td>  {{ $item->amount }} </td>
+                                <td>
+                                    @if(isset($item->full_name))
+                                        <div class="form-check">
+                                            <input id="alreadyBrought"
+                                                   type="checkbox"
+                                                   class="form-check-input"
+                                                   value=""
+                                                   name="alreadyBrought"
+                                                   checked>
+                                        </div>
+                                    @else
+                                        <div class="form-check">
+                                            <input id="alreadyBrought"
+                                                   type="checkbox"
+                                                   class="form-check-input"
+                                                   value=""
+                                                   name="alreadyBrought">
+                                        </div> @endif </td>
+                                <td>  {{ $item->full_name }} </td>
+                                <input id="itemID"
+                                       type="hidden"
+                                       class="form-control"
+                                       name="itemID"
+                                       value="{{ $item->id }}">
                             </tr>
-                            @foreach($items as $item)
-                                <tr>
-                                    <td> {{ $item->name }} </td>
-                                    <td>  {{ $item->amount }} </td>
-                                    <td>
-                                        @if(isset($item->full_name))
-                                            <div class="form-check">
-                                                <input id="alreadyBrought"
-                                                       type="checkbox"
-                                                       class="form-check-input"
-                                                       value=""
-                                                       name="alreadyBrought"
-                                                       checked>
-                                            </div>
-                                        @else
-                                            <div class="form-check">
-                                                <input id="alreadyBrought"
-                                                       type="checkbox"
-                                                       class="form-check-input"
-                                                       value=""
-                                                       name="alreadyBrought">
-                                            </div> @endif </td>
-                                    <td>  {{ $item->full_name }} </td>
-                                    <input id="itemID"
-                                           type="hidden"
-                                           class="form-control"
-                                           name="itemID"
-                                           value="{{ $item->id }}">
-                                </tr>
-                            @endforeach
+                        @endforeach
+                        <form method="POST" action="{{ route('listStore', $eventID) }}">
                             <tr>
+                                @csrf
                                 <td>
                                     <input id="name"
                                            type="text"
@@ -70,16 +70,20 @@
                                 </td>
                                 <td> {{ __('list.assignMe') }}</td>
                             </tr>
-                        </table>
-                        <input id="eventID"
-                               type="hidden"
-                               class="form-control"
-                               value="{{ $eventID }}"
-                               name="eventID">
-                        <button id="btn_submit" type="submit" class="btn btn-primary">
-                            {{ __('list.submit') }}
-                        </button>
-                    </form>
+                            <tr>
+                                <input id="eventID"
+                                       type="hidden"
+                                       class="form-control"
+                                       value="{{ $eventID }}"
+                                       name="eventID">
+                                <td colspan="4">
+                                    <button id="btn_submit" type="submit" class="btn btn-primary">
+                                        {{ __('list.submit') }}
+                                    </button>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
                 </div>
             </div>
         </div>
