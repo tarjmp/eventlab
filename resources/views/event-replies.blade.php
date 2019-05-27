@@ -18,45 +18,26 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="container">
-                                    <div class="row">
-                                        <div class="col-6 p-0 pr-1">
-                                            <form method="POST"
-                                                  action="{{ route('notificationsUpdate', ['status' => 'accepted', 'event' => $n]) }}">
-                                                @csrf
-
-                                                <button id="btn_acceptEvent" type="submit"
-                                                        class="btn btn-outline-success w-100">
-                                                    {{ __('event.notifications_accept') }}
-                                                </button>
-                                            </form>
+                                    <form method="POST"
+                                          action="{{ route('notificationsUpdate', ['event' => $n]) }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-6 p-0 pr-1">
+                                                <input id="btn_acceptEvent" type="submit" name="accept" value="{{ __('event.notifications_accept') }}"
+                                                        class="btn btn-outline-success w-100"/>
+                                            </div>
+                                            <div class="col-6 p-0 pl-1">
+                                                <input id="btn_rejectEvent" type="submit" name="reject" value="{{ __('event.notifications_reject') }}"
+                                                        class="btn btn-outline-danger w-100"/>
+                                            </div>
                                         </div>
-                                        <div class="col-6 p-0 pl-1">
-                                            <form method="POST"
-                                                  action="{{ route('notificationsUpdate', ['status' => 'rejected', 'event' => $n]) }}">
-                                                @csrf
-
-                                                <button id="btn_rejectEvent" type="submit"
-                                                        class="btn btn-outline-danger w-100">
-                                                    {{ __('event.notifications_reject') }}
-                                                </button>
-
-                                            </form>
+                                        <div class="row mt-1">
+                                            <div class="col-12 p-0">
+                                                <input id="btn_tentativeEvent" type="submit" name="tentative" value="{{ __('event.notifications_tentative') }}"
+                                                        class="btn btn-outline-secondary w-100"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mt-1">
-                                        <div class="col-12 p-0">
-                                            <form method="POST"
-                                                  action="{{ route('notificationsUpdate', ['status' => 'tentative', 'event' => $n]) }}">
-                                                @csrf
-
-                                                <button id="btn_tentativeEvent" type="submit"
-                                                        class="btn btn-outline-secondary w-100">
-                                                    {{ __('event.notifications_tentative') }}
-                                                </button>
-
-                                            </form>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

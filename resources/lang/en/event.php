@@ -31,6 +31,7 @@ return [
     'notifications_tentative' => 'Tentative',
     'notifications_text'   => 'You were added to the Event ":name". Do you want to accept and join the event?',
     'details_text'         => '(To get more details click here)',
-    'no_notifications'     => 'No notifications found'
+    'no_notifications'     => 'No notifications found',
+    'replied' => 'You have accepted the event ":name".'
 
 ];

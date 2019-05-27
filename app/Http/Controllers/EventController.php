@@ -249,11 +249,22 @@ class EventController extends Controller
         return view('event-replies')->with(['noReply' => $eventWithoutReply]);
     }
 
-    public function updateReplies(Request $request, $status, $event)
+    public function updateReplies(Request $request, $eventReplyID)
     {
-       // $eventTentative = Query::getUserEvents()->whereDoesntHave('replies')->get();
+        $data = $request->all();
 
-        var_dump($status);
-       // return view('event-replies')->with(['tentative' => $eventTentative]);
+        $event = Event::findOrFail($eventReplyID);
+
+        if(isset($data['accept'])) {
+            $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_ACCEPTED]);
+        }
+        elseif (isset($data['reject'])) {
+            $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_REJECTED]);
+        }
+        else {
+            $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_TENTATIVE]);
+        }
+
+        return redirect('home')->with('newReply', $event->name);
     }
 }

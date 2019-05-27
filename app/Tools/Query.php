@@ -163,6 +163,8 @@ class Query
 
     public static function getNotifications() {
 
-       return Query::getUserEventsNext()->whereDoesntHave('replies')->where('created_by', '!=', Auth::id())->get();
+       return Query::getUserEventsNext()->whereDoesntHave('replies')->where(function($q) {
+           $q->where('group_id', '!=', null)->orWhere('created_by', '!=', Auth::id());
+       })->get();
     }
 }
