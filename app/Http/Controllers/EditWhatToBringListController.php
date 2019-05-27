@@ -35,6 +35,10 @@ class EditWhatToBringListController extends Controller
     {
         $data = $request->all();
 
+        if (isset($data['liveUpdate'])) {
+            return $this->liveUpdate($request);
+        }
+
         // never trust any user input
         $this->validateInput($data);
 
@@ -53,6 +57,29 @@ class EditWhatToBringListController extends Controller
         } else {
             $item->user_id = null;
         }
+        $item->save();
+
+        return view('what-to-bring-list-show')->with(['eventID' => $id, 'updated' => true, 'items' => $this->getItems($id)]);
+    }
+
+    private function liveUpdate(Request $request)
+    {
+
+        $data = $request->all();
+
+        $id = $data['eventID'];
+
+        // check for permission to edit the event
+        PermissionFactory::createEditEvent()->check($id);
+
+        $item = Item::findOrFail($id);
+
+        if (isset($data['alreadyBrought'])){
+            $item->user_id = Auth::user()->id;
+        } else {
+            $item->user_id = null;
+        }
+
         $item->save();
 
         return view('what-to-bring-list-show')->with(['eventID' => $id, 'updated' => true, 'items' => $this->getItems($id)]);

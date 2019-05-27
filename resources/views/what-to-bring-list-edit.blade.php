@@ -19,14 +19,40 @@
                                 <td>  {{ $item->amount }} </td>
                                 <td>
                                     @if(isset($item->full_name))
-                                        <div class="form-check">
-                                            <input id="alreadyBrought"
-                                                   type="checkbox"
-                                                   class="form-check-input"
-                                                   value=""
-                                                   name="alreadyBrought"
-                                                   checked>
-                                        </div>
+
+                                        @if($item->full_name == Auth::user()->first_name.' '.Auth::user()->last_name)
+                                            <form method="POST" action="{{ route('listStore', $eventID) }}">
+                                                <div class="form-check">
+                                                    <input id="eventID"
+                                                           type="hidden"
+                                                           class="form-control"
+                                                           value="{{ $eventID }}"
+                                                           name="eventID">
+                                                    <input id="liveUpdate"
+                                                           type="hidden"
+                                                           class="form-control"
+                                                           value="true"
+                                                           name="liveUpdate">
+                                                    <input id="alreadyBrought"
+                                                           type="checkbox"
+                                                           class="form-check-input"
+                                                           value=""
+                                                           name="alreadyBrought"
+                                                           checked
+                                                           onclick="this.form.submit()">
+                                                </div>
+                                            </form>
+                                        @else
+                                            <div class="form-check">
+                                                <input id="alreadyBrought"
+                                                       type="checkbox"
+                                                       class="form-check-input"
+                                                       value=""
+                                                       name="alreadyBrought"
+                                                       checked>
+                                            </div>
+                                        @endif
+
                                     @else
                                         <div class="form-check">
                                             <input id="alreadyBrought"
