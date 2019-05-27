@@ -54,6 +54,36 @@
                                 <div class="col-md-8 text-right">{{ __('event.status_tentative') }}</div>
                             @endif
                         </div>
+                        <br>
+                        <div class="container">
+                            <form method="POST"
+                                  action="{{ route('notificationsUpdate', ['event' => $event]) }}">
+                                @csrf
+                                <div class="row">
+                                    @if($event->myReply() != 'accepted')
+                                        <div class="col-6 p-0 pr-1">
+                                            <input id="btn_acceptEvent" type="submit" name="accept"
+                                                   value="{{ __('event.notifications_accept') }}"
+                                                   class="btn btn-outline-success w-100"/>
+                                        </div>
+                                    @endif
+                                    @if($event->myReply() != 'tentative')
+                                        <div class="col-6 p-0 pr-1">
+                                            <input id="btn_tentativeEvent" type="submit" name="tentative"
+                                                   value="{{ __('event.notifications_tentative') }}"
+                                                   class="btn btn-outline-secondary w-100"/>
+                                        </div>
+                                    @endif
+                                    @if($event->myReply() != 'rejected')
+                                        <div class="col-6 p-0">
+                                            <input id="btn_rejectEvent" type="submit" name="reject"
+                                                   value="{{ __('event.notifications_reject') }}"
+                                                   class="btn btn-outline-danger w-100"/>
+                                        </div>
+                                    @endif
+                                </div>
+                            </form>
+                        </div>
 
                     @else
                         <br>
@@ -62,17 +92,17 @@
                                   action="{{ route('notificationsUpdate', ['event' => $event]) }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-4 p-0 pr-1">
+                                    <div class="col-6 p-0 pr-1">
                                         <input id="btn_acceptEvent" type="submit" name="accept"
                                                value="{{ __('event.notifications_accept') }}"
                                                class="btn btn-outline-success w-100"/>
                                     </div>
-                                    <div class="col-4 p-0 pr-1">
+                                    <div class="col-6 p-0 pr-1">
                                         <input id="btn_rejectEvent" type="submit" name="reject"
                                                value="{{ __('event.notifications_reject') }}"
                                                class="btn btn-outline-danger w-100"/>
                                     </div>
-                                    <div class="col-4 p-0">
+                                    <div class="col-6 p-0">
                                         <input id="btn_tentativeEvent" type="submit" name="tentative"
                                                value="{{ __('event.notifications_tentative') }}"
                                                class="btn btn-outline-secondary w-100"/>

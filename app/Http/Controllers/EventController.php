@@ -260,6 +260,11 @@ class EventController extends Controller
 
         $event = Event::findOrFail($eventReplyID);
 
+        // If there is already a reply to an event
+        if($event->hasEventReply()){
+            $event->replies()->detach();
+        }
+
         if (isset($data['accept'])) {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_ACCEPTED]);
             return redirect('home')->with(['event' => $event->name, 'newReply' => 'accept']);
