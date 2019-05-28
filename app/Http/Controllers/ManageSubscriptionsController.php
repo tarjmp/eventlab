@@ -23,7 +23,7 @@ class ManageSubscriptionsController extends Controller
         $group = Group::findOrFail($id);
         $group->subscribers()->detach(Auth::user());
 
-        return redirect(route('showSubscriptions'));
+        return redirect()->back();
     }
 
     public function add(Request $request, $id)
@@ -33,7 +33,7 @@ class ManageSubscriptionsController extends Controller
         $group = Group::findOrFail($id);
         $group->subscribers()->attach(Auth::user(), ['status' => 'subscription']);
 
-        return redirect(route('showSubscriptions'));
+        return redirect()->back();
     }
 
     private function getItems()

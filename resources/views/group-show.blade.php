@@ -57,11 +57,17 @@
                     </a>
                 @endif
 
-                @if(\App\Tools\Check::isSubscriberOfGroup($group->id))
+                @if(\App\Tools\PermissionFactory::createSubscribeToGroup()->has($group->id))
                     <form method="POST" action="{{ route('addSubscription', $group->id) }}">
                         @csrf
-                        <button id="btn_subscribe" type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary">
                             {{ __('group.subscribe') }}</button>
+                    </form>
+                @elseif(\App\Tools\PermissionFactory::createUnsubscribeFromGroup()->has($group->id))
+                    <form method="POST" action="{{ route('removeSubscription', $group->id) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary">
+                            {{ __('group.unsubscribe') }}</button>
                     </form>
                 @endif
             </div>

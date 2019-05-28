@@ -30,5 +30,6 @@ return [
     'created' => 'New group created: ":name"',
     'left'    => 'Left group: ":name"',
 
-    'subscribe' => 'Subscribe'
+    'subscribe' => 'Subscribe',
+    'unsubscribe' => 'Unsubscribe',
 ];
