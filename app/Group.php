@@ -32,6 +32,11 @@ class Group extends Model
 
     public function subscribed()
     {
+        //User cannot be subscribed when he is not logged in
+        if (!isset(Auth::user()->id)) {
+            return false;
+        }
+
         $condition = ['user_id' => Auth::user()->id, 'group_id' => $this->id];
 
         if (DB::table('group_user')->where($condition)->exists()) {
