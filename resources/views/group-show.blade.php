@@ -57,17 +57,19 @@
                     </a>
                 @endif
 
-                <form method="POST" action="{{ route('AddSubscription') }}">
-                    @csrf
-                    <br>
-                    <input id="groupID"
-                           type="hidden"
-                           class="form-control"
-                           value="{{ $group->id }}"
-                           name="groupID">
-                    <button id="btn_subscribe" type="submit" class="btn btn-primary">
-                        {{ __('group.subscribe') }}</button>
-                </form>
+                @if(!$group->subscribed())
+                    <form method="POST" action="{{ route('AddSubscription') }}">
+                        @csrf
+                        <br>
+                        <input id="groupID"
+                               type="hidden"
+                               class="form-control"
+                               value="{{ $group->id }}"
+                               name="groupID">
+                        <button id="btn_subscribe" type="submit" class="btn btn-primary">
+                            {{ __('group.subscribe') }}</button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
