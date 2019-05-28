@@ -30,6 +30,16 @@ class Check
         return false;
     }
 
+    // Determines whether the user is member of a particular group
+    public static function isSubscriberOfGroup($id)
+    {
+        $group = Group::find($id);
+        if ($group) {
+            return boolval($group->subscribers()->find(Auth::user()->id));
+        }
+        return false;
+    }
+
     // Determines whether the user can access a particular event
     public static function isMemberOfEvent($id)
     {

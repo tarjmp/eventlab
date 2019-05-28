@@ -29,5 +29,9 @@ return [
     'participants_submit' => 'Next',
 
     'created' => 'New group created: ":name"',
+
     'left'    => 'You left the group ":name".',
+
+    'subscribe' => 'Subscribe',
+    'unsubscribe' => 'Unsubscribe',
 ];

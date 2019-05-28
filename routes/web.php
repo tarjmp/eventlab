@@ -76,3 +76,8 @@ Route::post('/group/{id}/update', 'GroupController@addNewParticipants')->name('a
 Route::post('/group/leave', 'GroupController@leave')->name('leave-group');
 Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::get('/groups', 'GroupController@groups')->name('groups');
+
+//Manage subscriptions
+Route::get('/subscriptions', 'ManageSubscriptionsController@show')->name('showSubscriptions');
+Route::post('/subscriptions/{id}/remove', 'ManageSubscriptionsController@remove')->name('removeSubscription');
+Route::post('subscriptions/{id}/add', 'ManageSubscriptionsController@add')->name('addSubscription');
