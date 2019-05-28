@@ -14,11 +14,39 @@
                     <h4 class="my-4">{{ __('search.groups') }}</h4>
                 @endif
                 @foreach($groups as $group)
-                    <div class="card mb-2">
-                        <div class="card-body p-2 px-4 pt-3">
-                            <a href="{{ route('group.show', $group->id) }}"><h5
-                                        class="card-title">{{ $group->name }}</h5></a>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ $group->description }}</h6>
+                    <div class="col-12">
+                        <div class="card-deck mb-1">
+                            <div class="card mb-1 shadow-sm">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h4 class="mb-0 d-inline">
+                                                <a href="{{ route('group.show', $group->id) }}">{{$group->name}}</a>
+                                            </h4>
+                                            <p class="card-text mb-auto">{{$group->description}}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            @if(\App\Tools\PermissionFactory::createSubscribeToGroup()->has($group->id))
+                                                <form method="POST" action="{{ route('addSubscription', $group->id) }}">
+                                                    @csrf
+                                                    <button type="submit"
+                                                            class="btn btn-primary btn-sm float-right">
+                                                        {{ __('group.subscribe') }}</button>
+                                                </form>
+                                            @elseif(\App\Tools\PermissionFactory::createUnsubscribeFromGroup()->has($group->id))
+                                                <form method="POST"
+                                                      action="{{ route('removeSubscription', $group->id) }}">
+                                                    @csrf
+                                                    <button type="submit"
+                                                            class="btn btn-secondary btn-sm float-right">
+                                                        {{ __('group.unsubscribe') }}</button>
+                                                </form>
+
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -27,11 +55,20 @@
                     <h4 class="my-4">{{ __('search.events') }}</h4>
                 @endif
                 @foreach($events as $event)
-                    <div class="card mb-2">
-                        <div class="card-body p-2 px-4 pt-3">
-                            <a href="{{ route('event.show', $event->id) }}"><h5
-                                        class="card-title">{{ $event->name }}</h5></a>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ $event->description }}</h6>
+                    <div class="col-12">
+                        <div class="card-deck mb-1">
+                            <div class="card mb-1 shadow-sm">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4 class="mb-0 d-inline">
+                                                <a href="{{ route('event.show', $event->id) }}">{{$event->name}}</a>
+                                            </h4>
+                                            <p class="card-text mb-auto">{{$event->description}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach

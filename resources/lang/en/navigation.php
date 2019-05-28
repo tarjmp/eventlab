@@ -7,6 +7,6 @@ return [
     'register'              => 'Register',
     'profile'               => 'Edit Profile',
     'search'                => 'Search',
-    'subscriptions'         => 'Subscriptions',
+    'subscriptions'         => 'My Subscriptions',
 
 ];

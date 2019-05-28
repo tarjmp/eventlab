@@ -2,7 +2,7 @@
 
 return [
 
-    'show_title'    => 'Manage subscriptions',
+    'show_title'    => 'Subscriptions',
     'name'          => 'Name',
     'description'   => 'Description',
     'unsubscribe'   => 'Unsubscribe',

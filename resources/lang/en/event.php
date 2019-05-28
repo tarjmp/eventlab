@@ -16,6 +16,7 @@ return [
 
     'name'             => 'Title',
     'description'      => 'Description',
+    'group'            => 'Group',
     'date'             => 'Date',
     'start_time'       => 'Start time',
     'end_time'         => 'End time',
@@ -39,5 +40,7 @@ return [
     'replied_accepted'        => 'You accepted event ":name".',
     'replied_rejected'        => 'You rejected event ":name".',
     'replied_tentative'       => 'You accepted event ":name" tentatively.',
+
+    'private' => 'Private event'
 
 ];

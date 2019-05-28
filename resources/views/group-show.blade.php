@@ -14,7 +14,7 @@
                 @if($group->public)
                     <span class="badge badge-primary mt-2 mb-4">{{ __('group.public') }}</span><br>
                 @else
-                    <span class="badge badge-secondary mt-2 mb-4">{{ __('group.private') }}</span><br>
+                    <span class="badge badge-warning mt-2 mb-4">{{ __('group.private') }}</span><br>
                 @endif
 
 
@@ -51,13 +51,13 @@
                 @if(\App\Tools\PermissionFactory::createSubscribeToGroup()->has($group->id))
                     <form method="POST" action="{{ route('addSubscription', $group->id) }}">
                         @csrf
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary btn-sm">
                             {{ __('group.subscribe') }}</button>
                     </form>
                 @elseif(\App\Tools\PermissionFactory::createUnsubscribeFromGroup()->has($group->id))
                     <form method="POST" action="{{ route('removeSubscription', $group->id) }}">
                         @csrf
-                        <button type="submit" class="btn btn-secondary">
+                        <button type="submit" class="btn btn-secondary btn-sm">
                             {{ __('group.unsubscribe') }}</button>
                     </form>
                 @endif

@@ -19,6 +19,19 @@
                     <p class="text-muted">{{$event->description}}</p><br>
                 @endif
 
+                @if($event->group)
+                    <div class="row mb-4">
+                        <div class="col-md-4">{{ __('event.group') }}:</div>
+                        <div class="col-md-8 text-right"><a
+                                    href="{{ route('group.show', $event->group->id) }}">{{ $event->group->name }}</a>
+                        </div>
+                    </div>
+                @else
+                    <div class="row mb-4">
+                        <div class="col-12 text-muted">{{ __('event.private') }}</div>
+                    </div>
+                @endif
+
                 @if($event->location != '')
                     <div class="row mb-4">
                         <div class="col-md-4">{{ __('event.location') }}:</div>

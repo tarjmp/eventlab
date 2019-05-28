@@ -34,9 +34,11 @@
                                             <a href="{{ route('group.show', $g->id) }}">{{$g->name}}</a>
                                         </h4>
                                         @if($g->public)
-                                            <span class="badge badge-primary mt-2 mb-4 float-right">{{ __('group.public') }}</span><br>
+                                            <span class="badge badge-light mt-2 mb-4 float-right">{{ __('group.public') }}</span>
+                                            <br>
                                         @else
-                                            <span class="badge badge-secondary mt-2 mb-4 float-right">{{ __('group.private') }}</span><br>
+                                            <span class="badge badge-warning mt-2 mb-4 float-right">{{ __('group.private') }}</span>
+                                            <br>
                                         @endif
                                         <p class="card-text mb-auto">{{$g->description}}</p>
                                     </div>
@@ -60,10 +62,33 @@
                             <div class="card-deck mb-1">
                                 <div class="card mb-1 shadow-sm">
                                     <div class="card-body">
-                                        <h4 class="mb-0 d-inline">
-                                            <a href="{{ route('group.show', $g->id) }}">{{$g->name}}</a>
-                                        </h4>
-                                        <p class="card-text mb-auto">{{$g->description}}</p>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h4 class="mb-0 d-inline">
+                                                    <a href="{{ route('group.show', $g->id) }}">{{$g->name}}</a>
+                                                </h4>
+                                                <p class="card-text mb-auto">{{$g->description}}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                @if(\App\Tools\PermissionFactory::createSubscribeToGroup()->has($g->id))
+                                                    <form method="POST" action="{{ route('addSubscription', $g->id) }}">
+                                                        @csrf
+                                                        <button type="submit"
+                                                                class="btn btn-primary btn-sm float-right">
+                                                            {{ __('group.subscribe') }}</button>
+                                                    </form>
+                                                @elseif(\App\Tools\PermissionFactory::createUnsubscribeFromGroup()->has($g->id))
+                                                    <form method="POST"
+                                                          action="{{ route('removeSubscription', $g->id) }}">
+                                                        @csrf
+                                                        <button type="submit"
+                                                                class="btn btn-secondary btn-sm float-right">
+                                                            {{ __('group.unsubscribe') }}</button>
+                                                    </form>
+
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
