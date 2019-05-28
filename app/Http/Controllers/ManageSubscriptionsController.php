@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Tools\PermissionFactory;
-use App\User;
 use App\Group;
-use App\Item;
+use App\Tools\PermissionFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Validator;
 
 class ManageSubscriptionsController extends Controller
 {
@@ -17,6 +13,7 @@ class ManageSubscriptionsController extends Controller
     //Show the read-only form of the What-to-bring list
     public function show()
     {
+        PermissionFactory::createShowGroups();
         return view('manage-subscriptions')->with(['groups' => $this->getItems()]);
     }
 
