@@ -48,13 +48,19 @@
                             <a class="nav-link" href="{{ route('groups') }}">Groups</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('notifications') }}">Notifications
-                                @if(\App\Tools\Query::getMessageCount() > 0)
+                        @if(\App\Tools\Query::getMessageCount() > 0)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('notifications') }}">Notifications
                                     <sup>
-                                        <span class="badge badge-primary badge-pill">{{\App\Tools\Query::getMessageCount()}}</span>
+                                        <span class="badge badge-primary badge-pill">{{ \App\Tools\Query::getMessageCount() }}</span>
                                     </sup>
-                                @endif
+                                </a>
+                            </li>
+                        @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('showSubscriptions') }}">
+                                {{ __('navigation.subscriptions') }}
                             </a>
                         </li>
 
@@ -80,7 +86,8 @@
 
                         <form method="GET" action="{{ route('search') }}" class="mr-5">
                             <div class="input-group input-group-sm mb-3" style="margin-top: 0.35rem;">
-                                <input type="text" class="form-control" name="term" placeholder="{{ __('navigation.search') }}" maxlength="255">
+                                <input type="text" class="form-control" name="term"
+                                       placeholder="{{ __('navigation.search') }}" maxlength="255">
                                 <div class="input-group-append">
                                     <input type="submit" class="btn btn-outline-secondary" value="&#x2315;">
                                 </div>

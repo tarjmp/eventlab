@@ -4,7 +4,7 @@ return [
 
     'create_title'  => 'Create Group',
     'show_title'    => 'Display Group',
-    'update_title'  => 'Update Group',
+    'update_title'  => 'Edit Group',
     'create_submit' => 'Submit',
     'update_submit' => 'Submit',
     'leave_submit'  => 'Leave Group',
@@ -14,19 +14,24 @@ return [
     'description' => 'Description',
     'public'      => 'Public',
     'private'     => 'Private',
-    'select'      => 'Select participants',
-    'subscription'=> 'Subscribers: :subscribers',
+    'select'      => 'Select group members',
+    'subscription'=> 'Subscribers:',
     'membership'  => 'Members: ',
 
 
     'interface_title' => 'My Groups',
+    'public_groups'   => 'Explore Public Groups',
     'create_group'    => 'Add Group',
-    'no_groups'       => 'No groups found.',
+    'no_groups'       => 'Wow, such empty!',
     'no_participants' => 'No users found.',
 
-    'participants'        => 'Add participants to group',
+    'participants'        => 'Add members to the group',
     'participants_submit' => 'Next',
 
     'created' => 'New group created: ":name"',
-    'left'    => 'Left group: ":name"',
+
+    'left'    => 'You left the group ":name".',
+
+    'subscribe' => 'Subscribe',
+    'unsubscribe' => 'Unsubscribe',
 ];

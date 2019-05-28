@@ -13,7 +13,7 @@
                         {{-- if there are no possible participants, we do not need to show the continue button --}}
                         @if(count($participants) > 0)
                             <div class="col-md-6">
-                                <input id="addParticipants" class="btn btn-primary float-right"
+                                <input id="addParticipants" class="btn btn-primary btn-sm float-right"
                                        type="submit" value="{{ __('group.participants_submit') }}"/>
                             </div>
                         @endif

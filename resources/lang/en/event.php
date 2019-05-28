@@ -11,11 +11,12 @@ return [
     'edit'          => 'Edit event',
 
     'created' => 'New event created: ":name"',
-    'updated' => 'Event ":name" was updated.',
+    'updated' => 'Event ":name" was successfully updated.',
     'deleted' => 'Event ":name" was deleted.',
 
     'name'             => 'Title',
     'description'      => 'Description',
+    'group'            => 'Group',
     'date'             => 'Date',
     'start_time'       => 'Start time',
     'end_time'         => 'End time',
@@ -24,7 +25,7 @@ return [
     'location'         => 'Location',
     'select_group'     => 'Group',
     'private_group'    => '(Private)',
-    'status'           => 'Status',
+    'status'           => 'My reply',
     'status_accepted'  => 'accepted',
     'status_rejected'  => 'rejected',
     'status_tentative' => 'tentative',
@@ -35,7 +36,11 @@ return [
     'notifications_tentative' => 'Tentative',
     'notifications_text'      => 'You were added to the Event ":name". Do you want to accept and join the event?',
     'details_text'            => '(To get more details click here)',
-    'no_notifications'        => 'No notifications found',
-    'replied'                 => 'You have replied to the event ":name" with the status :status.'
+    'no_notifications'        => 'No notifications. All done!',
+    'replied_accepted'        => 'You accepted event ":name".',
+    'replied_rejected'        => 'You rejected event ":name".',
+    'replied_tentative'       => 'You accepted event ":name" tentatively.',
+
+    'private' => 'Private event'
 
 ];

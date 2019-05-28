@@ -30,7 +30,13 @@
                 @endif
                 @if (session('newReply'))
                     <div class="alert alert-info" role="alert">
-                        {{ __('event.replied', ['name' => session('event'), 'status' => session('newReply')]) }}
+                        @if(session('newReply') == \App\Event::STATUS_ACCEPTED)
+                            {{ __('event.replied_accepted', ['name' => session('event')]) }}
+                        @elseif(session('newReply') == \App\Event::STATUS_REJECTED)
+                            {{ __('event.replied_rejected', ['name' => session('event')]) }}
+                        @else
+                            {{ __('event.replied_tentative', ['name' => session('event')]) }}
+                        @endif
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

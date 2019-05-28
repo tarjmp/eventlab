@@ -267,15 +267,15 @@ class EventController extends Controller
 
         if (isset($data['accept'])) {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_ACCEPTED]);
-            return redirect('home')->with(['event' => $event->name, 'newReply' => 'accept']);
+            return redirect('home')->with(['event' => $event->name, 'newReply' => Event::STATUS_ACCEPTED]);
 
         } elseif (isset($data['reject'])) {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_REJECTED]);
-            return redirect('home')->with(['event' => $event->name, 'newReply' => 'reject']);
+            return redirect('home')->with(['event' => $event->name, 'newReply' => Event::STATUS_REJECTED]);
 
         } else {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_TENTATIVE]);
-            return redirect('home')->with(['event' => $event->name, 'newReply' => 'tentative']);
+            return redirect('home')->with(['event' => $event->name, 'newReply' => Event::STATUS_TENTATIVE]);
 
         }
     }
