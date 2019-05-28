@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tools\PermissionFactory;
 use App\User;
 use App\Group;
 use App\Item;
@@ -16,40 +17,32 @@ class ManageSubscriptionsController extends Controller
     //Show the read-only form of the What-to-bring list
     public function show()
     {
-        return view('manage-subscriptions')->with(['items' => $this->getItems()]);
+        return view('manage-subscriptions')->with(['groups' => $this->getItems()]);
     }
 
-    public function update(Request $request)
+    public function remove(Request $request, $id)
     {
-        $data = $request->all();
+        PermissionFactory::createUnsubscribeFromGroup()->check($id);
+        $group = Group::findOrFail($id);
+        $group->subscribers()->detach(Auth::user());
 
-        //User permission check is not required as the user is not submitted
-        //Sending an invalid group id will refresh the page
-        $condition = ['user_id' => Auth::user()->id, 'group_id' => $data['groupID']];
-
-        DB::table('group_user')->where($condition)->delete();
-
-        return view('manage-subscriptions')->with(['items' => $this->getItems()]);
+        return redirect(route('showSubscriptions'));
     }
 
-    public function add(Request $request)
+    public function add(Request $request, $id)
     {
-        $data = $request->all();
+        PermissionFactory::createSubscribeToGroup()->check($id);
 
-        DB::table('group_user')->insert(
-            ['user_id' => Auth::user()->id, 'group_id' => $data['groupID'], 'status' => 'subscription']
-        );
+        $group = Group::findOrFail($id);
+        $group->subscribers()->attach(Auth::user(), ['status' => 'subscription']);
 
-        return view('manage-subscriptions')->with(['items' => $this->getItems()]);
+        return redirect(route('showSubscriptions'));
     }
 
     private function getItems()
     {
         //retrieve the information stored in the database
-        $user = Auth::user();
-        $items = $user->groups(Group::TYPE_SUBSCRIPTION)->get();
-
-        return $items;
+        return Auth::user()->groups(Group::TYPE_SUBSCRIPTION)->get();
     }
 
 }

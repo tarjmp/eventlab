@@ -78,6 +78,6 @@ Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'e
 Route::get('/groups', 'GroupController@groups')->name('groups');
 
 //Manage subscriptions
-Route::get('/managesubscriptions', 'ManageSubscriptionsController@show')->name('UpdateSubscriptions');
-Route::post('/managesubscriptions', 'ManageSubscriptionsController@update')->name('UpdateSubscriptions');
-Route::post('managesubscriptions/add', 'ManageSubscriptionsController@add')->name('AddSubscription');
+Route::get('/subscriptions', 'ManageSubscriptionsController@show')->name('showSubscriptions');
+Route::post('/subscriptions/{id}/remove', 'ManageSubscriptionsController@remove')->name('removeSubscription');
+Route::post('subscriptions/{id}/add', 'ManageSubscriptionsController@add')->name('addSubscription');

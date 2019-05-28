@@ -58,7 +58,7 @@
                 @endif
 
                 @if(!$group->subscribed())
-                    <form method="POST" action="{{ route('AddSubscription') }}">
+                    <form method="POST" action="{{ route('addSubscription', $group->id) }}">
                         @csrf
                         <br>
                         <input id="groupID"

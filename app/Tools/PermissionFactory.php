@@ -22,6 +22,7 @@ use App\Tools\Permissions\ShowGroupPermission;
 use App\Tools\Permissions\ShowGroupsPermission;
 use App\Tools\Permissions\ShowHomeCalendarPermission;
 use App\Tools\Permissions\SubscribeToGroupPermission;
+use App\Tools\Permissions\UnsubscribeFromGroupPermission;
 
 class PermissionFactory
 {
@@ -44,6 +45,10 @@ class PermissionFactory
 
     static function createSubscribeToGroup() {
         return new SubscribeToGroupPermission();
+    }
+
+    static function createUnsubscribeFromGroup() {
+        return new UnsubscribeFromGroupPermission();
     }
 
     static function createLeaveGroup() {
