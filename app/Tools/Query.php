@@ -183,8 +183,8 @@ class Query
     // Retrieve all events of the logged in user without a reply
     public static function getNotifications()
     {
-        return Query::getUserEventsNext()->whereDoesntHave('replies')->where(function ($q) {
-            $q->where('group_id', '!=', null)->orWhere('created_by', '!=', Auth::id());
+        return Query::getUserEventsNext()->whereHas('group')->whereDoesntHave('replies', function ($q) {
+            $q->where('id', '=', Auth::id());
         })->get();
     }
 
