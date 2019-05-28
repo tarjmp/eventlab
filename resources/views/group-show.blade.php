@@ -57,15 +57,9 @@
                     </a>
                 @endif
 
-                @if(!$group->subscribed())
+                @if(\App\Tools\Check::isSubscriberOfGroup($group->id))
                     <form method="POST" action="{{ route('addSubscription', $group->id) }}">
                         @csrf
-                        <br>
-                        <input id="groupID"
-                               type="hidden"
-                               class="form-control"
-                               value="{{ $group->id }}"
-                               name="groupID">
                         <button id="btn_subscribe" type="submit" class="btn btn-primary">
                             {{ __('group.subscribe') }}</button>
                     </form>
