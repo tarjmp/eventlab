@@ -42,7 +42,7 @@
                             <strong>{{ $i }}</strong>
                             <br>
                             @foreach($days[$i]['events'] as $event)
-                                <a href="{{ route('event.show', $event['id']) }}">{{ $event['name'] }}</a><br>
+                                <a href="{{ route('event.show', $event['id']) }}" @if($event['status'] == \App\Event::STATUS_REJECTED) class="text-muted" @endif>{{ $event['name'] }}</a><br>
                             @endforeach
                         </td>
 

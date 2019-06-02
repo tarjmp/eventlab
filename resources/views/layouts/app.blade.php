@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A web calendar application">
+    <meta name="keywords" content="calendar,web,events,groups,meeting,appointment,friends,party">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -12,12 +14,18 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png' )}}"/>
 
+    <!-- Scripts -->
+    <script src="{{ asset('js/bootstrap.js') }}" defer></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js')}}"></script>
 </head>
 <body>
 <div id="app">
@@ -35,14 +43,31 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-					@auth
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('groups') }}">Groups</a>
-						</li>
-					@endauth
+                    @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/about') }}">About</a>
+                            <a class="nav-link" href="{{ route('groups') }}">Groups</a>
                         </li>
+
+                        @if(\App\Tools\Query::getMessageCount() > 0)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('notifications') }}">Notifications
+                                    <sup>
+                                        <span class="badge badge-primary badge-pill">{{ \App\Tools\Query::getMessageCount() }}</span>
+                                    </sup>
+                                </a>
+                            </li>
+                        @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('showSubscriptions') }}">
+                                {{ __('navigation.subscriptions') }}
+                            </a>
+                        </li>
+
+                    @endauth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/about') }}">About</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -58,6 +83,17 @@
                             @endif
                         </li>
                     @else
+
+                        <form method="GET" action="{{ route('search') }}" class="mr-5">
+                            <div class="input-group input-group-sm mb-3" style="margin-top: 0.35rem;">
+                                <input type="text" class="form-control" name="term"
+                                       placeholder="{{ __('navigation.search') }}" maxlength="255">
+                                <div class="input-group-append">
+                                    <input type="submit" class="btn btn-outline-secondary" value="&#x2315;">
+                                </div>
+                            </div>
+                        </form>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

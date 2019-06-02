@@ -134,6 +134,9 @@ return [
         'end-total' => [
             'after' => 'The event must end after it started. Please adjust your dates or times.',
         ],
+        'search' => [
+            'required' => 'Please enter a search term.',
+        ],
     ],
 
     /*

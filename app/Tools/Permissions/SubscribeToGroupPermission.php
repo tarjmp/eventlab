@@ -11,7 +11,7 @@ class SubscribeToGroupPermission extends Permission
 {
     public function has($id = null)
     {
-        return Check::isLoggedIn() && Check::isPublicGroup($id) && !Check::isMemberOfGroup($id);
+        return Check::isLoggedIn() && Check::isPublicGroup($id) && !Check::isMemberOfGroup($id) && !Check::isSubscriberOfGroup($id);
     }
 
 }

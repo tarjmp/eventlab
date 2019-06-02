@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form method="POST" action="{{ route('addParticipants') }}">
+                <form method="POST" action="@if (!$edit){{ route('addParticipants') }} @else {{ route('addNewParticipants', ['id' => $id])}} @endif">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -13,7 +13,7 @@
                         {{-- if there are no possible participants, we do not need to show the continue button --}}
                         @if(count($participants) > 0)
                             <div class="col-md-6">
-                                <input id="addParticipants" class="btn btn-primary float-right"
+                                <input id="addParticipants" class="btn btn-primary btn-sm float-right"
                                        type="submit" value="{{ __('group.participants_submit') }}"/>
                             </div>
                         @endif

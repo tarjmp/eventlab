@@ -27,6 +27,12 @@ Route::view('/about', 'about');
 // login, register, etc.
 Route::auth();
 
+// configuration
+Route::post('/config/toggle-rejected', 'HomeController@toggleRejected')->name('toggle-rejected');
+
+// search functionality
+Route::get('/search', 'SearchController@search')->name('search');
+
 // user calendar
 Route::get('/home',                      'HomeController@index')->name('home');
 Route::get('/home/next',                 'HomeController@next')->name('home-next');
@@ -35,9 +41,6 @@ Route::get('/home/next',                 'HomeController@next')->name('home-next
 Route::get('/home/month/{year}/{month}', 'HomeController@month')->name('home-month-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}']);
 Route::get('/home/month',                'HomeController@month')->name('home-month');
 
-Route::get('/home/week/{year}/{week}',   'HomeController@week')->name('home-week-param')->where(['year' => '[0-9]{1,4}', 'week' => '[0-9]{1,2}']);
-Route::get('/home/week',                 'HomeController@week')->name('home-week');
-
 Route::get('/home/day/{year}/{month}/{day}',  'HomeController@day')->name('home-day-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}', 'day' => '[0-9]{1,2}']);
 Route::get('/home/day',                       'HomeController@day')->name('home-day');
 
@@ -45,15 +48,36 @@ Route::get('/home/day',                       'HomeController@day')->name('home-
 Route::get('/profile', 'UserProfileController@read')->name('profile');
 Route::post('/profile', 'UserProfileController@update')->name('profileUpdate');
 
+// event notifications
+Route::get('/notifications', 'EventController@replies')->name('notifications');
+Route::post('/notifications/{event}', 'EventController@updateReplies')->name('notificationsUpdate');
+
 
 // CRUD Event
 Route::resource('event', 'EventController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+Route::get('/event/{id}/list', 'EditWhatToBringListController@show')->name('list');
+Route::get('event/{id}/list/edit', 'EditWhatToBringListController@edit')->name('listEdit');
+Route::post('/event/{id}/list/add', 'EditWhatToBringListController@add')->name('listAdd');
+Route::post('/event/{id}/list/bring', 'EditWhatToBringListController@bring')->name('listBring');
+
+// Chat messages for events
+Route::post('/message/add', 'MessageController@add')->name('add-message');
+Route::post('/message/delete', 'MessageController@delete')->name('delete-message');
+Route::post('/message/get', 'MessageController@get')->name('get-messages');
 
 // CRUD Group
 // Note that the custom routes need to be defined before the resource route
 // Otherwise, there is a conflict between /group/[id] and /group/new and you will get a 403 error.
 Route::get('/group/new', 'GroupController@participants')->name('participants');
 Route::post('/group/new', 'GroupController@addParticipants')->name('addParticipants');
+Route::get('/group/{id}/update', 'GroupController@newParticipants')->name('newParticipants');
+Route::post('/group/{id}/update', 'GroupController@addNewParticipants')->name('addNewParticipants');
 Route::post('/group/leave', 'GroupController@leave')->name('leave-group');
 Route::resource('group', 'GroupController')->only(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::get('/groups', 'GroupController@groups')->name('groups');
+
+//Manage subscriptions
+Route::get('/subscriptions', 'ManageSubscriptionsController@show')->name('showSubscriptions');
+Route::post('/subscriptions/{id}/remove', 'ManageSubscriptionsController@remove')->name('removeSubscription');
+Route::post('subscriptions/{id}/add', 'ManageSubscriptionsController@add')->name('addSubscription');

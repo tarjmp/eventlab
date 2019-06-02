@@ -10,7 +10,7 @@
 
         <div class="card mb-1">
             <div class="card-body">
-                <h5 class="card-title"><a href="{{ route('event.show', $e->id) }}">{{$e->name}}</a></h5>
+                <h5 class="card-title"><a href="{{ route('event.show', $e->id) }}" @if($e->myReply() == \App\Event::STATUS_REJECTED) class="text-muted" @endif>{{$e->name}}</a></h5>
                 <h6 class="card-subtitle mb-2 text-muted">
                     {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
                     -

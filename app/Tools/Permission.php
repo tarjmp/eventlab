@@ -12,7 +12,7 @@ abstract class Permission {
 
     // PLEASE NOTE:
     // The required second parameter $id for the function call is specified in brackets:
-    // [g] = Group-ID; [e] = Event-ID; [-] = None
+    // [g] = Group ID; [e] = Event ID; [m] = Message ID; [-] = None
 
     // +++ Group permissions +++
 
@@ -29,6 +29,7 @@ abstract class Permission {
     // editEvent              [e]  Edit all event details
     // deleteEvent            [e]  Delete an event
     // respondToEvent         [e]  Reply to an event (accepted, declined, tentative)
+    // deleteMessage          [m]  Delete a chat message
 
     // +++ Other permissions +++
     // editProfile            [-]  Edit the user profile
@@ -36,6 +37,7 @@ abstract class Permission {
     // showGroups             [-]  Show the groups list
     // createGroup            [-]  Create a new group
     // createEvent            [-]  Create a personal event
+    // search                 [-]  Use the site's search functionality
 
 
     // This is the permission check. This function returns a boolean value that tells

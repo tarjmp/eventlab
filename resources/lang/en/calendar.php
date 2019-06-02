@@ -21,4 +21,6 @@ return [
     'friday'    => 'Friday',
     'saturday'  => 'Saturday',
     'sunday'    => 'Sunday',
+
+    'show-rejected' => 'Display rejected events'
 ];
