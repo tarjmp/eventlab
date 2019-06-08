@@ -56,15 +56,14 @@
 
                 @if(\App\Tools\PermissionFactory::createShowEventExtended()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
                     @if($event->hasEventReply($event->id))
-                        <br>
                         <div class="row mb-4">
                             <div class="col-md-4">{{ __('event.status') }}:</div>
                             @if($event->myReply() == 'accepted')
-                                <div class="col-md-8 text-right">{{ __('event.status_accepted') }}</div>
+                                <div class="col-md-8 text-right text-success">{{ __('event.status_accepted') }}</div>
                             @elseif ($event->myReply() == 'rejected')
-                                <div class="col-md-8 text-right">{{ __('event.status_rejected') }}</div>
+                                <div class="col-md-8 text-right text-danger">{{ __('event.status_rejected') }}</div>
                             @else
-                                <div class="col-md-8 text-right">{{ __('event.status_tentative') }}</div>
+                                <div class="col-md-8 text-right text-secondary">{{ __('event.status_tentative') }}</div>
                             @endif
                         </div>
                         <br>
@@ -105,20 +104,20 @@
                                   action="{{ route('notificationsUpdate', ['event' => $event]) }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-6 p-0 pr-1">
+                                    <div class="p-0 pr-1">
                                         <input id="btn_acceptEvent" type="submit" name="accept"
                                                value="{{ __('event.notifications_accept') }}"
                                                class="btn btn-outline-success w-100"/>
                                     </div>
-                                    <div class="col-6 p-0 pr-1">
-                                        <input id="btn_rejectEvent" type="submit" name="reject"
-                                               value="{{ __('event.notifications_reject') }}"
-                                               class="btn btn-outline-danger w-100"/>
-                                    </div>
-                                    <div class="col-6 p-0">
+                                    <div class="p-0 pr-1">
                                         <input id="btn_tentativeEvent" type="submit" name="tentative"
                                                value="{{ __('event.notifications_tentative') }}"
                                                class="btn btn-outline-secondary w-100"/>
+                                    </div>
+                                    <div class="p-0">
+                                        <input id="btn_rejectEvent" type="submit" name="reject"
+                                               value="{{ __('event.notifications_reject') }}"
+                                               class="btn btn-outline-danger w-100"/>
                                     </div>
                                 </div>
                             </form>

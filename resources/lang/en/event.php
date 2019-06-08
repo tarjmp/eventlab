@@ -28,7 +28,7 @@ return [
     'status'           => 'My reply',
     'status_accepted'  => 'accepted',
     'status_rejected'  => 'rejected',
-    'status_tentative' => 'tentative',
+    'status_tentative' => 'accepted tentatively',
 
     'event_replies_title'     => 'Notifications',
     'notifications_accept'    => 'Accept',
