@@ -2,6 +2,22 @@
 
 @section('content')
     <div class="container">
+
+        @if (session('newReply'))
+            <div class="alert alert-info" role="alert">
+                @if(session('newReply') == \App\Event::STATUS_ACCEPTED)
+                    {{ __('event.replied_accepted', ['name' => session('event')]) }}
+                @elseif(session('newReply') == \App\Event::STATUS_REJECTED)
+                    {{ __('event.replied_rejected', ['name' => session('event')]) }}
+                @else
+                    {{ __('event.replied_tentative', ['name' => session('event')]) }}
+                @endif
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-lg-6 mb-5 mx-2 mx-lg-0 pr-lg-4">
 
@@ -18,20 +34,22 @@
                     <div class="col-6">
                         <h2>{{$event->name}}</h2><br>
                     </div>
-                    <div class="col-6">
-                        @if($event->hasEventReply($event->id))
-                            @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
-                                <span class="badge-lg badge-success badge-pill" style="float: right;"
-                                      id="my-reply">{{ \App\Event::STATUS_ACCEPTED }}</span><br><br>
-                            @elseif($event->myReply() == \App\Event::STATUS_REJECTED)
-                                <span class="badge-lg badge-danger badge-pill" style="float: right;"
-                                      id="my-reply">{{ \App\Event::STATUS_REJECTED}}</span><br><br>
-                            @else
-                                <span class="badge-lg badge-secondary badge-pill" style="float: right;"
-                                      id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span><br><br>
+                    @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
+                        <div class="col-6">
+                            @if($event->hasEventReply($event->id))
+                                @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
+                                    <span class="badge-lg badge-success badge-pill" style="float: right;"
+                                          id="my-reply">{{ \App\Event::STATUS_ACCEPTED }}</span><br><br>
+                                @elseif($event->myReply() == \App\Event::STATUS_REJECTED)
+                                    <span class="badge-lg badge-danger badge-pill" style="float: right;"
+                                          id="my-reply">{{ \App\Event::STATUS_REJECTED}}</span><br><br>
+                                @else
+                                    <span class="badge-lg badge-secondary badge-pill" style="float: right;"
+                                          id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span><br><br>
+                                @endif
                             @endif
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
 
 
@@ -99,10 +117,10 @@
                                         <div class="col-md-4">
                                             {{ \App\User::findOrFail($r->pivot->user_id)->name() }}
                                         </div>
-                                            <div class="col-md-8 text-right">
+                                        <div class="col-md-8 text-right">
                                             <span class="badge badge-danger badge-pill"
                                                   id="my-reply">{{ \App\Event::STATUS_REJECTED }}</span>
-                                            </div>
+                                        </div>
                                     @endif
                                 @endif
                             @endforeach
@@ -111,10 +129,10 @@
                                     @if($r->pivot->status == \App\Event::STATUS_TENTATIVE)
                                         <div class="col-md-4">
                                             {{ \App\User::findOrFail($r->pivot->user_id)->name() }}</div>
-                                            <div class="col-md-8 text-right">
+                                        <div class="col-md-8 text-right">
                                             <span class="badge badge-secondary badge-pill"
                                                   id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span>
-                                            </div>
+                                        </div>
                                     @endif
                                 @endif
                             @endforeach
@@ -131,7 +149,9 @@
                             @endforeach
                         </div>
                     </div>
-                    <br>
+                @endif
+                <br>
+                @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
                     @if($event->hasEventReply($event->id))
                         <div class="container">
                             <form method="POST"

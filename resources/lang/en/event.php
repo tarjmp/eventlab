@@ -39,9 +39,9 @@ return [
     'notifications_text'      => 'You were added to the Event ":name". Do you want to accept and join the event?',
     'details_text'            => '(To get more details click here)',
     'no_notifications'        => 'No notifications. All done!',
-    'replied_accepted'        => 'You accepted event ":name".',
-    'replied_rejected'        => 'You rejected event ":name".',
-    'replied_tentative'       => 'You accepted event ":name" tentatively.',
+    'replied_accepted'        => 'You accepted the event ":name".',
+    'replied_rejected'        => 'You rejected the event ":name".',
+    'replied_tentative'       => 'You accepted the event ":name" tentatively.',
 
     'private' => 'Private event'
 
