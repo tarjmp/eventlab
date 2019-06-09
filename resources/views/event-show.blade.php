@@ -14,7 +14,27 @@
                     </div>
                 @endisset
 
-                <h2>{{$event->name}}</h2><br>
+                    <div class="row">
+                        <div class="col-6">
+                            <h2>{{$event->name}}</h2><br>
+                        </div>
+                        <div class="col-6">
+                            @if($event->hasEventReply($event->id))
+                                @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
+                                    <span class="badge-lg badge-success badge-pill" style="float: right;"
+                                          id="my-reply">{{ \App\Event::STATUS_ACCEPTED }}</span><br><br>
+                                @elseif($event->myReply() == \App\Event::STATUS_REJECTED)
+                                    <span class="badge-lg badge-danger badge-pill" style="float: right;"
+                                          id="my-reply">{{ \App\Event::STATUS_REJECTED}}</span><br><br>
+                                @else
+                                    <span class="badge-lg badge-secondary badge-pill" style="float: right;"
+                                          id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span><br><br>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+
+
                 @if($event->description != '')
                     <p class="text-muted">{{$event->description}}</p><br>
                 @endif
@@ -94,17 +114,6 @@
                     </div>
                     <br>
                     @if($event->hasEventReply($event->id))
-                        <div class="row mb-4">
-                            <div class="col-md-4"><strong>{{ __('event.status') }}:</strong></div>
-                            @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
-                                <div class="col-md-8 text-right text-success"><strong>{{ \App\Event::STATUS_ACCEPTED }}</strong></div>
-                            @elseif ($event->myReply() == 'rejected')
-                                <div class="col-md-8 text-right text-danger"><strong>{{ \App\Event::STATUS_REJECTED }}</strong></div>
-                            @else
-                                <div class="col-md-8 text-right text-secondary"><strong>{{ \App\Event::STATUS_TENTATIVE }}</strong></div>
-                            @endif
-                        </div>
-                        <br>
                         <div class="container">
                             <form method="POST"
                                   action="{{ route('notificationsUpdate', ['event' => $event]) }}">
@@ -134,7 +143,6 @@
                                 </div>
                             </form>
                         </div>
-
                     @else
                         <br>
                         <div class="container">
