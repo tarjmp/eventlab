@@ -55,6 +55,41 @@
                 @endif
 
                 @if(\App\Tools\PermissionFactory::createShowEventExtended()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
+                    <div class="row mb-4">
+                        <div class="col-md-8">{{ __('event.members_status') }}:</div>
+                    </div>
+                    <div class="row mb-4">
+                        @foreach($event->membersReply() as $r)
+                            @if($r)
+                                <div class="col-md-4">
+                                    {{ \App\User::findOrFail($r->pivot->user_id)->name() }}</div>
+                                @if($r->pivot->status == \App\Event::STATUS_ACCEPTED)
+                                    <div class="col-md-8 text-right text-success">
+                                        {{ \App\Event::STATUS_ACCEPTED }}
+                                    </div>
+                                @elseif ($r->pivot->status == \App\Event::STATUS_REJECTED)
+                                    <div class="col-md-8 text-right text-danger">
+                                        {{ \App\Event::STATUS_REJECTED }}
+                                    </div>
+                                @else
+                                    <div class="col-md-8 text-right text-secondary">
+                                        {{ \App\Event::STATUS_TENTATIVE }}
+                                    </div>
+                                @endif
+                            @endif
+                        @endforeach
+                    </div>
+                    <div class="row mb-4">
+                        @foreach($event->notRepliedMembers() as $m)
+                            @if($m)
+                                <div class="col-md-4">
+                                    {{ \App\User::findOrFail($m->pivot->user_id)->name() }}</div>
+                                <div class="col-md-8 text-right">
+                                    {{ __('event.not_replied') }}
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                     @if($event->hasEventReply($event->id))
                         <div class="row mb-4">
                             <div class="col-md-4">{{ __('event.status') }}:</div>

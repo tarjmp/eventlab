@@ -9,6 +9,7 @@ use App\Tools\CustomDateTime;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -261,7 +262,7 @@ class EventController extends Controller
         $event = Event::findOrFail($eventReplyID);
 
         // If there is already a reply to an event
-        if($event->hasEventReply()){
+        if ($event->hasEventReply()) {
             $event->replies()->detach();
         }
 

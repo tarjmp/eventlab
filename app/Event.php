@@ -53,6 +53,20 @@ class Event extends Model
         return null;
     }
 
+    // All replies from members who have replied to this event except from logged in user
+    public function membersReply()
+    {
+        $reply = $this->replies()->where('id', '!=', Auth::id())->orderby('first_name')->get();
+        return $reply;
+    }
+
+    public function notRepliedMembers() {
+
+        $members = $this->group->members()->where('id', '!=', Auth::id())->orderby('first_name')->get()->diff($this->membersReply());
+        return $members;
+    }
+
+
     // Returns if an event has been replied to or not
     public function hasEventReply()
     {

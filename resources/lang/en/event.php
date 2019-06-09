@@ -26,6 +26,8 @@ return [
     'select_group'     => 'Group',
     'private_group'    => '(Private)',
     'status'           => 'My reply',
+    'members_status'   => 'Replies of group members',
+    'not_replied'      => 'not replied',
     'status_accepted'  => 'accepted',
     'status_rejected'  => 'rejected',
     'status_tentative' => 'accepted tentatively',
