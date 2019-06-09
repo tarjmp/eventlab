@@ -58,47 +58,50 @@
                     <div class="row mb-4">
                         <div class="col-md-8">{{ __('event.members_status') }}:</div>
                     </div>
-                    <div class="row mb-4">
-                        @foreach($event->membersReply() as $r)
-                            @if($r)
-                                <div class="col-md-4">
-                                    {{ \App\User::findOrFail($r->pivot->user_id)->name() }}</div>
-                                @if($r->pivot->status == \App\Event::STATUS_ACCEPTED)
-                                    <div class="col-md-8 text-right text-success">
-                                        {{ \App\Event::STATUS_ACCEPTED }}
-                                    </div>
-                                @elseif ($r->pivot->status == \App\Event::STATUS_REJECTED)
-                                    <div class="col-md-8 text-right text-danger">
-                                        {{ \App\Event::STATUS_REJECTED }}
-                                    </div>
-                                @else
-                                    <div class="col-md-8 text-right text-secondary">
-                                        {{ \App\Event::STATUS_TENTATIVE }}
+                    <div class="col-md-12">
+                        <div class="row mb-4">
+                            @foreach($event->membersReply() as $r)
+                                @if($r)
+                                    <div class="col-md-4">
+                                        {{ \App\User::findOrFail($r->pivot->user_id)->name() }}</div>
+                                    @if($r->pivot->status == \App\Event::STATUS_ACCEPTED)
+                                        <div class="col-md-8 text-right text-success">
+                                            {{ \App\Event::STATUS_ACCEPTED }}
+                                        </div>
+                                    @elseif ($r->pivot->status == \App\Event::STATUS_REJECTED)
+                                        <div class="col-md-8 text-right text-danger">
+                                            {{ \App\Event::STATUS_REJECTED }}
+                                        </div>
+                                    @else
+                                        <div class="col-md-8 text-right text-secondary">
+                                            {{ \App\Event::STATUS_TENTATIVE }}
+                                        </div>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="row mb-4">
+                            @foreach($event->notRepliedMembers() as $m)
+                                @if($m)
+                                    <div class="col-md-4">
+                                        {{ \App\User::findOrFail($m->pivot->user_id)->name() }}</div>
+                                    <div class="col-md-8 text-right">
+                                        {{ __('event.not_replied') }}
                                     </div>
                                 @endif
-                            @endif
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="row mb-4">
-                        @foreach($event->notRepliedMembers() as $m)
-                            @if($m)
-                                <div class="col-md-4">
-                                    {{ \App\User::findOrFail($m->pivot->user_id)->name() }}</div>
-                                <div class="col-md-8 text-right">
-                                    {{ __('event.not_replied') }}
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
+                    <br>
                     @if($event->hasEventReply($event->id))
                         <div class="row mb-4">
-                            <div class="col-md-4">{{ __('event.status') }}:</div>
-                            @if($event->myReply() == 'accepted')
-                                <div class="col-md-8 text-right text-success">{{ __('event.status_accepted') }}</div>
+                            <div class="col-md-4"><strong>{{ __('event.status') }}:</strong></div>
+                            @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
+                                <div class="col-md-8 text-right text-success"><strong>{{ \App\Event::STATUS_ACCEPTED }}</strong></div>
                             @elseif ($event->myReply() == 'rejected')
-                                <div class="col-md-8 text-right text-danger">{{ __('event.status_rejected') }}</div>
+                                <div class="col-md-8 text-right text-danger"><strong>{{ \App\Event::STATUS_REJECTED }}</strong></div>
                             @else
-                                <div class="col-md-8 text-right text-secondary">{{ __('event.status_tentative') }}</div>
+                                <div class="col-md-8 text-right text-secondary"><strong>{{ \App\Event::STATUS_TENTATIVE }}</strong></div>
                             @endif
                         </div>
                         <br>
@@ -107,21 +110,21 @@
                                   action="{{ route('notificationsUpdate', ['event' => $event]) }}">
                                 @csrf
                                 <div class="row">
-                                    @if($event->myReply() != 'accepted')
+                                    @if($event->myReply() != \App\Event::STATUS_ACCEPTED)
                                         <div class="p-0 pr-1">
                                             <input id="btn_acceptEvent" type="submit" name="accept"
                                                    value="{{ __('event.notifications_accept') }}"
                                                    class="btn btn-outline-success w-100"/>
                                         </div>
                                     @endif
-                                    @if($event->myReply() != 'tentative')
+                                    @if($event->myReply() != \App\Event::STATUS_TENTATIVE)
                                         <div class="p-0 pr-1">
                                             <input id="btn_tentativeEvent" type="submit" name="tentative"
                                                    value="{{ __('event.notifications_tentative') }}"
                                                    class="btn btn-outline-secondary w-100"/>
                                         </div>
                                     @endif
-                                    @if($event->myReply() != 'rejected')
+                                    @if($event->myReply() != \App\Event::STATUS_REJECTED)
                                         <div class="p-0">
                                             <input id="btn_rejectEvent" type="submit" name="reject"
                                                    value="{{ __('event.notifications_reject') }}"
