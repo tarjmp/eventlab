@@ -14,25 +14,25 @@
                     </div>
                 @endisset
 
-                    <div class="row">
-                        <div class="col-6">
-                            <h2>{{$event->name}}</h2><br>
-                        </div>
-                        <div class="col-6">
-                            @if($event->hasEventReply($event->id))
-                                @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
-                                    <span class="badge-lg badge-success badge-pill" style="float: right;"
-                                          id="my-reply">{{ \App\Event::STATUS_ACCEPTED }}</span><br><br>
-                                @elseif($event->myReply() == \App\Event::STATUS_REJECTED)
-                                    <span class="badge-lg badge-danger badge-pill" style="float: right;"
-                                          id="my-reply">{{ \App\Event::STATUS_REJECTED}}</span><br><br>
-                                @else
-                                    <span class="badge-lg badge-secondary badge-pill" style="float: right;"
-                                          id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span><br><br>
-                                @endif
-                            @endif
-                        </div>
+                <div class="row">
+                    <div class="col-6">
+                        <h2>{{$event->name}}</h2><br>
                     </div>
+                    <div class="col-6">
+                        @if($event->hasEventReply($event->id))
+                            @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
+                                <span class="badge-lg badge-success badge-pill" style="float: right;"
+                                      id="my-reply">{{ \App\Event::STATUS_ACCEPTED }}</span><br><br>
+                            @elseif($event->myReply() == \App\Event::STATUS_REJECTED)
+                                <span class="badge-lg badge-danger badge-pill" style="float: right;"
+                                      id="my-reply">{{ \App\Event::STATUS_REJECTED}}</span><br><br>
+                            @else
+                                <span class="badge-lg badge-secondary badge-pill" style="float: right;"
+                                      id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span><br><br>
+                            @endif
+                        @endif
+                    </div>
+                </div>
 
 
                 @if($event->description != '')
@@ -82,20 +82,39 @@
                         <div class="row mb-4">
                             @foreach($event->membersReply() as $r)
                                 @if($r)
-                                    <div class="col-md-4">
-                                        {{ \App\User::findOrFail($r->pivot->user_id)->name() }}</div>
                                     @if($r->pivot->status == \App\Event::STATUS_ACCEPTED)
-                                        <div class="col-md-8 text-right text-success">
-                                            {{ \App\Event::STATUS_ACCEPTED }}
+                                        <div class="col-md-4">
+                                            {{ \App\User::findOrFail($r->pivot->user_id)->name() }}
                                         </div>
-                                    @elseif ($r->pivot->status == \App\Event::STATUS_REJECTED)
-                                        <div class="col-md-8 text-right text-danger">
-                                            {{ \App\Event::STATUS_REJECTED }}
+                                        <div class="col-md-8 text-right">
+                                            <span class="badge badge-success badge-pill"
+                                                  id="my-reply">{{ \App\Event::STATUS_ACCEPTED}}</span>
                                         </div>
-                                    @else
-                                        <div class="col-md-8 text-right text-secondary">
-                                            {{ \App\Event::STATUS_TENTATIVE }}
+                                    @endif
+                                @endif
+                            @endforeach
+                            @foreach($event->membersReply() as $r)
+                                @if($r)
+                                    @if($r->pivot->status == \App\Event::STATUS_REJECTED)
+                                        <div class="col-md-4">
+                                            {{ \App\User::findOrFail($r->pivot->user_id)->name() }}
                                         </div>
+                                            <div class="col-md-8 text-right">
+                                            <span class="badge badge-danger badge-pill"
+                                                  id="my-reply">{{ \App\Event::STATUS_REJECTED }}</span>
+                                            </div>
+                                    @endif
+                                @endif
+                            @endforeach
+                            @foreach($event->membersReply() as $r)
+                                @if($r)
+                                    @if($r->pivot->status == \App\Event::STATUS_TENTATIVE)
+                                        <div class="col-md-4">
+                                            {{ \App\User::findOrFail($r->pivot->user_id)->name() }}</div>
+                                            <div class="col-md-8 text-right">
+                                            <span class="badge badge-secondary badge-pill"
+                                                  id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span>
+                                            </div>
                                     @endif
                                 @endif
                             @endforeach
