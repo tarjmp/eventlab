@@ -28,9 +28,6 @@ return [
     'status'           => 'My reply',
     'members_status'   => 'Replies of group members',
     'not_replied'      => 'not replied',
-    'status_accepted'  => 'accepted',
-    'status_rejected'  => 'rejected',
-    'status_tentative' => 'accepted tentatively',
 
     'event_replies_title'     => 'Notifications',
     'notifications_accept'    => 'Accept',
