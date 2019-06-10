@@ -27,7 +27,7 @@
                                         @CSRF
                                         <input type="hidden" name="delete" value="true"/>
                                         <input type="hidden" name="item" value="{{ $item->id }}"/>
-                                        <span class="badge badge-danger" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.DeleteItem') }}">{{ __('list.Delete') }}</span>
+                                        <span class="badge badge-danger" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.DeleteItem') }}">{{ __('list.DeleteItem') }}</span>
                                     </form>
                                 </td>
                                 <input id="itemID"
