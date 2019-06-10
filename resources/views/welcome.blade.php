@@ -71,6 +71,7 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
+                        <a if="calendar" href="{{ route('home') }}">Calendar</a>
                         <a id="login" href="{{ route('login') }}">Login</a>
                         <a id="register" href="{{ route('register') }}">Register</a>
                     @endauth
