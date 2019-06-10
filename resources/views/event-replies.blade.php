@@ -2,6 +2,22 @@
 
 @section('content')
     <div class="container">
+
+        @if (session('newReply'))
+            <div class="alert alert-info" role="alert">
+                @if(session('newReply') == \App\Event::STATUS_ACCEPTED)
+                    {{ __('event.replied_accepted', ['name' => session('event')]) }}
+                @elseif(session('newReply') == \App\Event::STATUS_REJECTED)
+                    {{ __('event.replied_rejected', ['name' => session('event')]) }}
+                @else
+                    {{ __('event.replied_tentative', ['name' => session('event')]) }}
+                @endif
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h2>{{ __('event.event_replies_title') }}</h2>

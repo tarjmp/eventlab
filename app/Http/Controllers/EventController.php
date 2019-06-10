@@ -9,6 +9,7 @@ use App\Tools\CustomDateTime;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -261,21 +262,21 @@ class EventController extends Controller
         $event = Event::findOrFail($eventReplyID);
 
         // If there is already a reply to an event
-        if($event->hasEventReply()){
-            $event->replies()->detach();
+        if ($event->hasEventReply()) {
+         Auth::user()->replies()->where('event_id', '=', $event->id)->detach();
         }
 
         if (isset($data['accept'])) {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_ACCEPTED]);
-            return redirect('home')->with(['event' => $event->name, 'newReply' => Event::STATUS_ACCEPTED]);
+        return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_ACCEPTED]);
 
         } elseif (isset($data['reject'])) {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_REJECTED]);
-            return redirect('home')->with(['event' => $event->name, 'newReply' => Event::STATUS_REJECTED]);
+            return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_REJECTED]);
 
         } else {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_TENTATIVE]);
-            return redirect('home')->with(['event' => $event->name, 'newReply' => Event::STATUS_TENTATIVE]);
+            return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_TENTATIVE]);
 
         }
     }
