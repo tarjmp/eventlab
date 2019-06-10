@@ -15,5 +15,8 @@ return [
     'back'                      => 'Back',
     'assignMe'                  => 'Assign me',
     'unassignMe'                => 'Unassign me',
+    'DeleteItem'                => 'Delete Item',
+    'Delete'                    => 'Delete',
     'nobody'                    => 'Nobody',
+    'EditDelete'                => 'Edit/Delete item',
 ];

@@ -11,12 +11,19 @@
                             <th> {{ __('list.name') }}</th>
                             <th> {{ __('list.amount') }}</th>
                             <th> {{ __('list.user') }}</th>
+                            <th></th>
                         </tr>
                         @foreach($items as $item)
                             <tr>
                                 <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
                                 <td>  @if ($item->user) {{ $item->user->name() }} @else <span class="text-muted">{{ __('list.nobody') }}</span> @endif </td>
+                                <td><form method="POST" action="{{ route('listDelete', $eventID) }}">
+                                        @CSRF
+                                        <input type="hidden" name="delete" value="true"/>
+                                        <input type="hidden" name="item" value="{{ $item->id }}"/>
+                                        <span class="badge badge-danger" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.DeleteItem') }}">{{ __('list.Delete') }}</span>
+                                    </form></td>
                                 <input id="itemID"
                                        type="hidden"
                                        class="form-control"
@@ -51,6 +58,7 @@
                                         </label>
                                     </div>
                                 </td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <input id="eventID"
