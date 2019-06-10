@@ -36,7 +36,7 @@
                     </div>
                     @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
                         <div class="col-6">
-                            @if($event->hasEventReply($event->id))
+                            @if($event->hasEventReply())
                                 @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
                                     <span class="badge-lg badge-success badge-pill" style="float: right;"
                                           id="my-reply">{{ \App\Event::STATUS_ACCEPTED }}</span><br><br>
@@ -140,62 +140,35 @@
                 @endif
                 <br>
                 @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
-                    @if($event->hasEventReply($event->id))
-                        <div class="container">
-                            <form method="POST"
-                                  action="{{ route('notificationsUpdate', ['event' => $event]) }}">
-                                @csrf
-                                <div class="row">
-                                    @if($event->myReply() != \App\Event::STATUS_ACCEPTED)
-                                        <div class="p-0 pr-1">
-                                            <input id="btn_acceptEvent" type="submit" name="accept"
-                                                   value="{{ __('event.notifications_accept') }}"
-                                                   class="btn btn-outline-success w-100"/>
-                                        </div>
-                                    @endif
-                                    @if($event->myReply() != \App\Event::STATUS_TENTATIVE)
-                                        <div class="p-0 pr-1">
-                                            <input id="btn_tentativeEvent" type="submit" name="tentative"
-                                                   value="{{ __('event.notifications_tentative') }}"
-                                                   class="btn btn-outline-secondary w-100"/>
-                                        </div>
-                                    @endif
-                                    @if($event->myReply() != \App\Event::STATUS_REJECTED)
-                                        <div class="p-0">
-                                            <input id="btn_rejectEvent" type="submit" name="reject"
-                                                   value="{{ __('event.notifications_reject') }}"
-                                                   class="btn btn-outline-danger w-100"/>
-                                        </div>
-                                    @endif
-                                </div>
-                            </form>
-                        </div>
-                    @else
-                        <br>
-                        <div class="container">
-                            <form method="POST"
-                                  action="{{ route('notificationsUpdate', ['event' => $event]) }}">
-                                @csrf
-                                <div class="row">
+                    <div class="container">
+                        <form method="POST"
+                              action="{{ route('notificationsUpdate', ['event' => $event]) }}">
+                            @csrf
+                            <div class="row">
+                                @if($event->myReply() != \App\Event::STATUS_ACCEPTED)
                                     <div class="p-0 pr-1">
                                         <input id="btn_acceptEvent" type="submit" name="accept"
                                                value="{{ __('event.notifications_accept') }}"
                                                class="btn btn-outline-success w-100"/>
                                     </div>
+                                @endif
+                                @if($event->myReply() != \App\Event::STATUS_TENTATIVE)
                                     <div class="p-0 pr-1">
                                         <input id="btn_tentativeEvent" type="submit" name="tentative"
                                                value="{{ __('event.notifications_tentative') }}"
                                                class="btn btn-outline-secondary w-100"/>
                                     </div>
+                                @endif
+                                @if($event->myReply() != \App\Event::STATUS_REJECTED)
                                     <div class="p-0">
                                         <input id="btn_rejectEvent" type="submit" name="reject"
                                                value="{{ __('event.notifications_reject') }}"
                                                class="btn btn-outline-danger w-100"/>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                    @endif
+                                @endif
+                            </div>
+                        </form>
+                    </div>
                 @endif
 
                 @if(\App\Tools\PermissionFactory::createEditEvent()->has($event->id))
