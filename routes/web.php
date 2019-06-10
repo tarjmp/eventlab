@@ -20,6 +20,8 @@ if (!App::environment('local')) {
 
 // home screen
 Route::view('/', 'welcome');
+Route::get('/publicGroup', 'HomeController@publicGroup')->name('public-group');
+Route::post('/showPublicGroup/', 'HomeController@showGroup')->name('show-group-calendar');
 
 // about screen
 Route::view('/about', 'about');

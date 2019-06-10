@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Group;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
@@ -129,6 +130,41 @@ class HomeController extends Controller
 
         // get all public events
         $aDays = Query::getPublicEventsMonth($oDay);
+
+        // calculate previous and next day for navigation
+        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
+        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
+
+        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
+    }
+
+    public function publicGroup()
+    {
+        $groups = Group::where('public', true)->get();
+
+        return view('public-group')->with(['groups' => $groups]);
+    }
+
+    public function showGroup($request){
+        //no permissions required
+
+        $data = $request->all();
+
+        $id = $data['id'];
+
+        var_dump($data);
+        die();
+
+        $oDay = null;
+
+        // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
+        if ($oDay == null) {
+            $aTodayInfo = Date::toAssocArray(Date::createFromToday());
+            $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
+        }
+
+        // get all public events
+        $aDays = Query::getPublicEventsMonthGroup($oDay, $id);
 
         // calculate previous and next day for navigation
         $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
