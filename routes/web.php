@@ -60,6 +60,7 @@ Route::get('/event/{id}/list', 'EditWhatToBringListController@show')->name('list
 Route::get('event/{id}/list/edit', 'EditWhatToBringListController@edit')->name('listEdit');
 Route::post('/event/{id}/list/add', 'EditWhatToBringListController@add')->name('listAdd');
 Route::post('/event/{id}/list/bring', 'EditWhatToBringListController@bring')->name('listBring');
+Route::post('/event/{id}/list/delete', 'EditWhatToBringListController@delete')->name('listDelete');
 
 // Chat messages for events
 Route::post('/message/add', 'MessageController@add')->name('add-message');

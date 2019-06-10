@@ -83,6 +83,18 @@ class EditWhatToBringListController extends Controller
         return redirect(route('list', $id));
     }
 
+    public function delete(Request $request, $id)
+    {
+        $data = $request->all();
+
+        // check for permission to edit the event
+        PermissionFactory::createEditEvent()->check($id);
+
+        //Delete Query
+
+        return redirect(route( 'list', $id));
+    }
+
     private function getItems($id)
     {
         //retrieve the information stored in the database
