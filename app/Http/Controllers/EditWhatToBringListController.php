@@ -90,9 +90,12 @@ class EditWhatToBringListController extends Controller
         // check for permission to edit the event
         PermissionFactory::createEditEvent()->check($id);
 
-        //Delete Query
-        $item = Event::findOrFail($id)->items()->where('id', '=', $data['item'])->first();
-        $item->delete();
+        //Double check before deleting
+        if (isset($data['delete'])) {
+            //Delete Query
+            $item = Event::findOrFail($id)->items()->where('id', '=', $data['item'])->first();
+            $item->delete();
+        }
 
         return redirect(route( 'list', $id));
     }
