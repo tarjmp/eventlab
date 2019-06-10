@@ -97,55 +97,43 @@
                         <div class="col-md-8">{{ __('event.members_status') }}:</div>
                     </div>
                     <div class="col-md-12">
-                        <div class="row mb-4">
-                            @foreach($event->membersReply() as $r)
-                                @if($r)
-                                    @if($r->pivot->status == \App\Event::STATUS_ACCEPTED)
-                                        <div class="col-md-4">
-                                            {{ \App\User::findOrFail($r->pivot->user_id)->name() }}
-                                        </div>
-                                        <div class="col-md-8 text-right">
+                        @if(count($event->membersReply()->get()) > 0)
+                            <div class="row mb-4">
+                                @foreach($event->membersAccepted() as $r)
+                                    <div class="col-md-4">
+                                        {{ $r->name() }}
+                                    </div>
+                                    <div class="col-md-8 text-right">
                                             <span class="badge badge-success badge-pill"
-                                                  id="my-reply">{{ \App\Event::STATUS_ACCEPTED}}</span>
-                                        </div>
-                                    @endif
-                                @endif
-                            @endforeach
-                            @foreach($event->membersReply() as $r)
-                                @if($r)
-                                    @if($r->pivot->status == \App\Event::STATUS_REJECTED)
-                                        <div class="col-md-4">
-                                            {{ \App\User::findOrFail($r->pivot->user_id)->name() }}
-                                        </div>
-                                        <div class="col-md-8 text-right">
+                                                  id="my-reply">{{__('event.status_accepted')}}</span>
+                                    </div>
+                                @endforeach
+                                @foreach($event->membersRejected() as $r)
+                                    <div class="col-md-4">
+                                        {{  $r->name()  }}
+                                    </div>
+                                    <div class="col-md-8 text-right">
                                             <span class="badge badge-danger badge-pill"
-                                                  id="my-reply">{{ \App\Event::STATUS_REJECTED }}</span>
-                                        </div>
-                                    @endif
-                                @endif
-                            @endforeach
-                            @foreach($event->membersReply() as $r)
-                                @if($r)
-                                    @if($r->pivot->status == \App\Event::STATUS_TENTATIVE)
-                                        <div class="col-md-4">
-                                            {{ \App\User::findOrFail($r->pivot->user_id)->name() }}</div>
-                                        <div class="col-md-8 text-right">
+                                                  id="my-reply">{{ __('event.status_rejected') }}</span>
+                                    </div>
+                                @endforeach
+                                @foreach($event->membersTentative() as $r)
+                                    <div class="col-md-4">
+                                        {{  $r->name()  }}</div>
+                                    <div class="col-md-8 text-right">
                                             <span class="badge badge-secondary badge-pill"
-                                                  id="my-reply">{{ \App\Event::STATUS_TENTATIVE }}</span>
-                                        </div>
-                                    @endif
-                                @endif
-                            @endforeach
-                        </div>
+                                                  id="my-reply">{{ __('event.status_tentative') }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                         <div class="row mb-4">
                             @foreach($event->notRepliedMembers() as $m)
-                                @if($m)
-                                    <div class="col-md-4">
-                                        {{ \App\User::findOrFail($m->pivot->user_id)->name() }}</div>
-                                    <div class="col-md-8 text-right">
-                                        {{ __('event.not_replied') }}
-                                    </div>
-                                @endif
+                                <div class="col-md-4">
+                                    {{  $m->name()  }}</div>
+                                <div class="col-md-8 text-right">
+                                    {{ __('event.not_replied') }}
+                                </div>
                             @endforeach
                         </div>
                     </div>

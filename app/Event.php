@@ -56,13 +56,25 @@ class Event extends Model
     // All replies from members who have replied to this event except from logged in user
     public function membersReply()
     {
-        $reply = $this->replies()->where('id', '!=', Auth::id())->orderby('first_name')->get();
+        $reply = $this->replies()->where('id', '!=', Auth::id())->orderby('first_name');
         return $reply;
+    }
+
+    public function membersAccepted() {
+        return $this->membersReply()->wherePivot('status', '=', self::STATUS_ACCEPTED)->get();
+    }
+
+    public function membersRejected() {
+        return $this->membersReply()->wherePivot('status', '=', self::STATUS_REJECTED)->get();
+    }
+
+    public function membersTentative() {
+        return $this->membersReply()->wherePivot('status', '=', self::STATUS_TENTATIVE)->get();
     }
 
     public function notRepliedMembers() {
 
-        $members = $this->group->members()->where('id', '!=', Auth::id())->orderby('first_name')->get()->diff($this->membersReply());
+        $members = $this->group->members()->where('id', '!=', Auth::id())->orderby('first_name')->get()->diff($this->membersReply()->get());
         return $members;
     }
 
