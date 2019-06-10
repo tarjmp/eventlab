@@ -12,6 +12,7 @@ return [
     'updated'                   => 'The item was successfully added to the list.',
     'submit'                    => 'Add item',
     'edit'                      => 'Edit list',
+    'editItem'                  => 'Edit Item',
     'back'                      => 'Back',
     'assignMe'                  => 'Assign me',
     'unassignMe'                => 'Unassign me',

@@ -18,12 +18,18 @@
                                 <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
                                 <td>  @if ($item->user) {{ $item->user->name() }} @else <span class="text-muted">{{ __('list.nobody') }}</span> @endif </td>
-                                <td><form method="POST" action="{{ route('listDelete', $eventID) }}">
+                                <td>
+                                    <form method="POST" action="{{ route('itemEdit', $item->id) }}">
+                                        @csrf
+                                        <span class="badge badge-primary" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.edit') }}">{{ __('list.editItem') }}</span>
+                                    </form>
+                                    <form method="POST" action="{{ route('listDelete', $eventID) }}">
                                         @CSRF
                                         <input type="hidden" name="delete" value="true"/>
                                         <input type="hidden" name="item" value="{{ $item->id }}"/>
                                         <span class="badge badge-danger" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.DeleteItem') }}">{{ __('list.Delete') }}</span>
-                                    </form></td>
+                                    </form>
+                                </td>
                                 <input id="itemID"
                                        type="hidden"
                                        class="form-control"
