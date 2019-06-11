@@ -103,7 +103,7 @@ class GroupControllerTest extends TestCase
 
         // user not logged in --> expect redirect to login page
         $response = $this->get('/groups');
-        $response->assertRedirect('/login');
+        $response->assertOK();
 
         // user logged in
         $this->loginWithDBUser(1);
