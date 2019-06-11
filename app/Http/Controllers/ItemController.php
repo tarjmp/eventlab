@@ -24,7 +24,9 @@ class ItemController extends Controller
     {
         $data = $request->all();
 
-        $item = Event::findOrFail($id)->items()->where('id', '=', $id)->first();
+        $request->validate(['name' => 'required|string|min:1']);
+
+        $item = Event::findOrFail($data['event_id'])->items()->where('id', '=', $id)->first();
 
         // check for permission to edit the event
         PermissionFactory::createEditEvent()->check($item->event_id);
@@ -34,6 +36,6 @@ class ItemController extends Controller
 
         $item->save();
 
-        return redirect(route('list', $item->event_id));
+        return redirect(route('listEdit', $item->event_id));
     }
 }

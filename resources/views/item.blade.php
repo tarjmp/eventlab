@@ -36,8 +36,8 @@
                                 <input id="eventID"
                                        type="hidden"
                                        class="form-control"
-                                       value="{{ $item->eventID }}"
-                                       name="eventID">
+                                       value="{{ $item->event_id }}"
+                                       name="event_id">
                                 <td colspan="3">
                                     <a class="btn btn-secondary btn-sm float-left" href="{{ route('listEdit', $item->event_id) }}">
                                         {{ __('item.back') }}
