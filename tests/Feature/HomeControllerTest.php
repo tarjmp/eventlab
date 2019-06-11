@@ -15,8 +15,7 @@ class HomeControllerTest extends TestCase
     {
         // user not logged in - expect redirect to start page
         $response = $this->get('/home');
-        //Should show calendar view with public events
-        $response->assertOk();
+        $response->assertRedirect('/login');
 
         // login user with id 2
         $this->loginWithDBUser(2);
