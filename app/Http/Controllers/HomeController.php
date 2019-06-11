@@ -171,4 +171,13 @@ class HomeController extends Controller
             return redirect(route('groups'));
         }
     }
+
+    public function selectGroup(Request $request)
+    {
+        $data = $request->all();
+
+        session(['public_group' => $data['public_group']]);
+
+        return redirect(route('home'));
+    }
 }

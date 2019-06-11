@@ -88,9 +88,9 @@
                                                             {{ __('group.unsubscribe') }}</button>
                                                     </form>
                                                 @else
-                                                    <form method="GET"
-                                                          action="{{ session(['public_group' => $g->id]) }} {{ route('home') }}">
+                                                    <form method="POST" action="{{ route('GuestSelect') }}">
                                                         @csrf
+                                                        <input type="hidden" name="public_group" id="public_group" value="{{ $g->id }}">
                                                         <button type="submit"
                                                                 class="btn btn-secondary btn-sm float-right">
                                                             {{ __('group.show') }}</button>
