@@ -4,13 +4,15 @@
 
     <h4 class="row">
         <div class="col-2 text-left">
-            <a role="button" class="btn btn-outline-secondary btn-sm" href="{{ route('home-day-param', ['year' => $prev['year'], 'month' => $prev['month'], 'day' => $prev['day']]) }}">&laquo;</a>
+            <a role="button" class="btn btn-outline-secondary btn-sm"
+               href="{{ route('home-day-param', ['year' => $prev['year'], 'month' => $prev['month'], 'day' => $prev['day']]) }}">&laquo;</a>
         </div>
         <div class="col-8 text-center">
             {{ $day }}
         </div>
         <div class="col-2 text-right">
-            <a role="button" class="btn btn-outline-secondary btn-sm" href="{{ route('home-day-param', ['year' => $next['year'], 'month' => $next['month'], 'day' => $next['day']]) }}">&raquo;</a>
+            <a role="button" class="btn btn-outline-secondary btn-sm"
+               href="{{ route('home-day-param', ['year' => $next['year'], 'month' => $next['month'], 'day' => $next['day']]) }}">&raquo;</a>
         </div>
     </h4>
     <br>
@@ -20,11 +22,18 @@
 
         <div class="card mb-1">
             <div class="card-body">
-                <h5 class="card-title"><a href="{{ route('event.show', $e->id) }}" @if($e->myReply() == \App\Event::STATUS_REJECTED) class="text-muted" @endif>{{$e->name}}</a></h5>
+                <h5 class="card-title"><a href="{{ route('event.show', $e->id) }}"
+                                          @if($e->myReply() == \App\Event::STATUS_REJECTED) class="text-muted" @endif>{{$e->name}}</a>
+                </h5>
                 <h6 class="card-subtitle mb-2 text-muted">
-                    {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
-                    -
-                    {{ \App\Tools\Date::toUserOutput($e->end_time, 'F j, H:i')}}
+                    @if($e->all_day)
+                        {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j') }},
+                        {{  __('event.all_day_small') }}
+                    @else
+                        {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
+                        -
+                        {{ \App\Tools\Date::toUserOutput($e->end_time, 'F j, H:i')}}
+                    @endif
                 </h6>
                 <h6 class="card-subtitle mb-2 text-muted">
                     {{ $e->location }}
