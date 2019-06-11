@@ -24,13 +24,13 @@
                                            autofocus></td>
                             </tr>
                             <tr>
-                                <td>  {{ __('item.amount') }} </td>
+                                <td>  {{ __('list.amount') }} </td>
                                 <td><input id="amount"
                                            type="text"
                                            class="form-control"
                                            name="amount"
                                            value="{{$item->amount}}"
-                                           placeholder="{{ __('item.placeholder_amount') }}"></td>
+                                           placeholder="{{ __('list.placeholder_amount') }}"></td>
                             </tr>
                             <tr>
                                 <input id="eventID"

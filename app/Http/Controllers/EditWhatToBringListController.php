@@ -97,7 +97,7 @@ class EditWhatToBringListController extends Controller
             $item->delete();
         }
 
-        return redirect(route( 'list', $id));
+        return redirect(route( 'listEdit', $id));
     }
 
     private function getItems($id)
