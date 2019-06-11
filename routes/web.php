@@ -21,7 +21,8 @@ if (!App::environment('local')) {
 // home screen
 Route::view('/', 'welcome');
 Route::get('/publicGroup', 'HomeController@publicGroup')->name('public-group');
-Route::post('/showPublicGroup/', 'HomeController@showGroup')->name('show-group-calendar');
+Route::post('/showPublicGroup', 'HomeController@showGroup')->name('show-group-calendar');
+Route::get('/showPublicGroup/{year}/{month}', 'HomeController@showGroup')->name('show-group-calendar-param')->where(['year' => '[0-9]{1,4}', 'month' => '[0-9]{1,2}']);
 
 // about screen
 Route::view('/about', 'about');

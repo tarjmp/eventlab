@@ -72,7 +72,6 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a id="publicGroups" href="{{ route('public-group') }}">Public Groups</a>
-                        <a if="calendar" href="{{ route('home') }}">Calendar</a>
                         <a id="login" href="{{ route('login') }}">Login</a>
                         <a id="register" href="{{ route('register') }}">Register</a>
                     @endauth

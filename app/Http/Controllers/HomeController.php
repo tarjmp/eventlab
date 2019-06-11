@@ -7,6 +7,7 @@ use App\Group;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -38,11 +39,24 @@ class HomeController extends Controller
 
     public function month($year = 0, $month = 0)
     {
-        if (Auth::guest()) {
-            return $this->monthGuest($year, $month);
-        } else {
-            return $this->monthUser($year, $month);
+        // require home screen permission
+        PermissionFactory::createShowHomeCalendar()->check();
+        $oDay = null;
+        // take given year and month (if specified)
+        if ($year > 0 && $month > 0) {
+            $oDay = Date::createFromFirstDayOfMonth($year, $month);
         }
+        // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
+        if ($oDay == null) {
+            $aTodayInfo = Date::toAssocArray(Date::createFromToday());
+            $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
+        }
+        // get all events for this user
+        $aDays = Query::getUserEventsMonth($oDay, $this->showRejectedEvents());
+        // calculate previous and next day for navigation
+        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
+        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
+        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
     }
 
     public function day($year = 0, $month = 0, $day = 0)
@@ -83,61 +97,6 @@ class HomeController extends Controller
         return session(self::SHOW_REJECTED_EVENTS);
     }
 
-    private function monthUser($year, $month)
-    {
-        // require home screen permission
-        PermissionFactory::createShowHomeCalendar()->check();
-
-        $oDay = null;
-
-        // take given year and month (if specified)
-        if ($year > 0 && $month > 0) {
-            $oDay = Date::createFromFirstDayOfMonth($year, $month);
-        }
-
-        // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
-        if ($oDay == null) {
-            $aTodayInfo = Date::toAssocArray(Date::createFromToday());
-            $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
-        }
-
-        // get all events for this user
-        $aDays = Query::getUserEventsMonth($oDay, $this->showRejectedEvents());
-
-        // calculate previous and next day for navigation
-        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
-        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
-
-        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
-    }
-
-    private function monthGuest($year, $month)
-    {
-        //no permissions required
-
-        $oDay = null;
-
-        // take given year and month (if specified)
-        if ($year > 0 && $month > 0) {
-            $oDay = Date::createFromFirstDayOfMonth($year, $month);
-        }
-
-        // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
-        if ($oDay == null) {
-            $aTodayInfo = Date::toAssocArray(Date::createFromToday());
-            $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
-        }
-
-        // get all public events
-        $aDays = Query::getPublicEventsMonth($oDay);
-
-        // calculate previous and next day for navigation
-        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
-        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
-
-        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
-    }
-
     public function publicGroup()
     {
         $groups = Group::where('public', true)->get();
@@ -145,17 +104,20 @@ class HomeController extends Controller
         return view('public-group')->with(['groups' => $groups]);
     }
 
-    public function showGroup($request){
+    public function showGroup(Request $request, $year = 0, $month = 0)
+    {
         //no permissions required
+        // validate the incoming request
+        $request->validate(['members' => 'required|array|min:1']);
 
         $data = $request->all();
 
-        $id = $data['id'];
-
-        var_dump($data);
-        die();
-
         $oDay = null;
+
+        // take given year and month (if specified)
+        if ($year > 0 && $month > 0) {
+            $oDay = Date::createFromFirstDayOfMonth($year, $month);
+        }
 
         // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
         if ($oDay == null) {
@@ -164,12 +126,12 @@ class HomeController extends Controller
         }
 
         // get all public events
-        $aDays = Query::getPublicEventsMonthGroup($oDay, $id);
+        $aDays = Query::getPublicEventsMonth($oDay, $data['members']);
 
         // calculate previous and next day for navigation
         $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
         $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
 
-        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
+        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay), 'members' => $data['members']]);
     }
 }

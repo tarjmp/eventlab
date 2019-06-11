@@ -195,16 +195,17 @@ class Query
         return count($notifications);
     }
 
-    //Get all public events
-    private static function getPublicEventsGroup($id)
+
+    //Get public events for selected groups
+    private static function getPublicEvents($members)
     {
-        $aevents = Event::where('group_id', $id)->orderBy('start_time');;
+        $aevents = Event::whereIn('group_id', $members)->orderBy('start_time');;
         return $aevents;
     }
 
-    // retrieve the events for the current user within a specific month
+    // retrieve the events for the selected groups within a specific month
     // see comment in function below for return value
-    public static function getPublicEventsMonthGroup($oDay, $id)
+    public static function getPublicEventsMonth($oDay, $members)
     {
         // get all events for the requested month
         $aDateInfo = Date::toAssocArray($oDay);
@@ -215,80 +216,7 @@ class Query
         $iDaysInMonth = Date::getNumDaysInMonth($oMonthBegin);
 
         $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
-        $events = self::getPublicEventsGroup($id)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
-            ->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
-
-        $iDayOfWeek = Date::getDayOfWeek($oMonthBegin);
-
-        // create an array of all days (index, 1-based!!!) containing the following values:
-        // dayOfWeek -> 1 for  monday to 7 for sunday
-        // events    -> assoc array containing information about the events for this day:
-        //      id    => event id
-        //      name  => the name of the event
-
-        $aDays = [];
-
-        // add general event information (events are added later on to improve time complexity)
-        for ($i = 1; $i <= $iDaysInMonth; $i++) {
-
-            // create array entry and add day of week
-            $aDays[$i] = [
-                'dayOfWeek' => $iDayOfWeek,
-                'events' => [],
-            ];
-
-            // increment day of week
-            $iDayOfWeek++;
-            if ($iDayOfWeek > 7)
-                $iDayOfWeek = 1;
-        }
-
-        // add events to the corresponding days
-        foreach ($events as $e) {
-
-            $oStartTime = new DateTime($e->start_time);
-            $oEndTime = new DateTime($e->end_time);
-
-            // first, determine effective start and end day -> handle events that begin before this month or end after this month
-            $oMin = $oStartTime < $oMonthBegin ? $oMonthBegin : $oStartTime;
-            $oMax = $oEndTime > $oMonthEnd ? $oMonthEnd : $oEndTime;
-
-            // get the day of month from the DateTime objects
-            $iMin = intval(Date::format($oMin, 'j'));
-            $iMax = intval(Date::format($oMax, 'j'));
-
-            // iterate over all days affected by the event and add it to their 'events' entry
-
-            for ($k = $iMin; $k <= $iMax; $k++) {
-                $aDays[$k]['events'][] = ['id' => $e->id, 'name' => $e->name, 'status' => $e->myReply()];
-
-            }
-        }
-        return $aDays;
-    }
-
-    //Get all public events
-    private static function getPublicEvents()
-    {
-        $agroups = Group::select('id')->where('public', true)->get();
-        $aevents = Event::whereIn('group_id', $agroups)->orderBy('start_time');;
-        return $aevents;
-    }
-
-    // retrieve the events for the current user within a specific month
-    // see comment in function below for return value
-    public static function getPublicEventsMonth($oDay)
-    {
-        // get all events for the requested month
-        $aDateInfo = Date::toAssocArray($oDay);
-
-
-        // create date for start end end of month
-        $oMonthBegin = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
-        $iDaysInMonth = Date::getNumDaysInMonth($oMonthBegin);
-
-        $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
-        $events = self::getPublicEvents()->where('start_time', '<=', Date::formatUTC($oMonthEnd))
+        $events = self::getPublicEvents($members)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
             ->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
 
         $iDayOfWeek = Date::getDayOfWeek($oMonthBegin);
