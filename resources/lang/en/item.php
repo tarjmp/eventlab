@@ -2,7 +2,7 @@
 
 return [
 
-    'show_title' => 'Item',
+    'show_title' => 'Item Details',
     'name' => 'Name',
     'item' => 'Item',
     'amount' => 'amount',
