@@ -5,6 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png' )}}"/>
+
         <title>{{ config('app.name') }}</title>
 
         <!-- Fonts -->
@@ -71,7 +74,6 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a id="publicGroups" href="{{ route('public-group') }}">Public Groups</a>
                         <a id="login" href="{{ route('login') }}">Login</a>
                         <a id="register" href="{{ route('register') }}">Register</a>
                     @endauth
@@ -83,7 +85,8 @@
                 <div class="title m-b-md">
                     {{ config('app.name') }}
                 </div>
-                <div>Project for a calendar web application</div>
+                <div>Project for a calendar web application</div><br>
+                <div><h3><a id="publicGroups" href="{{ route('home') }}">Start the application</a></h3></div>
             </div>
         </div>
     </body>

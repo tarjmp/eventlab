@@ -196,15 +196,7 @@ class Query
     }
 
 
-    //Get public events for selected groups
-    private static function getPublicEvents($members)
-    {
-        return Event::whereIn('group_id', $members)->orderBy('start_time');
-    }
-
-    // retrieve the events for the selected groups within a specific month
-    // see comment in function below for return value
-    public static function getPublicEventsMonth($oDay, $members)
+    public static function getSessionEventsMonth($oDay)
     {
         // get all events for the requested month
         $aDateInfo = Date::toAssocArray($oDay);
@@ -215,8 +207,12 @@ class Query
         $iDaysInMonth = Date::getNumDaysInMonth($oMonthBegin);
 
         $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
-        $events = self::getPublicEvents($members)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
-            ->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
+
+        //Check if group is public
+        $group_id = session('public_group');
+        Group::findOrFail($group_id)->where('public', '=', true);
+        $events = Event::where('group_id', '=', session('public_group'))->orderBy('start_time')
+            ->where('start_time', '<=', Date::formatUTC($oMonthEnd))->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
 
         $iDayOfWeek = Date::getDayOfWeek($oMonthBegin);
 
@@ -264,7 +260,9 @@ class Query
 
             }
         }
+
         return $aDays;
+
     }
 
 }

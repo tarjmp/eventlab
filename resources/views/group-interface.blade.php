@@ -12,43 +12,45 @@
                         </button>
                     </div>
                 @endif
-                <div class="row">
-                    <div class="col-6">
-                        <h2>{{ __('group.interface_title') }}</h2><br>
+                @auth
+                    <div class="row">
+                        <div class="col-6">
+                            <h2>{{ __('group.interface_title') }}</h2><br>
+                        </div>
+                        <div class="col-6">
+                            @if(\App\Tools\PermissionFactory::createCreateGroup()->has())
+                                <a id="addGroup" class="btn btn-primary float-right" href="{{ route('participants')}}">
+                                    {{ __('group.create_group') }}
+                                </a>
+                            @endif
+                        </div>
                     </div>
-                    <div class="col-6">
-                        @if(\App\Tools\PermissionFactory::createCreateGroup()->has())
-                            <a id="addGroup" class="btn btn-primary float-right" href="{{ route('participants')}}">
-                                {{ __('group.create_group') }}
-                            </a>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
-                    @forelse($groups as $g)
-                        <div class="col-12">
-                            <div class="card-deck mb-1">
-                                <div class="card mb-1 shadow-sm">
-                                    <div class="card-body">
-                                        <h4 class="mb-0 d-inline">
-                                            <a href="{{ route('group.show', $g->id) }}">{{$g->name}}</a>
-                                        </h4>
-                                        @if($g->public)
-                                            <span class="badge badge-light mt-2 mb-4 float-right">{{ __('group.public') }}</span>
-                                            <br>
-                                        @else
-                                            <span class="badge badge-warning mt-2 mb-4 float-right">{{ __('group.private') }}</span>
-                                            <br>
-                                        @endif
-                                        <p class="card-text mb-auto">{{$g->description}}</p>
+                    <div class="row">
+                        @forelse($groups as $g)
+                            <div class="col-12">
+                                <div class="card-deck mb-1">
+                                    <div class="card mb-1 shadow-sm">
+                                        <div class="card-body">
+                                            <h4 class="mb-0 d-inline">
+                                                <a href="{{ route('group.show', $g->id) }}">{{$g->name}}</a>
+                                            </h4>
+                                            @if($g->public)
+                                                <span class="badge badge-light mt-2 mb-4 float-right">{{ __('group.public') }}</span>
+                                                <br>
+                                            @else
+                                                <span class="badge badge-warning mt-2 mb-4 float-right">{{ __('group.private') }}</span>
+                                                <br>
+                                            @endif
+                                            <p class="card-text mb-auto">{{$g->description}}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @empty
-                        {{ __('group.no_groups') }}
-                    @endforelse
-                </div>
+                        @empty
+                            {{ __('group.no_groups') }}
+                        @endforelse
+                    </div>
+                @endauth
 
                 <div class="row">
                     <div class="col-12">
@@ -85,7 +87,14 @@
                                                                 class="btn btn-secondary btn-sm float-right">
                                                             {{ __('group.unsubscribe') }}</button>
                                                     </form>
-
+                                                @else
+                                                    <form method="GET"
+                                                          action="{{ session(['public_group' => $g->id]) }} {{ route('home') }}">
+                                                        @csrf
+                                                        <button type="submit"
+                                                                class="btn btn-secondary btn-sm float-right">
+                                                            {{ __('group.show') }}</button>
+                                                    </form>
                                                 @endif
                                             </div>
                                         </div>
@@ -98,7 +107,7 @@
                     @endforelse
                 </div>
             </div>
-
-
         </div>
+
+    </div>
 @endsection

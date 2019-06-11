@@ -15,7 +15,7 @@ class HomeControllerTest extends TestCase
     {
         // user not logged in - expect redirect to start page
         $response = $this->get('/home');
-        $response->assertRedirect('/login');
+        $response->assertRedirect('/groups');
 
         // login user with id 2
         $this->loginWithDBUser(2);

@@ -5,16 +5,14 @@
     <h4 class="row">
         <div class="col-2 text-left">
             <a role="button" class="btn btn-outline-secondary btn-sm"
-               href="@if(!isset($members)){{ route('home-month-param', ['year' => $prev['year'], 'month' => $prev['month']]) }}
-               @else{{ route('show-group-calendar-param', ['year' => $prev['year'], 'month' => $prev['month'], 'members' => $members]) }}@endif">&laquo;</a>
+               href="{{ route('home-month-param', ['year' => $prev['year'], 'month' => $prev['month']]) }}">&laquo;</a>
         </div>
         <div class="col-8 text-center">
             {{ $month }}
         </div>
         <div class="col-2 text-right">
             <a role="button" class="btn btn-outline-secondary btn-sm"
-               href="@if(!isset($members)){{ route('home-month-param', ['year' => $next['year'], 'month' => $next['month']]) }}
-               @else{{ route('show-group-calendar-param', ['year' => $next['year'], 'month' => $next['month'], 'members' => $members])}}@endif">&raquo;</a>
+               href="{{ route('home-month-param', ['year' => $next['year'], 'month' => $next['month']]) }}">&raquo;</a>
         </div>
     </h4>
     <br>
