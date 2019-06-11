@@ -29,9 +29,13 @@
                         </button>
                     </div>
                 @endisset
-
                 <div class="row">
-                    <div class="col-6">
+                    @auth
+                        <div class="col-6">
+                            @endauth
+                            @guest
+                                <div class="col-12">
+                                @endguest
                         <h2>{{$event->name}}</h2><br>
                     </div>
                     @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
@@ -50,6 +54,11 @@
                             @endif
                         </div>
                     @endif
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h2>{{$event->name}}</h2><br>
+                    </div>
                 </div>
 
 
