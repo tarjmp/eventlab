@@ -3,9 +3,10 @@
 return [
 
     'show_title' => 'Item',
-    'name' => 'name',
+    'name' => 'Name',
+    'item' => 'Item',
     'amount' => 'amount',
-    'value' => 'value',
+    'value' => 'Value',
     'placeholder_amount' => 'Enter amount here',
     'back' => 'Back',
     'submit' => 'Update item',

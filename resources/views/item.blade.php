@@ -14,7 +14,7 @@
                                 <th> {{ __('item.value') }}</th>
                             </tr>
                             <tr>
-                                <td> {{ __('item.name') }} </td>
+                                <td> {{ __('item.item') }} </td>
                                 <td><input id="name"
                                            type="text"
                                            class="form-control"
