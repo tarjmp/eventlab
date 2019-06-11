@@ -39,7 +39,7 @@
                                        value="{{ $item->eventID }}"
                                        name="eventID">
                                 <td colspan="3">
-                                    <a class="btn btn-secondary btn-sm float-left" href="{{ route('list', $item->event_id) }}">
+                                    <a class="btn btn-secondary btn-sm float-left" href="{{ route('listEdit', $item->event_id) }}">
                                         {{ __('item.back') }}
                                     </a>
                                     <button id="btn_submit" type="submit" class="btn btn-primary btn-sm float-right">
