@@ -53,7 +53,37 @@ class Event extends Model
         return null;
     }
 
-    // Returns if an event has been replied to or not
+    // All replies from members to this event except from logged in user
+    public function membersReply()
+    {
+        $reply = $this->replies()->where('id', '!=', Auth::id())->orderby('first_name');
+        return $reply;
+    }
+
+    // All accepted replies for this event
+    public function membersAccepted() {
+        return $this->membersReply()->wherePivot('status', '=', self::STATUS_ACCEPTED)->get();
+    }
+
+    // All rejected replies for this event
+    public function membersRejected() {
+        return $this->membersReply()->wherePivot('status', '=', self::STATUS_REJECTED)->get();
+    }
+
+    // All tentative replies for this event
+    public function membersTentative() {
+        return $this->membersReply()->wherePivot('status', '=', self::STATUS_TENTATIVE)->get();
+    }
+
+    // All members who didn't reply to the event
+    public function notRepliedMembers() {
+
+        $members = $this->group->members()->where('id', '!=', Auth::id())->orderby('first_name')->get()->diff($this->membersReply()->get());
+        return $members;
+    }
+
+
+    // Returns if the current user has replied to this event
     public function hasEventReply()
     {
         return $this->myReply() != null;
