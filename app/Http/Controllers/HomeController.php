@@ -106,11 +106,15 @@ class HomeController extends Controller
 
     public function showGroup(Request $request, $year = 0, $month = 0)
     {
-        //no permissions required
         // validate the incoming request
         $request->validate(['members' => 'required|array|min:1']);
 
         $data = $request->all();
+
+        //Check if only public groups were submitted
+        foreach ($data['members'] as $member){
+            Group::findOrFail($member)->where('public', true);
+        }
 
         $oDay = null;
 

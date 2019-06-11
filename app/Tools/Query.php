@@ -199,8 +199,7 @@ class Query
     //Get public events for selected groups
     private static function getPublicEvents($members)
     {
-        $aevents = Event::whereIn('group_id', $members)->orderBy('start_time');;
-        return $aevents;
+        return Event::whereIn('group_id', $members)->orderBy('start_time');
     }
 
     // retrieve the events for the selected groups within a specific month
