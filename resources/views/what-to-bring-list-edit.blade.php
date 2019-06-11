@@ -72,7 +72,7 @@
                                        class="form-control"
                                        value="{{ $eventID }}"
                                        name="eventID">
-                                <td colspan="3">
+                                <td colspan="4">
                                     <a class="btn btn-secondary btn-sm float-left" href="{{ route('list', $eventID) }}">
                                         {{ __('list.back') }}
                                     </a>

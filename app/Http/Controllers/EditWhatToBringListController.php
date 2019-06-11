@@ -55,7 +55,7 @@ class EditWhatToBringListController extends Controller
         }
         $item->save();
 
-        return redirect(route('list', $id))->with(['item-added' => true]);
+        return redirect(route('listEdit', $id))->with(['item-added' => true]);
     }
 
     public function bring(Request $request, $id)
