@@ -69,7 +69,6 @@ class EventController extends Controller
      */
     public function show($id)
     {
-
         // check for permission to show the event
         PermissionFactory::createShowEvent()->check($id);
 
