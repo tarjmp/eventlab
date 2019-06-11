@@ -30,14 +30,9 @@
                     </div>
                 @endisset
                 <div class="row">
-                    @auth
-                        <div class="col-6">
-                            @endauth
-                            @guest
-                                <div class="col-12">
-                                @endguest
-                        <h2>{{$event->name}}</h2><br>
-                    </div>
+                    @auth <div class="col-12"><h2>{{$event->name}}</h2><br></div>
+                    @else<div class="col-6">{{$event->name}}</h2><br></div>@endauth
+
                     @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
                         <div class="col-6">
                             @if($event->hasEventReply())
