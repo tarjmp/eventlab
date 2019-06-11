@@ -52,11 +52,6 @@
                         </div>
                     @endif
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <h2>{{$event->name}}</h2><br>
-                    </div>
-                </div>
 
 
                 @if($event->description != '')
