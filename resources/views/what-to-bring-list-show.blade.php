@@ -32,7 +32,7 @@
                                                 @CSRF
                                                 <input type="hidden" name="item" value="{{ $item->id }}"/>
                                                 &emsp;
-                                                <span class="font-weight-bold" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.unassignMe') }}">&times;</span>
+                                                <span class="font-weight-bold" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.unassign_me') }}">&times;</span>
                                             </form>
                                         @endif
                                     @else
@@ -40,7 +40,7 @@
                                             @CSRF
                                             <input type="hidden" name="user" value="user"/>
                                             <input type="hidden" name="item" value="{{ $item->id }}"/>
-                                            <span class="badge badge-primary" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.assignMe') }}">{{ __('list.nobody') }}</span>
+                                            <span class="badge badge-primary" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.assign_me') }}">{{ __('list.nobody') }}</span>
                                         </form>
                                     @endif
                                 </td>
