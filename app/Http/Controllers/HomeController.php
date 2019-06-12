@@ -43,10 +43,25 @@ class HomeController extends Controller
     public function month($year = 0, $month = 0)
     {
         if (Auth::guest()) {
-            return $this->monthGuest($year, $month);
+            if (session('public_group') != null) {
+                $oDay = $this->monthCalculationODay($year, $month);
+                // get all events for this user
+                $aDays = Query::getSessionEventsMonth($oDay);
+            } else {
+                return redirect(route('groups'));
+            }
         } else {
-            return $this->monthLoggedIn($year, $month);
+            // require home screen permission
+            PermissionFactory::createShowHomeCalendar()->check();
+
+            $oDay = $this->monthCalculationODay($year, $month);
+            // get all events for this user
+            $aDays = Query::getUserEventsMonth($oDay, $this->showRejectedEvents());
         }
+        // calculate previous and next day for navigation
+        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
+        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
+        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
     }
 
     private function monthCalculationODay($year, $month)
@@ -62,38 +77,6 @@ class HomeController extends Controller
             $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
         }
         return $oDay;
-    }
-
-    private function monthCalculationView($oDay, $aDays)
-    {
-        // calculate previous and next day for navigation
-        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
-        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
-        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
-
-    }
-
-    private function monthLoggedIn($year, $month)
-    {
-        // require home screen permission
-        PermissionFactory::createShowHomeCalendar()->check();
-
-        $oDay = $this->monthCalculationODay($year, $month);
-        // get all events for this user
-        $aDays = Query::getUserEventsMonth($oDay, $this->showRejectedEvents());
-        return $this->monthCalculationView($oDay, $aDays);
-    }
-
-    private function monthGuest($year, $month)
-    {
-        if (session('public_group') != null) {
-            $oDay = $this->monthCalculationODay($year, $month);
-            // get all events for this user
-            $aDays = Query::getSessionEventsMonth($oDay);
-            return $this->monthCalculationView($oDay, $aDays);
-        } else {
-            return redirect(route('groups'));
-        }
     }
 
     public function day($year = 0, $month = 0, $day = 0)
