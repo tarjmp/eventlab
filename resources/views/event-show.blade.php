@@ -53,7 +53,6 @@
                     @endif
                 </div>
 
-
                 @if($event->description != '')
                     <p class="text-muted">{{$event->description}}</p><br>
                 @endif
