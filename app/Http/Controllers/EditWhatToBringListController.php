@@ -55,7 +55,7 @@ class EditWhatToBringListController extends Controller
         }
         $item->save();
 
-        return redirect(route('list', $id))->with(['item-added' => true]);
+        return redirect(route('listEdit', $id))->with(['item-added' => true]);
     }
 
     public function bring(Request $request, $id)
@@ -71,8 +71,7 @@ class EditWhatToBringListController extends Controller
             // assign if nobody else is assigned
             if (isset($data['user']) && !$item->user) {
                 $item->user_id = Auth::id();
-            }
-            // unassign if one self is assigned
+            } // unassign if one self is assigned
             else if (!isset($data['user']) && $item->user && $item->user->id == Auth::id()) {
                 $item->user_id = null;
             }
@@ -81,6 +80,22 @@ class EditWhatToBringListController extends Controller
         }
 
         return redirect(route('list', $id));
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $data = $request->all();
+
+        // check for permission to edit the event
+        PermissionFactory::createEditEvent()->check($id);
+
+        // delete item
+        $item = Event::findOrFail($id)->items()->where('id', '=', $data['item'])->first();
+        if ($item) {
+            $item->delete();
+        }
+
+        return redirect(route('listEdit', $id));
     }
 
     private function getItems($id)
