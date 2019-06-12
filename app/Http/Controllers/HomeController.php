@@ -111,17 +111,11 @@ class HomeController extends Controller
             // get all events for this user
             $cEvents = Query::getUserEventsDay($oDay, $this->showRejectedEvents())->get();
         }
-        return $this->dayView($oDay, $cEvents);
-    }
-
-    private function dayView($oDay, $cEvents)
-    {
         // calculate previous and next day for navigation
         $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 day'));
         $aNext = Date::toAssocArray(Date::modify($oDay, '+1 day'));
 
         return view('calendars.day', ['events' => $cEvents, 'type' => self::TYPE_DAY, 'day' => Date::format($oDay, 'l, M j Y'), 'prev' => $aPrev, 'next' => $aNext]);
-
     }
 
     // Function to show / hide rejected events in the calendar view
