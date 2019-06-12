@@ -97,6 +97,18 @@ class Query
 
     }
 
+    // retrieve the events for the current user within a specific day
+    public static function getSessionEventsDay($oDayBegin)
+    {
+        $oDayEnd = clone $oDayBegin;
+        $oDayEnd->modify('+1 day');
+
+        // get all events with a start time before the end of the day and an end time after the begin of the day
+        return Event::where('group_id', '=', session('public_group'))->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))
+            ->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
+
+    }
+
     // retrieve all events for the current user - future, present and past
     public static function getUserEvents($bIncludeRejected = false)
     {
