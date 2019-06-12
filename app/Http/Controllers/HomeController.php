@@ -28,12 +28,15 @@ class HomeController extends Controller
 
     public function next()
     {
-        // require home screen permission
-        PermissionFactory::createShowHomeCalendar()->check();
+        if (Auth::guest()) {
+            $cEvents = Query::getSessionEventsNext();
+        } else {
+            // require home screen permission
+            PermissionFactory::createShowHomeCalendar()->check();
 
-        // get all events for this user
-        $cEvents = Query::getUserEventsNext($this->showRejectedEvents())->get();
-
+            // get all events for this user
+            $cEvents = Query::getUserEventsNext($this->showRejectedEvents())->get();
+        }
         return view('calendars.next', ['events' => $cEvents, 'type' => self::TYPE_NEXT]);
     }
 
@@ -111,7 +114,7 @@ class HomeController extends Controller
         return $this->dayView($oDay, $cEvents);
     }
 
-    private static function dayView($oDay, $cEvents)
+    private function dayView($oDay, $cEvents)
     {
         // calculate previous and next day for navigation
         $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 day'));

@@ -19,6 +19,11 @@ class Query
         return self::getUserEventsAll($bIncludeRejected)->where('end_time', '>=', date('Y-m-d H:i'));
     }
 
+    public static function getSessionEventsNext()
+    {
+        return Event::where('group_id', '=', session('public_group'))->orderBy('start_time')->where('end_time', '>=', date('Y-m-d H:i'))->get();
+    }
+
     // retrieve the events for the current user within a specific month
     // see comment in function below for return value
     public static function getUserEventsMonth($oDay, $bIncludeRejected = false)
