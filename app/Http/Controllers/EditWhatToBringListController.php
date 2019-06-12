@@ -71,8 +71,7 @@ class EditWhatToBringListController extends Controller
             // assign if nobody else is assigned
             if (isset($data['user']) && !$item->user) {
                 $item->user_id = Auth::id();
-            }
-            // unassign if one self is assigned
+            } // unassign if one self is assigned
             else if (!isset($data['user']) && $item->user && $item->user->id == Auth::id()) {
                 $item->user_id = null;
             }
@@ -90,14 +89,13 @@ class EditWhatToBringListController extends Controller
         // check for permission to edit the event
         PermissionFactory::createEditEvent()->check($id);
 
-        //Double check before deleting
-        if (isset($data['delete'])) {
-            //Delete Query
-            $item = Event::findOrFail($id)->items()->where('id', '=', $data['item'])->first();
+        // delete item
+        $item = Event::findOrFail($id)->items()->where('id', '=', $data['item'])->first();
+        if ($item) {
             $item->delete();
         }
 
-        return redirect(route( 'listEdit', $id));
+        return redirect(route('listEdit', $id));
     }
 
     private function getItems($id)

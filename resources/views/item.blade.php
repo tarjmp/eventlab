@@ -8,11 +8,7 @@
                 <div>
                     <table class="table table-striped table-hover table-reflow">
                         <form method="POST" action="{{ route('itemSave', $item->id) }}">
-                            <tr>
-                                @csrf
-                                <th> {{ __('item.name') }}</th>
-                                <th> {{ __('item.value') }}</th>
-                            </tr>
+                            @csrf
                             <tr>
                                 <td> {{ __('item.item') }} </td>
                                 <td><input id="name"

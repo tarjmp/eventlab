@@ -19,15 +19,13 @@
                                 <td>  {{ $item->amount }} </td>
                                 <td>  @if ($item->user) {{ $item->user->name() }} @else <span class="text-muted">{{ __('list.nobody') }}</span> @endif </td>
                                 <td>
-                                    <form method="POST" action="{{ route('itemEdit', $item->id) }}">
-                                        @csrf
-                                        <span class="badge badge-primary" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.edit') }}">{{ __('list.editItem') }}</span>
+                                    <form method="GET" action="{{ route('itemEdit', $item->id) }}">
+                                        <span class="badge badge-primary d-block m-1" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.edit_item') }}">{{ __('list.edit_item') }}</span>
                                     </form>
                                     <form method="POST" action="{{ route('listDelete', $eventID) }}">
                                         @CSRF
-                                        <input type="hidden" name="delete" value="true"/>
                                         <input type="hidden" name="item" value="{{ $item->id }}"/>
-                                        <span class="badge badge-danger" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.DeleteItem') }}">{{ __('list.DeleteItem') }}</span>
+                                        <span class="badge badge-danger d-block m-1" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.delete_item') }}">{{ __('list.delete_item') }}</span>
                                     </form>
                                 </td>
                                 <input id="itemID"
@@ -60,7 +58,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="on" id="user" name="user">
                                         <label class="form-check-label" for="user">
-                                            {{ __('list.assignMe') }}
+                                            {{ __('list.assign_me') }}
                                         </label>
                                     </div>
                                 </td>
