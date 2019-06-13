@@ -28,7 +28,7 @@
                         </button>
                     </div>
                 @endif
-                <h2>{{ __('calendar.title') }}</h2>
+                <h2>@auth{{ __('calendar.title') }}@else{{ \App\Group::findOrFail(session('public_group'))->name }}@endauth</h2>
                 <br>
                 <div class="row">
                     <div class="col-6">

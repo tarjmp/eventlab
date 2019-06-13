@@ -14,6 +14,9 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+        <!-- Styles -->
         <style>
             html, body {
                 background-color: #fff;
@@ -62,9 +65,6 @@
                 text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
         </style>
     </head>
     <body>
@@ -83,10 +83,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ config('app.name') }}
+                    {{ __('welcome.title') }}
                 </div>
-                <div>Project for a calendar web application</div><br>
-                <div><h3><a id="publicGroups" href="{{ route('home') }}">Start the application</a></h3></div>
+                <p style="font-size: 110%;">Project for a calendar web application</p><br>
+                <div><a id="publicGroups" class="btn btn-light" role="button" href="{{ route('home') }}">{{  __('welcome.start') }}</a></div>
             </div>
         </div>
     </body>
