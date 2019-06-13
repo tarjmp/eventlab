@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\Group;
 use App\Tools\Date;
+use App\Tools\Navigator;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
 use Illuminate\Http\Request;
@@ -29,6 +30,10 @@ class HomeController extends Controller
     public function next()
     {
         if (Auth::guest()) {
+            //Guests should only see the next events when the session with the group id is set
+            if (session('public_group') == null) {
+                Navigator::die(Navigator::REASON_INVALID_REQUEST);
+            }
             $cEvents = Query::getSessionEventsNext();
         } else {
             // require home screen permission
