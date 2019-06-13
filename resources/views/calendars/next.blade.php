@@ -17,6 +17,10 @@
                     @if($e->all_day)
                         {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j') }},
                         {{  __('event.all_day_small') }}
+                    @elseif( \App\Tools\Date::isSameDate($e->start_time, $e->end_time))
+                        {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
+                        -
+                        {{ \App\Tools\Date::toUserOutput($e->end_time, 'H:i')}}
                     @else
                         {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
                         -
