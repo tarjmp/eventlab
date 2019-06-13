@@ -119,48 +119,6 @@ class HomeController extends Controller
         return session(self::SHOW_REJECTED_EVENTS);
     }
 
-    public function publicGroup()
-    {
-        $groups = Group::where('public', true)->get();
-
-        return view('public-group')->with(['groups' => $groups]);
-    }
-
-    public function showGroup(Request $request, $year = 0, $month = 0)
-    {
-        // validate the incoming request
-        $request->validate(['members' => 'required|array|min:1']);
-
-        $data = $request->all();
-
-        //Check if only public groups were submitted
-        foreach ($data['members'] as $member) {
-            Group::findOrFail($member)->where('public', true);
-        }
-
-        $oDay = null;
-
-        // take given year and month (if specified)
-        if ($year > 0 && $month > 0) {
-            $oDay = Date::createFromFirstDayOfMonth($year, $month);
-        }
-
-        // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
-        if ($oDay == null) {
-            $aTodayInfo = Date::toAssocArray(Date::createFromToday());
-            $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
-        }
-
-        // get all public events
-        $aDays = Query::getPublicEventsMonth($oDay, $data['members']);
-
-        // calculate previous and next day for navigation
-        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
-        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
-
-        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay), 'members' => $data['members']]);
-    }
-
     public function selectGroup(Request $request)
     {
         $data = $request->all();
