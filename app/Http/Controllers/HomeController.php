@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
-use App\Group;
 use App\Tools\Date;
-use App\Tools\Navigator;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
 use Illuminate\Http\Request;
@@ -30,9 +27,9 @@ class HomeController extends Controller
     public function next()
     {
         if (Auth::guest()) {
-            //Guests should only see the next events when the session with the group id is set
+            //Guests can only see the next events when the session with the group id is set
             if (session('public_group') == null) {
-                Navigator::die(Navigator::REASON_INVALID_REQUEST);
+                return redirect(route('groups'));
             }
             $cEvents = Query::getSessionEventsNext();
         } else {
@@ -47,30 +44,6 @@ class HomeController extends Controller
 
     public function month($year = 0, $month = 0)
     {
-        if (Auth::guest()) {
-            if (session('public_group') != null) {
-                $oDay = $this->monthCalculationODay($year, $month);
-                // get all events for this user
-                $aDays = Query::getSessionEventsMonth($oDay);
-            } else {
-                return redirect(route('groups'));
-            }
-        } else {
-            // require home screen permission
-            PermissionFactory::createShowHomeCalendar()->check();
-
-            $oDay = $this->monthCalculationODay($year, $month);
-            // get all events for this user
-            $aDays = Query::getUserEventsMonth($oDay, $this->showRejectedEvents());
-        }
-        // calculate previous and next day for navigation
-        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
-        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
-        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
-    }
-
-    private function monthCalculationODay($year, $month)
-    {
         $oDay = null;
         // take given year and month (if specified)
         if ($year > 0 && $month > 0) {
@@ -81,7 +54,24 @@ class HomeController extends Controller
             $aTodayInfo = Date::toAssocArray(Date::createFromToday());
             $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
         }
-        return $oDay;
+
+        if (Auth::guest()) {
+            //Guests can only see the next events when the session with the group id is set
+            if (session('public_group') == null) {
+                return redirect(route('groups'));
+            }
+            // get all events for this user
+            $aDays = Query::getSessionEventsMonth($oDay);
+        } else {
+            // require home screen permission
+            PermissionFactory::createShowHomeCalendar()->check();
+            // get all events for this user
+            $aDays = Query::getUserEventsMonth($oDay, $this->showRejectedEvents());
+        }
+        // calculate previous and next day for navigation
+        $aPrev = Date::toAssocArray(Date::modify($oDay, '-1 month'));
+        $aNext = Date::toAssocArray(Date::modify($oDay, '+1 month'));
+        return view('calendars.month', ['days' => $aDays, 'type' => self::TYPE_MONTH, 'month' => Date::format($oDay, 'M Y'), 'prev' => $aPrev, 'next' => $aNext, 'date' => Date::toAssocArray($oDay)]);
     }
 
     public function day($year = 0, $month = 0, $day = 0)
@@ -92,6 +82,10 @@ class HomeController extends Controller
         }
 
         if (Auth::guest()) {
+            //Guests can only see the next events when the session with the group id is set
+            if (session('public_group') == null) {
+                return redirect(route('groups'));
+            }
             $cEvents = Query::getSessionEventsDay($oDay);
         } else {
             // require home screen permission
