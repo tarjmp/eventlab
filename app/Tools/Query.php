@@ -21,7 +21,9 @@ class Query
 
     public static function getSessionEventsNext()
     {
-        return Event::where('group_id', '=', session('public_group'))->orderBy('start_time')->where('end_time', '>=', date('Y-m-d H:i'))->get();
+        $group_id = self::getValidateSessionGroupId();
+
+        return Event::where('group_id', '=', $group_id)->orderBy('start_time')->where('end_time', '>=', date('Y-m-d H:i'))->get();
     }
 
     // retrieve the events for the current user within a specific month
@@ -39,6 +41,12 @@ class Query
         $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
         $events = self::getUserEventsAll($bIncludeRejected)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
             ->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
+
+        return self::setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd);
+    }
+
+    private static function setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd)
+    {
 
         $iDayOfWeek = Date::getDayOfWeek($oMonthBegin);
 
@@ -108,10 +116,11 @@ class Query
         $oDayEnd = clone $oDayBegin;
         $oDayEnd->modify('+1 day');
 
-        // get all events with a start time before the end of the day and an end time after the begin of the day
-        return Event::where('group_id', '=', session('public_group'))->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))
-            ->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
+        $group_id = self::getValidateSessionGroupId();
 
+        // get all events with a start time before the end of the day and an end time after the begin of the day
+        return Event::where('group_id', '=', $group_id)->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))
+            ->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
     }
 
     // retrieve all events for the current user - future, present and past
@@ -225,61 +234,25 @@ class Query
 
         $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
 
-        //Check if group is public
-        $group_id = session('public_group');
-        Group::findOrFail($group_id)->where('public', '=', true);
-        $events = Event::where('group_id', '=', session('public_group'))->orderBy('start_time')
+        $group_id = self::getValidateSessionGroupId();
+
+        $events = Event::where('group_id', '=', $group_id)->orderBy('start_time')
             ->where('start_time', '<=', Date::formatUTC($oMonthEnd))->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
 
-        $iDayOfWeek = Date::getDayOfWeek($oMonthBegin);
+        return self::setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd);
 
-        // create an array of all days (index, 1-based!!!) containing the following values:
-        // dayOfWeek -> 1 for  monday to 7 for sunday
-        // events    -> assoc array containing information about the events for this day:
-        //      id    => event id
-        //      name  => the name of the event
+    }
 
-        $aDays = [];
-
-        // add general event information (events are added later on to improve time complexity)
-        for ($i = 1; $i <= $iDaysInMonth; $i++) {
-
-            // create array entry and add day of week
-            $aDays[$i] = [
-                'dayOfWeek' => $iDayOfWeek,
-                'events' => [],
-            ];
-
-            // increment day of week
-            $iDayOfWeek++;
-            if ($iDayOfWeek > 7)
-                $iDayOfWeek = 1;
+    private static function getValidateSessionGroupId()
+    {
+        $group_id = session('public_group');
+        $group = Group::findOrFail($group_id);
+        if (!$group->public) {
+            //Permission for group should be checked in Homecontroller, where this method is called
+            //Therefore, only an error will be throw (should not be possible)
+            die(Navigator::REASON_UNAUTHORIZED);
         }
-
-        // add events to the corresponding days
-        foreach ($events as $e) {
-
-            $oStartTime = new DateTime($e->start_time);
-            $oEndTime = new DateTime($e->end_time);
-
-            // first, determine effective start and end day -> handle events that begin before this month or end after this month
-            $oMin = $oStartTime < $oMonthBegin ? $oMonthBegin : $oStartTime;
-            $oMax = $oEndTime > $oMonthEnd ? $oMonthEnd : $oEndTime;
-
-            // get the day of month from the DateTime objects
-            $iMin = intval(Date::format($oMin, 'j'));
-            $iMax = intval(Date::format($oMax, 'j'));
-
-            // iterate over all days affected by the event and add it to their 'events' entry
-
-            for ($k = $iMin; $k <= $iMax; $k++) {
-                $aDays[$k]['events'][] = ['id' => $e->id, 'name' => $e->name, 'status' => $e->myReply()];
-
-            }
-        }
-
-        return $aDays;
-
+        return $group_id;
     }
 
 }
