@@ -48,19 +48,29 @@
                     </a>
                 @endif
 
-                @if(\App\Tools\PermissionFactory::createSubscribeToGroup()->has($group->id))
-                    <form method="POST" action="{{ route('addSubscription', $group->id) }}">
+                @auth
+                    @if(\App\Tools\PermissionFactory::createSubscribeToGroup()->has($group->id))
+                        <form method="POST" action="{{ route('addSubscription', $group->id) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                {{ __('group.subscribe') }}</button>
+                        </form>
+                    @elseif(\App\Tools\PermissionFactory::createUnsubscribeFromGroup()->has($group->id))
+                        <form method="POST" action="{{ route('removeSubscription', $group->id) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary btn-sm">
+                                {{ __('group.unsubscribe') }}</button>
+                        </form>
+                    @endif
+                @else
+                    <form method="POST" action="{{ route('GuestSelect') }}">
                         @csrf
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            {{ __('group.subscribe') }}</button>
+                        <input type="hidden" name="public_group" id="public_group" value="{{ $group->id }}">
+                        <button type="submit"
+                                class="btn btn-secondary btn-sm float-right">
+                            {{ __('group.show') }}</button>
                     </form>
-                @elseif(\App\Tools\PermissionFactory::createUnsubscribeFromGroup()->has($group->id))
-                    <form method="POST" action="{{ route('removeSubscription', $group->id) }}">
-                        @csrf
-                        <button type="submit" class="btn btn-secondary btn-sm">
-                            {{ __('group.unsubscribe') }}</button>
-                    </form>
-                @endif
+                @endauth
             </div>
         </div>
     </div>

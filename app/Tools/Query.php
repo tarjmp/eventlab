@@ -19,6 +19,13 @@ class Query
         return self::getUserEventsAll($bIncludeRejected)->where('end_time', '>=', date('Y-m-d H:i'));
     }
 
+    public static function getSessionEventsNext()
+    {
+        $group_id = self::getValidateSessionGroupId();
+
+        return Group::findOrFail($group_id)->events()->orderBy('start_time')->where('end_time', '>=', date('Y-m-d H:i'))->get();
+    }
+
     // retrieve the events for the current user within a specific month
     // see comment in function below for return value
     public static function getUserEventsMonth($oDay, $bIncludeRejected = false)
@@ -28,12 +35,18 @@ class Query
 
 
         // create date for start end end of month
-        $oMonthBegin  = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
+        $oMonthBegin = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
         $iDaysInMonth = Date::getNumDaysInMonth($oMonthBegin);
 
         $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
-        $events    = self::getUserEventsAll($bIncludeRejected)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
+        $events = self::getUserEventsAll($bIncludeRejected)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
             ->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
+
+        return self::setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd);
+    }
+
+    private static function setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd)
+    {
 
         $iDayOfWeek = Date::getDayOfWeek($oMonthBegin);
 
@@ -51,7 +64,7 @@ class Query
             // create array entry and add day of week
             $aDays[$i] = [
                 'dayOfWeek' => $iDayOfWeek,
-                'events'    => [],
+                'events' => [],
             ];
 
             // increment day of week
@@ -64,7 +77,7 @@ class Query
         foreach ($events as $e) {
 
             $oStartTime = new DateTime($e->start_time);
-            $oEndTime   = new DateTime($e->end_time);
+            $oEndTime = new DateTime($e->end_time);
 
             // first, determine effective start and end day -> handle events that begin before this month or end after this month
             $oMin = $oStartTime < $oMonthBegin ? $oMonthBegin : $oStartTime;
@@ -76,7 +89,7 @@ class Query
 
             // iterate over all days affected by the event and add it to their 'events' entry
 
-            for($k = $iMin; $k <= $iMax; $k++) {
+            for ($k = $iMin; $k <= $iMax; $k++) {
                 $aDays[$k]['events'][] = ['id' => $e->id, 'name' => $e->name, 'status' => $e->myReply()];
 
             }
@@ -95,6 +108,19 @@ class Query
         return self::getUserEventsAll($bIncludeRejected)->where('start_time', '<', Date::formatUTC($oDayEnd))
             ->where('end_time', '>', Date::formatUTC($oDayBegin));
 
+    }
+
+    // retrieve the events for the current user within a specific day
+    public static function getSessionEventsDay($oDayBegin)
+    {
+        $oDayEnd = clone $oDayBegin;
+        $oDayEnd->modify('+1 day');
+
+        $group_id = self::getValidateSessionGroupId();
+
+        // get all events with a start time before the end of the day and an end time after the begin of the day
+        return Group::findOrFail($group_id)->events()->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
+        //return Event::where('group_id', '=', $group_id)->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
     }
 
     // retrieve all events for the current user - future, present and past
@@ -160,19 +186,19 @@ class Query
     // Retrieve all groups a user can access. This includes public groups and memberships
     public static function getAllAccessibleGroups()
     {
-        return Group::where(function($group) {
+        return Group::where(function ($group) {
             $group->where('public', true)->orWhereHas('members',
                 function ($query) {
                     $query->where('id', Auth::id());
-            });
+                });
         });
     }
-    
+
     // Retrieve all events a user can access. This includes public events, memberships and private events
     public static function getAllAccessibleEvents()
     {
-        return Event::where(function($event) {
-            $event->whereHas('group', function($query) {
+        return Event::where(function ($event) {
+            $event->whereHas('group', function ($query) {
                 $query->whereIn('id', Query::getAllAccessibleGroups()->pluck('id')->toArray());
             })->orWhere(function ($query) {
                 $query->whereNull('group_id')->where('created_by', Auth::id());
@@ -193,6 +219,39 @@ class Query
     {
         $notifications = self::getNotifications();
         return count($notifications);
+    }
+
+
+    public static function getSessionEventsMonth($oDay)
+    {
+        // get all events for the requested month
+        $aDateInfo = Date::toAssocArray($oDay);
+
+
+        // create date for start end end of month
+        $oMonthBegin = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
+        $iDaysInMonth = Date::getNumDaysInMonth($oMonthBegin);
+
+        $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
+
+        $group_id = self::getValidateSessionGroupId();
+
+        $events = Group::findOrFail($group_id)->events()->orderBy('start_time')->where('start_time', '<=', Date::formatUTC($oMonthEnd))->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
+
+        return self::setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd);
+
+    }
+
+    private static function getValidateSessionGroupId()
+    {
+        $group_id = session('public_group');
+        $group = Group::findOrFail($group_id);
+        if (!$group->public) {
+            //Permission for group should be checked in Homecontroller, where this method is called
+            //Therefore, only an error will be throw (should not be possible)
+            die(Navigator::REASON_UNAUTHORIZED);
+        }
+        return $group_id;
     }
 
 }

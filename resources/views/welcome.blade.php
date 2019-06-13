@@ -5,10 +5,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png' )}}"/>
+
         <title>{{ config('app.name') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+
+        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -59,9 +65,6 @@
                 text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
         </style>
     </head>
     <body>
@@ -80,9 +83,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ config('app.name') }}
+                    {{ __('welcome.title') }}
                 </div>
-                <div>Project for a calendar web application</div>
+                <p style="font-size: 110%;">Project for a calendar web application</p><br>
+                <div><a id="publicGroups" class="btn btn-light" role="button" href="{{ route('home') }}">{{  __('welcome.start') }}</a></div>
             </div>
         </div>
     </body>

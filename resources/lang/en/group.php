@@ -34,4 +34,8 @@ return [
 
     'subscribe' => 'Subscribe',
     'unsubscribe' => 'Unsubscribe',
+
+    'select_public' => 'Select groups to show their calendar',
+
+    'show' => 'Show Calendar'
 ];
