@@ -23,7 +23,7 @@ class Query
     {
         $group_id = self::getValidateSessionGroupId();
 
-        return Event::where('group_id', '=', $group_id)->orderBy('start_time')->where('end_time', '>=', date('Y-m-d H:i'))->get();
+        return Group::findOrFail($group_id)->events()->orderBy('start_time')->where('end_time', '>=', date('Y-m-d H:i'))->get();
     }
 
     // retrieve the events for the current user within a specific month
@@ -119,8 +119,8 @@ class Query
         $group_id = self::getValidateSessionGroupId();
 
         // get all events with a start time before the end of the day and an end time after the begin of the day
-        return Event::where('group_id', '=', $group_id)->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))
-            ->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
+        return Group::findOrFail($group_id)->events()->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
+        //return Event::where('group_id', '=', $group_id)->orderBy('start_time')->where('start_time', '<', Date::formatUTC($oDayEnd))->where('end_time', '>', Date::formatUTC($oDayBegin))->get();
     }
 
     // retrieve all events for the current user - future, present and past
@@ -236,8 +236,7 @@ class Query
 
         $group_id = self::getValidateSessionGroupId();
 
-        $events = Event::where('group_id', '=', $group_id)->orderBy('start_time')
-            ->where('start_time', '<=', Date::formatUTC($oMonthEnd))->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
+        $events = Group::findOrFail($group_id)->events()->orderBy('start_time')->where('start_time', '<=', Date::formatUTC($oMonthEnd))->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
 
         return self::setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd);
 
