@@ -23,6 +23,4 @@ return [
     'sunday'    => 'Sunday',
 
     'show-rejected' => 'Display rejected events',
-
-    'no_groups' => 'No public groups found',
 ];
