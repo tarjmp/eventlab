@@ -99,9 +99,4 @@ class PermissionFactory
         return new CreateEventPermission();
     }
 
-    static function createSearch() {
-        return new SearchPermission();
-    }
-
-
 }

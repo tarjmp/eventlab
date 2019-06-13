@@ -10,9 +10,6 @@ class SearchController extends Controller
 {
     public function search(Request $oRequest)
     {
-
-        PermissionFactory::createSearch()->check();
-
         // check for a valid event id and text message
         $oRequest->validate([
             'term' => 'required|string|max:255',
