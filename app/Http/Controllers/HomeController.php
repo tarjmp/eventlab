@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Group;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
@@ -122,7 +123,16 @@ class HomeController extends Controller
     {
         $data = $request->all();
 
-        session(['public_group' => $data['public_group']]);
+        $group_id = $data['public_group'];
+
+        //Check if group is public
+        $group = Group::findOrFail($group_id);
+        if (!$group->public) {
+            //Redirect to group selection
+            return redirect(route('groups'));
+        }
+
+        session(['public_group' => $group_id]);
 
         return redirect(route('home'));
     }
