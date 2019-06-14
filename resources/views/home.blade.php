@@ -28,7 +28,7 @@
                         </button>
                     </div>
                 @endif
-                <h2>{{ __('calendar.title') }}</h2>
+                <h2>@auth{{ __('calendar.title') }}@else{{ \App\Group::findOrFail(session('public_group'))->name }}@endauth</h2>
                 <br>
                 <div class="row">
                     <div class="col-6">
@@ -45,8 +45,10 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <a id="btn_createEvent" href="{{ route('event.create') }}" role="button"
-                           class="btn btn-primary float-right">{{ __('calendar.create_event')}}</a>
+                        @auth
+                            <a id="btn_createEvent" href="{{ route('event.create') }}" role="button"
+                               class="btn btn-primary float-right">{{ __('calendar.create_event')}}</a>
+                        @endauth
                     </div>
                 </div>
                 <br><br>
@@ -54,17 +56,19 @@
                 {{-- Print the contents of the actual calendar view - depending on the user's selection --}}
                 @yield('calendar')
 
-                <form method="POST" action="{{ route('toggle-rejected') }}" id="toggle-rejected-form">
-                    @csrf
-                    <div class="form-check mt-3 text-right">
-                        <input class="form-check-input" type="checkbox" value="" id="display-rejected"
-                               onchange="this.form.submit();" @if(session(\App\Http\Controllers\HomeController::SHOW_REJECTED_EVENTS)) checked @endif>
-                        <label class="form-check-label text-muted" for="display-rejected">
-                            {{ __('calendar.show-rejected') }}
-                        </label>
-                    </div>
-                </form>
-
+                @auth
+                    <form method="POST" action="{{ route('toggle-rejected') }}" id="toggle-rejected-form">
+                        @csrf
+                        <div class="form-check mt-3 text-right">
+                            <input class="form-check-input" type="checkbox" value="" id="display-rejected"
+                                   onchange="this.form.submit();"
+                                   @if(session(\App\Http\Controllers\HomeController::SHOW_REJECTED_EVENTS)) checked @endif>
+                            <label class="form-check-label text-muted" for="display-rejected">
+                                {{ __('calendar.show-rejected') }}
+                            </label>
+                        </div>
+                    </form>
+                @endauth
             </div>
         </div>
     </div>

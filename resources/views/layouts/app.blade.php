@@ -43,11 +43,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('groups') }}">Groups</a>
-                        </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('groups') }}">Groups</a>
+                    </li>
+                    @auth
                         @if(\App\Tools\Query::getMessageCount() > 0)
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('notifications') }}">Notifications
@@ -72,6 +72,15 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
+                    <form method="GET" action="{{ route('search') }}" class="mr-5">
+                        <div class="input-group input-group-sm mb-3" style="margin-top: 0.35rem;">
+                            <input type="text" class="form-control" name="term"
+                                   placeholder="{{ __('navigation.search') }}" maxlength="255">
+                            <div class="input-group-append">
+                                <input type="submit" class="btn btn-outline-secondary" value="&#x2315;">
+                            </div>
+                        </div>
+                    </form>
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item">
@@ -83,16 +92,6 @@
                             @endif
                         </li>
                     @else
-
-                        <form method="GET" action="{{ route('search') }}" class="mr-5">
-                            <div class="input-group input-group-sm mb-3" style="margin-top: 0.35rem;">
-                                <input type="text" class="form-control" name="term"
-                                       placeholder="{{ __('navigation.search') }}" maxlength="255">
-                                <div class="input-group-append">
-                                    <input type="submit" class="btn btn-outline-secondary" value="&#x2315;">
-                                </div>
-                            </div>
-                        </form>
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"

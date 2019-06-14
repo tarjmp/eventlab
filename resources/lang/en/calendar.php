@@ -22,5 +22,5 @@ return [
     'saturday'  => 'Saturday',
     'sunday'    => 'Sunday',
 
-    'show-rejected' => 'Display rejected events'
+    'show-rejected' => 'Display rejected events',
 ];

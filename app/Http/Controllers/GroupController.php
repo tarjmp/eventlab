@@ -36,9 +36,9 @@ class GroupController extends Controller
 
         // never trust any user input
         $request->validate([
-            'name'        => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:2048',
-            'members'     => 'required|string',
+            'members' => 'required|string',
         ]);
 
         // read all members into an array
@@ -66,8 +66,8 @@ class GroupController extends Controller
         $participants[] = Auth::user();
 
         // Create new group from passed data
-        $group              = new Group();
-        $group->name        = $data['name'];
+        $group = new Group();
+        $group->name = $data['name'];
         $group->description = $data['description'];
 
         // this privacy setting can only be applied once and not be changed afterwards!
@@ -90,14 +90,18 @@ class GroupController extends Controller
     //Display the specified resource
     public function groups()
     {
-        // require appropriate permission
-        PermissionFactory::createShowGroups()->check();
+        if (Auth::guest()) {
+            $publicGroups = Group::where('public', true)->orderBy('name')->get();
+            return view('group-interface')->with(['groups' => array(), 'publicGroups' => $publicGroups]);
+        } else {
+            // require appropriate permission
+            PermissionFactory::createShowGroups()->check();
 
-        // retrieve all groups for the user and pass them to the view
-        $groups = Auth::user()->groups()->orderBy('name')->get();
-        $publicGroups = Group::where('public', true)->orderBy('name')->get()->diff($groups);
-        return view('group-interface')->with(['groups' => $groups, 'publicGroups' => $publicGroups]);
-
+            // retrieve all groups for the user and pass them to the view
+            $groups = Auth::user()->groups()->orderBy('name')->get();
+            $publicGroups = Group::where('public', true)->orderBy('name')->get()->diff($groups);
+            return view('group-interface')->with(['groups' => $groups, 'publicGroups' => $publicGroups]);
+        }
     }
 
     // Show the form for adding participants to the group
@@ -222,15 +226,15 @@ class GroupController extends Controller
         PermissionFactory::createEditGroup()->check($id);
 
         // retrieve the corresponding group from database
-        $data  = $request->all();
+        $data = $request->all();
         $group = Group::findOrFail($id);
 
         Validator::make($data, [
-            'name'        => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:2048',
         ])->validate();
 
-        $group->name        = $data['name'];
+        $group->name = $data['name'];
         $group->description = $data['description'];
 
         // Please note that the privacy setting of the group cannot be edited here. That is supposed to be this way.
