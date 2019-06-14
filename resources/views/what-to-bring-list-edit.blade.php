@@ -17,7 +17,26 @@
                             <tr>
                                 <td> {{ $item->name }} </td>
                                 <td>  {{ $item->amount }} </td>
-                                <td>  @if ($item->user) {{ $item->user->name() }} @else <span class="text-muted">{{ __('list.nobody') }}</span> @endif </td>
+                                <td>
+                                    @if(isset($item->user))
+                                        {{ $item->user->name() }}
+                                        @if($item->user->id == Auth::id())
+                                            <form method="POST" action="{{ route('listBring', $eventID) }}" class="d-inline">
+                                                @CSRF
+                                                <input type="hidden" name="item" value="{{ $item->id }}"/>
+                                                &emsp;
+                                                <span class="font-weight-bold" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.unassign_me') }}">&times;</span>
+                                            </form>
+                                        @endif
+                                    @else
+                                        <form method="POST" action="{{ route('listBring', $eventID) }}">
+                                            @CSRF
+                                            <input type="hidden" name="user" value="user"/>
+                                            <input type="hidden" name="item" value="{{ $item->id }}"/>
+                                            <span class="badge badge-primary" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.assign_me') }}">{{ __('list.nobody') }}</span>
+                                        </form>
+                                    @endif
+                                </td>
                                 <td>
                                     <form method="GET" action="{{ route('itemEdit', $item->id) }}">
                                         <span class="badge badge-primary d-block m-1" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.edit_item') }}">{{ __('list.edit_item') }}</span>
