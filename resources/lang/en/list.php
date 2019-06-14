@@ -20,5 +20,5 @@ return [
     'delete'                    => 'Delete',
     'nobody'                    => 'Nobody',
     'brought_by'                => 'Brought by',
-    'bring'                     => 'Bring item',
+    'bring'                     => 'Bring item?',
 ];

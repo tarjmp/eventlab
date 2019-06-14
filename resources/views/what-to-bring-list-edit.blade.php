@@ -47,11 +47,6 @@
                                         <span class="badge badge-danger d-block m-1" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.delete_item') }}">{{ __('list.delete_item') }}</span>
                                     </form>
                                 </td>
-                                <input id="itemID"
-                                       type="hidden"
-                                       class="form-control"
-                                       name="itemID"
-                                       value="{{ $item->id }}">
                             </tr>
                         @endforeach
                         <form method="POST" action="{{ route('listAdd', $eventID) }}">

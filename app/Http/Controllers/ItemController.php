@@ -21,7 +21,7 @@ class ItemController extends Controller
         //give user name when brought by someone else
         if ($item->user_id != null && $item->user_id != Auth::id()){
             $user = User::findOrFail($item->user_id);
-            return view('item')->with(['item' => $item, 'user_name' => $user->first_name.' '.$user->last_name]);
+            return view('item')->with(['item' => $item, 'user_name' => $user->name()]);
         }
 
         return view('item')->with(['item' => $item]);

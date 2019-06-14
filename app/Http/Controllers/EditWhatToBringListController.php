@@ -78,13 +78,8 @@ class EditWhatToBringListController extends Controller
 
             $item->save();
         }
-        //Return to the correct calling blade
-        $previous_url = $request->session()->get('_previous');
-        $previous_url_path = parse_url($previous_url['url'], PHP_URL_PATH);
-        if(('/event/'.$id.'/list/edit') == $previous_url_path){
-            return redirect(route('listEdit', $id));
-        }
-        return redirect(route('list', $id));
+
+        return redirect()->back();
     }
 
     public function delete(Request $request, $id)
