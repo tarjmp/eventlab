@@ -46,14 +46,20 @@
                                 </td>
                             </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="4">
+                                <a class="btn btn-secondary btn-sm float-left" href="{{ route('event.show', $eventID) }}">
+                                    {{ __('list.back') }}
+                                </a>
+                                @if(\App\Tools\PermissionFactory::createEditEvent()->has($eventID))
+                                    <a id="editEvent" class="btn btn-primary btn-sm float-right" href="{{ route('listEdit', $eventID) }}">
+                                        {{ __('list.edit') }}
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
                     </table>
                 </div>
-                    @if(\App\Tools\PermissionFactory::createEditEvent()->has($eventID))
-                        <br>
-                        <a id="editEvent" class="btn btn-primary btn-sm" href="{{ route('listEdit', $eventID) }}">
-                            {{ __('list.edit') }}
-                        </a>
-                    @endif
             </div>
         </div>
     </div>
