@@ -19,4 +19,6 @@ return [
     'delete_item'               => 'Delete',
     'delete'                    => 'Delete',
     'nobody'                    => 'Nobody',
+    'brought_by'                => 'Brought by',
+    'bring'                     => 'Bring item',
 ];
