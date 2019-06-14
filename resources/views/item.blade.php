@@ -29,11 +29,13 @@
                                            placeholder="{{ __('list.placeholder_amount') }}"></td>
                             </tr>
                             <tr>
-                                @if(isset($user_name))
-                                    <td> {{ __('list.brought_by') }}</td>
-                                @else
-                                    <td> {{ __('list.bring') }}</td>
-                                @endif
+                                <td>
+                                    @if(isset($user_name))
+                                        {{ __('list.brought_by') }}
+                                    @else
+                                        {{ __('list.bring') }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if(isset($user_name))
                                         {{ $user_name}}
