@@ -9,6 +9,8 @@ function addChatMessage() {
         return false;
     }
 
+    setMessageTimeout();
+
     // the form containing all the input data
     let form  = $('#msg-form');
     let input = $('#message');
@@ -26,9 +28,8 @@ function addChatMessage() {
         addNewMessages(data);
         // clear input field and focus it
         input.val('').focus();
+        timeoutExpired = true;
     });
-
-    setMessageTimeout();
 
     return false;
 }
@@ -113,5 +114,5 @@ function setMessageTimeout() {
     timeoutExpired = false;
     window.setTimeout(() => {
         timeoutExpired = true;
-    }, 250);
+    }, 5000);
 }

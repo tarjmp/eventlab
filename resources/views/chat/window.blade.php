@@ -26,7 +26,7 @@
                 @csrf
                 <input type="hidden" name="event" value="{{ $event->id }}"/>
                 <input type="hidden" name="msg-id" value="0"/>
-                <input type="text" name="message" id="message" class="form-control" placeholder="{{ __('chat.enter_message') }}">
+                <input type="text" name="message" id="message" class="form-control" placeholder="{{ __('chat.enter_message') }}" maxlength="255">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit" id="msg-submit">{{ __('chat.send') }}</button>
                 </div>
