@@ -22,3 +22,5 @@ coverage:
     - "/app/Http/Controllers/Auth"
     - "/app/Http/Controllers/EditWhatToBringListController.php"
     - "/app/Http/Controllers/ManageSubscriptionsController.php"
+    - "/app/Http/Controllers/MessageController"
+    - "/app/Http/Controllers/SearchController"
