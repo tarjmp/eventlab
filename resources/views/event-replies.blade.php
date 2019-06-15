@@ -39,18 +39,21 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-6 p-0 pr-1">
-                                                <input id="btn_acceptEvent" type="submit" name="accept" value="{{ __('event.notifications_accept') }}"
-                                                        class="btn btn-outline-success w-100"/>
+                                                <input id="btn_acceptEvent" type="submit" name="accept"
+                                                       value="{{ __('event.notifications_accept') }}"
+                                                       class="btn btn-outline-success w-100"/>
                                             </div>
                                             <div class="col-6 p-0 pl-1">
-                                                <input id="btn_rejectEvent" type="submit" name="reject" value="{{ __('event.notifications_reject') }}"
-                                                        class="btn btn-outline-danger w-100"/>
+                                                <input id="btn_rejectEvent" type="submit" name="reject"
+                                                       value="{{ __('event.notifications_reject') }}"
+                                                       class="btn btn-outline-danger w-100"/>
                                             </div>
                                         </div>
                                         <div class="row mt-1">
                                             <div class="col-12 p-0">
-                                                <input id="btn_tentativeEvent" type="submit" name="tentative" value="{{ __('event.notifications_tentative') }}"
-                                                        class="btn btn-outline-secondary w-100"/>
+                                                <input id="btn_tentativeEvent" type="submit" name="tentative"
+                                                       value="{{ __('event.notifications_tentative') }}"
+                                                       class="btn btn-outline-secondary w-100"/>
                                             </div>
                                         </div>
                                     </form>

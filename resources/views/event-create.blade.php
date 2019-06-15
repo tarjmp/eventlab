@@ -66,7 +66,8 @@
                             <input id="start-date" type="date"
                                    class="form-control{{ $errors->has('start-date') ? ' is-invalid' : '' }}"
                                    name="start-date"
-                                   value="{{ old('start-date', \App\Tools\Date::toUserOutput('+1 hour', 'Y-m-d')) }}" required>
+                                   value="{{ old('start-date', \App\Tools\Date::toUserOutput('+1 hour', 'Y-m-d')) }}"
+                                   required>
                             @if ($errors->has('start-date'))
                                 <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('start-date') }}</strong>
@@ -76,7 +77,8 @@
                         <div class="col-md-4 col-6">
                             <input id="start-time" name="start-time" type="time"
                                    class="form-control {{ $errors->has('start-time') ? ' is-invalid' : '' }}"
-                                   value="{{ old('start-time', \App\Tools\Date::toUserOutput('+1 hour', 'H:00')) }}" step="60">
+                                   value="{{ old('start-time', \App\Tools\Date::toUserOutput('+1 hour', 'H:00')) }}"
+                                   step="60">
                             @if ($errors->has('start-time'))
                                 <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('start-time') }}</strong>
@@ -102,7 +104,8 @@
                         <div class="col-md-4 col-6">
                             <input id="end-time" name="end-time" type="time"
                                    class="form-control {{ ($errors->has('end-time') || $errors->has('end-total')) ? ' is-invalid' : '' }}"
-                                   value="{{ old('end-time', \App\Tools\Date::toUserOutput('+2 hour', 'H:00')) }}" step="60">
+                                   value="{{ old('end-time', \App\Tools\Date::toUserOutput('+2 hour', 'H:00')) }}"
+                                   step="60">
                             @if ($errors->has('end-time'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('end-time') }}</strong>
