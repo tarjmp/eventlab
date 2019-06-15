@@ -28,11 +28,14 @@
                                     @if(isset($item->user))
                                         {{ $item->user->name() }}
                                         @if($item->user->id == Auth::id())
-                                            <form method="POST" action="{{ route('listBring', $eventID) }}" class="d-inline">
+                                            <form method="POST" action="{{ route('listBring', $eventID) }}"
+                                                  class="d-inline">
                                                 @CSRF
                                                 <input type="hidden" name="item" value="{{ $item->id }}"/>
                                                 &emsp;
-                                                <span class="font-weight-bold" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.unassign_me') }}">&times;</span>
+                                                <span class="font-weight-bold" style="cursor: pointer;"
+                                                      onclick="$(this).parent().submit();"
+                                                      title="{{ __('list.unassign_me') }}">&times;</span>
                                             </form>
                                         @endif
                                     @else
@@ -40,7 +43,9 @@
                                             @CSRF
                                             <input type="hidden" name="user" value="user"/>
                                             <input type="hidden" name="item" value="{{ $item->id }}"/>
-                                            <span class="badge badge-primary" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.assign_me') }}">{{ __('list.nobody') }}</span>
+                                            <span class="badge badge-primary" style="cursor: pointer;"
+                                                  onclick="$(this).parent().submit();"
+                                                  title="{{ __('list.assign_me') }}">{{ __('list.nobody') }}</span>
                                         </form>
                                     @endif
                                 </td>
@@ -48,11 +53,13 @@
                         @endforeach
                         <tr>
                             <td colspan="4">
-                                <a class="btn btn-secondary btn-sm float-left" href="{{ route('event.show', $eventID) }}">
+                                <a class="btn btn-secondary btn-sm float-left"
+                                   href="{{ route('event.show', $eventID) }}">
                                     {{ __('list.back') }}
                                 </a>
                                 @if(\App\Tools\PermissionFactory::createEditEvent()->has($eventID))
-                                    <a id="editEvent" class="btn btn-primary btn-sm float-right" href="{{ route('listEdit', $eventID) }}">
+                                    <a id="editEvent" class="btn btn-primary btn-sm float-right"
+                                       href="{{ route('listEdit', $eventID) }}">
                                         {{ __('list.edit') }}
                                     </a>
                                 @endif

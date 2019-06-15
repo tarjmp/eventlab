@@ -21,11 +21,14 @@
                                     @if(isset($item->user))
                                         {{ $item->user->name() }}
                                         @if($item->user->id == Auth::id())
-                                            <form method="POST" action="{{ route('listBring', $eventID) }}" class="d-inline">
+                                            <form method="POST" action="{{ route('listBring', $eventID) }}"
+                                                  class="d-inline">
                                                 @CSRF
                                                 <input type="hidden" name="item" value="{{ $item->id }}"/>
                                                 &emsp;
-                                                <span class="font-weight-bold" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.unassign_me') }}">&times;</span>
+                                                <span class="font-weight-bold" style="cursor: pointer;"
+                                                      onclick="$(this).parent().submit();"
+                                                      title="{{ __('list.unassign_me') }}">&times;</span>
                                             </form>
                                         @endif
                                     @else
@@ -33,18 +36,24 @@
                                             @CSRF
                                             <input type="hidden" name="user" value="user"/>
                                             <input type="hidden" name="item" value="{{ $item->id }}"/>
-                                            <span class="badge badge-primary" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.assign_me') }}">{{ __('list.nobody') }}</span>
+                                            <span class="badge badge-primary" style="cursor: pointer;"
+                                                  onclick="$(this).parent().submit();"
+                                                  title="{{ __('list.assign_me') }}">{{ __('list.nobody') }}</span>
                                         </form>
                                     @endif
                                 </td>
                                 <td>
                                     <form method="GET" action="{{ route('itemEdit', $item->id) }}">
-                                        <span class="badge badge-primary d-block m-1" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.edit_item') }}">{{ __('list.edit_item') }}</span>
+                                        <span class="badge badge-primary d-block m-1" style="cursor: pointer;"
+                                              onclick="$(this).parent().submit();"
+                                              title="{{ __('list.edit_item') }}">{{ __('list.edit_item') }}</span>
                                     </form>
                                     <form method="POST" action="{{ route('listDelete', $eventID) }}">
                                         @CSRF
                                         <input type="hidden" name="item" value="{{ $item->id }}"/>
-                                        <span class="badge badge-danger d-block m-1" style="cursor: pointer;" onclick="$(this).parent().submit();" title="{{ __('list.delete_item') }}">{{ __('list.delete_item') }}</span>
+                                        <span class="badge badge-danger d-block m-1" style="cursor: pointer;"
+                                              onclick="$(this).parent().submit();"
+                                              title="{{ __('list.delete_item') }}">{{ __('list.delete_item') }}</span>
                                     </form>
                                 </td>
                             </tr>
@@ -70,7 +79,8 @@
                                 </td>
                                 <td style="vertical-align: middle;">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="on" id="user" name="user">
+                                        <input class="form-check-input" type="checkbox" value="on" id="user"
+                                               name="user">
                                         <label class="form-check-label" for="user">
                                             {{ __('list.assign_me') }}
                                         </label>
