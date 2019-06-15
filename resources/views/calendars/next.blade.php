@@ -10,11 +10,22 @@
 
         <div class="card mb-1">
             <div class="card-body">
-                <h5 class="card-title"><a href="{{ route('event.show', $e->id) }}">{{$e->name}}</a></h5>
+                <h5 class="card-title"><a href="{{ route('event.show', $e->id) }}"
+                                          @if($e->myReply() == \App\Event::STATUS_REJECTED) class="text-muted" @endif>{{$e->name}}</a>
+                </h5>
                 <h6 class="card-subtitle mb-2 text-muted">
-                    {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
-                    -
-                    {{ \App\Tools\Date::toUserOutput($e->end_time, 'F j, H:i')}}
+                    @if($e->all_day)
+                        {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j') }},
+                        {{  __('event.all_day_small') }}
+                    @elseif( \App\Tools\Date::isSameDate($e->start_time, $e->end_time))
+                        {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
+                        -
+                        {{ \App\Tools\Date::toUserOutput($e->end_time, 'H:i')}}
+                    @else
+                        {{ \App\Tools\Date::toUserOutput($e->start_time, 'F j, H:i')}}
+                        -
+                        {{ \App\Tools\Date::toUserOutput($e->end_time, 'F j, H:i')}}
+                    @endif
                 </h6>
                 <h6 class="card-subtitle mb-2 text-muted">
                     {{ $e->location }}

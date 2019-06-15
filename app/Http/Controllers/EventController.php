@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Rules\DateTimeValidation;
+use App\Tools\Check;
 use App\Tools\CustomDateTime;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
+use App\Tools\Query;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -47,8 +50,8 @@ class EventController extends Controller
         $this->validateInput($data);
 
         // Create new event from passed data
-        $event = new Event();
-        $event = $this->collectData($data, $event, true);
+        $event             = new Event();
+        $event             = $this->collectData($data, $event, true);
         $event->created_by = Auth::user()->id;
 
         $event->save();
@@ -66,7 +69,6 @@ class EventController extends Controller
      */
     public function show($id)
     {
-
         // check for permission to show the event
         PermissionFactory::createShowEvent()->check($id);
 
@@ -75,12 +77,10 @@ class EventController extends Controller
 
         // convert the database timestamps to data and time in the user's timezone
         $start = new CustomDateTime($event->start_time);
-        $end = new CustomDateTime($event->end_time);
+        $end   = new CustomDateTime($event->end_time);
 
         // pass all data to the view
-        return view('event-show')->with(['event' => $event, 'start' => $start, 'end' => $end]);
-
-        // TODO show details (chat, etc. to members with the appropriate permissions (showEventExtended)
+        return view('event-show')->with(['event' => $event, 'start' => $start, 'end' => $end, 'private' => Check::isMyPrivateEvent($id)]);
     }
 
     /**
@@ -100,7 +100,7 @@ class EventController extends Controller
 
         // convert the database timestamps to data and time in the user's timezone
         $start = new CustomDateTime($event->start_time);
-        $end = new CustomDateTime($event->end_time);
+        $end   = new CustomDateTime($event->end_time);
 
         // pass all data to the view
         return view('event-update')->with(['id' => $id, 'event' => $event, 'start' => $start, 'end' => $end]);
@@ -120,7 +120,7 @@ class EventController extends Controller
         PermissionFactory::createEditEvent()->check($id);
 
         // retrieve the corresponding event from database
-        $data = $request->all();
+        $data  = $request->all();
         $event = Event::findOrFail($id);
 
         // never trust any user input
@@ -165,9 +165,9 @@ class EventController extends Controller
         // workaround for array index access later on
         // see null-coalescing operator in PHP manual for details
         $data['start-date'] = $data['start-date'] ?? '';
-        $data['end-date']   = $data['end-date']   ?? '';
+        $data['end-date']   = $data['end-date'] ?? '';
         $data['start-time'] = $data['start-time'] ?? '';
-        $data['end-time']   = $data['end-time']   ?? '';
+        $data['end-time']   = $data['end-time'] ?? '';
 
         // concatenate date and time for later validation
         $data['start-total'] = $data['start-date'] . ' ' . $data['start-time'];
@@ -175,10 +175,10 @@ class EventController extends Controller
 
         // validate all input data against the following rules
         $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string|max:2048',
-            'location' => 'nullable|string|max:255',
-            'start-date' => 'required|date',
+            'location'    => 'nullable|string|max:255',
+            'start-date'  => 'required|date',
         ]);
 
         // local callback function for the conditional validation
@@ -206,9 +206,9 @@ class EventController extends Controller
     {
 
         // copy all the standard stuff
-        $event->name = $data['name'];
+        $event->name        = $data['name'];
         $event->description = $data['description'];
-        $event->location = $data['location'];
+        $event->location    = $data['location'];
 
         // The group of the event may only be changed during creation of the event!
         if ($create) {
@@ -227,14 +227,56 @@ class EventController extends Controller
 
         // different handling for all-day events
         if (isset($data['all-day-event'])) {
-            $event->all_day = true;
+            $event->all_day    = true;
             $event->start_time = Date::parseFromInput($data['start-date'], '00:00');
-            $event->end_time = Date::parseFromInput($data['start-date'], '23:59');
+            $event->end_time   = Date::parseFromInput($data['start-date'], '23:59');
         } else {
-            $event->all_day = false;
+            $event->all_day    = false;
             $event->start_time = Date::parseFromInput($data['start-date'], $data['start-time']);
-            $event->end_time = Date::parseFromInput($data['end-date'], $data['end-time']);
+            $event->end_time   = Date::parseFromInput($data['end-date'], $data['end-time']);
         }
         return $event;
+    }
+
+    // Gets all notification of the logged in user and returns notification view
+    public function replies()
+    {
+        // check for permission to create a new event
+        PermissionFactory::createCreateEvent()->check();
+
+        $eventWithoutReply = Query::getNotifications();
+
+        return view('event-replies')->with(['noReply' => $eventWithoutReply]);
+    }
+
+    // Stores the reply of an event(accept, reject, tentative)
+    // Returns to home view
+    public function updateReplies(Request $request, $eventReplyID)
+    {
+        // check for permission to create a new event
+        PermissionFactory::createCreateEvent()->check();
+
+        $data = $request->all();
+
+        $event = Event::findOrFail($eventReplyID);
+
+        // If there is already a reply to an event
+        if ($event->hasEventReply()) {
+         Auth::user()->replies()->where('event_id', '=', $event->id)->detach();
+        }
+
+        if (isset($data['accept'])) {
+            $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_ACCEPTED]);
+        return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_ACCEPTED]);
+
+        } elseif (isset($data['reject'])) {
+            $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_REJECTED]);
+            return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_REJECTED]);
+
+        } else {
+            $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_TENTATIVE]);
+            return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_TENTATIVE]);
+
+        }
     }
 }

@@ -215,4 +215,14 @@ class Date {
         $oNewTime->modify($sInterval);
         return $oNewTime;
     }
+
+    public static function isSameDate($start, $end){
+        $startDate = self::toUserOutput($start, 'Y-m-d');
+        $endDate = self::toUserOutput($end, 'Y-m-d');
+
+        if ($startDate == $endDate){
+            return true;
+        }
+        return false;
+    }
 }

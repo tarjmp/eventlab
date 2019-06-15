@@ -9,14 +9,14 @@
                         <h2>{{ __('group.update_title') }}</h2><br>
                     </div>
                     <div class="col-md-6">
-                        <a id="newParticipant" class="btn btn-primary float-right"
+                        <a id="newParticipant" class="btn btn-primary float-right btn-sm"
                            href="{{ route('newParticipants', ['id' => $id])}}">
                             {{ __('group.participants') }}
                         </a>
                     </div>
                 </div>
 
-                <form method="POST" action="{{ route('group.update', $id) }}">
+                <form method="POST" action="{{ route('group.update', $id) }}" class="d-inline">
                     @csrf
                     @method('PUT')
 
@@ -69,16 +69,15 @@
                         @endforeach
                     </ul>
 
-                    <input id="btn_createGroup" type="submit" class="btn btn-primary"
+                    <input id="btn_createGroup" type="submit" class="btn btn-primary btn-sm"
                            value="{{ __('group.update_submit') }}"/>
 
                 </form>
-                <br>
                 @if (\App\Tools\PermissionFactory::createLeaveGroup()->has($id))
-                    <form method="POST" action="{{ route('leave-group', $id) }}">
+                    <form method="POST" action="{{ route('leave-group', $id) }}" class="d-inline">
                         @csrf
                         <input type="hidden" name="id" value="{{$id}}"/>
-                        <button id="btn_leaveGroup" type="submit" class="btn btn-danger">
+                        <button id="btn_leaveGroup" type="submit" class="btn btn-danger btn-sm">
                             {{ __('group.leave_submit') }}
                         </button>
                     </form>
