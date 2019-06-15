@@ -20,7 +20,8 @@
                                             </div>
                                             <div class="col-md-4">
                                                 @if(\App\Tools\PermissionFactory::createSubscribeToGroup()->has($group->id))
-                                                    <form method="POST" action="{{ route('addSubscription', $group->id) }}">
+                                                    <form method="POST"
+                                                          action="{{ route('addSubscription', $group->id) }}">
                                                         @csrf
                                                         <button type="submit"
                                                                 class="btn btn-primary btn-sm float-right">

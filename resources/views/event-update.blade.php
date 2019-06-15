@@ -53,9 +53,10 @@
 
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" name="all-day-event" id="all-day-event" type="checkbox" value="all-day-event"
+                            <input class="form-check-input" name="all-day-event" id="all-day-event" type="checkbox"
+                                   value="all-day-event"
                                    id="all-day-event"
-                                {{ old('all-day-event', $event->all_day) ? 'checked' : '' }}>
+                                    {{ old('all-day-event', $event->all_day) ? 'checked' : '' }}>
                             <label class="form-check-label" for="all-day-event">
                                 {{ __('event.all_day') }}
                             </label>

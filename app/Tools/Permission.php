@@ -5,7 +5,8 @@ namespace App\Tools;
 
 use App;
 
-abstract class Permission {
+abstract class Permission
+{
 
 
     // The following types of permissions exist:
@@ -48,7 +49,8 @@ abstract class Permission {
     // This is the strict implementation of the authorization check: If the request fails, the application
     // instantly terminates and serves a 403 access denied site
 
-    public function check($id = null) {
+    public function check($id = null)
+    {
         // throw exception if the required permission is not present
         $this->has($id) || Navigator::die();
     }

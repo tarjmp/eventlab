@@ -3,13 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class Group extends Model
 {
 
-    const TYPE_MEMBERSHIP = 'membership';
+    const TYPE_MEMBERSHIP   = 'membership';
     const TYPE_SUBSCRIPTION = 'subscription';
 
     // All events this group organizes

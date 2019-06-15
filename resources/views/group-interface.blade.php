@@ -90,7 +90,8 @@
                                                 @else
                                                     <form method="POST" action="{{ route('GuestSelect') }}">
                                                         @csrf
-                                                        <input type="hidden" name="public_group" id="public_group" value="{{ $g->id }}">
+                                                        <input type="hidden" name="public_group" id="public_group"
+                                                               value="{{ $g->id }}">
                                                         <button type="submit"
                                                                 class="btn btn-secondary btn-sm float-right">
                                                             {{ __('group.show') }}</button>
