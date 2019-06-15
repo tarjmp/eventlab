@@ -29,13 +29,40 @@
                                            placeholder="{{ __('list.placeholder_amount') }}"></td>
                             </tr>
                             <tr>
+                                <td>
+                                    @if(isset($user_name))
+                                        {{ __('list.brought_by') }}
+                                    @else
+                                        {{ __('list.bring') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($user_name))
+                                        {{ $user_name}}
+                                    @else
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   value="on"
+                                                   id="user"
+                                                   name="user"
+                                                   @if($item->user_id != null)checked @endif>
+                                            <label class="form-check-label" for="user">
+                                                {{ __('list.assign_me') }}
+                                            </label>
+                                        </div>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
                                 <input id="eventID"
                                        type="hidden"
                                        class="form-control"
                                        value="{{ $item->event_id }}"
                                        name="event_id">
                                 <td colspan="2">
-                                    <a class="btn btn-secondary btn-sm float-left" href="{{ route('listEdit', $item->event_id) }}">
+                                    <a class="btn btn-secondary btn-sm float-left"
+                                       href="{{ route('listEdit', $item->event_id) }}">
                                         {{ __('item.back') }}
                                     </a>
                                     <button id="btn_submit" type="submit" class="btn btn-primary btn-sm float-right">

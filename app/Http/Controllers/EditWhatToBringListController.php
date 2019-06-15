@@ -79,7 +79,7 @@ class EditWhatToBringListController extends Controller
             $item->save();
         }
 
-        return redirect(route('list', $id));
+        return redirect()->back();
     }
 
     public function delete(Request $request, $id)

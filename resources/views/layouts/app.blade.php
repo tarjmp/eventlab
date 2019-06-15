@@ -32,7 +32,7 @@
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="@guest {{ url('/') }} @else {{ route('home') }} @endguest">
-                {{ config('app.name') }}
+                {{ __('welcome.title') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -45,12 +45,15 @@
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('groups') }}">Groups</a>
+                        <a class="nav-link" href="{{ route('home') }}">{{ __('navigation.calendar') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('groups') }}">{{ __('navigation.groups') }}</a>
                     </li>
                     @auth
                         @if(\App\Tools\Query::getMessageCount() > 0)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('notifications') }}">Notifications
+                                <a class="nav-link" href="{{ route('notifications') }}">{{ __('navigation.notifications') }}
                                     <sup>
                                         <span class="badge badge-primary badge-pill">{{ \App\Tools\Query::getMessageCount() }}</span>
                                     </sup>
@@ -66,7 +69,7 @@
 
                     @endauth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/about') }}">About</a>
+                        <a class="nav-link" href="{{ url('/about') }}">{{ __('navigation.about') }}</a>
                     </li>
                 </ul>
 
