@@ -83,7 +83,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ __('welcome.title') }}
+                    {{ __('app.title') }}
                 </div>
                 <p style="font-size: 110%;">Project for a calendar web application</p><br>
                 <div><a id="publicGroups" class="btn btn-light" role="button" href="{{ route('home') }}">{{  __('welcome.start') }}</a></div>
