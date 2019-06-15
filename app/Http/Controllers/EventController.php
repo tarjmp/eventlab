@@ -261,12 +261,12 @@ class EventController extends Controller
 
         // If there is already a reply to an event
         if ($event->hasEventReply()) {
-         Auth::user()->replies()->where('event_id', '=', $event->id)->detach();
+            Auth::user()->replies()->where('event_id', '=', $event->id)->detach();
         }
 
         if (isset($data['accept'])) {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_ACCEPTED]);
-        return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_ACCEPTED]);
+            return redirect()->back()->with(['event' => $event->name, 'newReply' => Event::STATUS_ACCEPTED]);
 
         } elseif (isset($data['reject'])) {
             $event->replies()->attach(Auth::user(), ['status' => Event::STATUS_REJECTED]);

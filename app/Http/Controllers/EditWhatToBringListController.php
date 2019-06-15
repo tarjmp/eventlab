@@ -38,16 +38,16 @@ class EditWhatToBringListController extends Controller
 
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name'   => 'required|string|max:255',
             'amount' => 'nullable|string|max:255',
-            'user' => 'nullable|string|max:100',
+            'user'   => 'nullable|string|max:100',
         ]);
 
         // Update the event with passed data
-        $item = new Item();
+        $item           = new Item();
         $item->event_id = $id;
-        $item->name = $data['name'];
-        $item->amount = $data['amount'];
+        $item->name     = $data['name'];
+        $item->amount   = $data['amount'];
         if (isset($data['user'])) {
             $item->user_id = Auth::id();
         } else {
