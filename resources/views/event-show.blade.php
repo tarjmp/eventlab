@@ -30,13 +30,11 @@
                     </div>
                 @endisset
                 <div class="row">
-                    @auth
-                        <div class="col-6"><h2>{{$event->name}}</h2><br></div>
-                    @else
-                        <div class="col-12"><h2>{{$event->name}}</h2><br></div>@endauth
-
+                    <div class="col-12"><h2>{{$event->name}}</h2><br></div>
+                </div>
+                <div class="row">
                     @if(\App\Tools\PermissionFactory::createShowEvent()->has($event->id) && !\App\Tools\Check::isMyPrivateEvent($event->id))
-                        <div class="col-6">
+                        <div class="col-12 text-right">
                             @if($event->hasEventReply())
                                 @if($event->myReply() == \App\Event::STATUS_ACCEPTED)
                                     <span class="badge-lg badge-success badge-pill" style="float: right;"
