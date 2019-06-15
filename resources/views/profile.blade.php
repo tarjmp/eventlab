@@ -22,7 +22,8 @@
                             <label for="first_name">{{ __('user.first_name') }}*</label>
                             <input id="first_name" type="text"
                                    class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}"
-                                   name="first_name" value="{{ old('first_name', Auth::user()->first_name) }}" required autofocus>
+                                   name="first_name" value="{{ old('first_name', Auth::user()->first_name) }}" required
+                                   autofocus>
 
                             @if ($errors->has('first_name'))
                                 <span class="invalid-feedback" role="alert">

@@ -27,75 +27,93 @@ use App\Tools\Permissions\UnsubscribeFromGroupPermission;
 class PermissionFactory
 {
 
-    static function createShowGroup() {
+    static function createShowGroup()
+    {
         return new ShowGroupPermission();
     }
 
-    static function createShowGroupExtended() {
+    static function createShowGroupExtended()
+    {
         return new ShowGroupExtendedPermission();
     }
 
-    static function createCreateGroup() {
+    static function createCreateGroup()
+    {
         return new CreateGroupPermission();
     }
 
-    static function createEditGroup() {
+    static function createEditGroup()
+    {
         return new EditGroupPermission();
     }
 
-    static function createSubscribeToGroup() {
+    static function createSubscribeToGroup()
+    {
         return new SubscribeToGroupPermission();
     }
 
-    static function createUnsubscribeFromGroup() {
+    static function createUnsubscribeFromGroup()
+    {
         return new UnsubscribeFromGroupPermission();
     }
 
-    static function createLeaveGroup() {
+    static function createLeaveGroup()
+    {
         return new LeaveGroupPermission();
     }
 
-    static function createShowEvent() {
+    static function createShowEvent()
+    {
         return new ShowEventPermission();
     }
 
-    static function createShowEventExtended() {
+    static function createShowEventExtended()
+    {
         return new ShowEventExtendedPermission();
     }
 
-    static function createCreateEventForGroup() {
+    static function createCreateEventForGroup()
+    {
         return new CreateEventForGroupPermission();
     }
 
-    static function createEditEvent() {
+    static function createEditEvent()
+    {
         return new EditEventPermission();
     }
 
-    static function createDeleteEvent() {
+    static function createDeleteEvent()
+    {
         return new DeleteEventPermission();
     }
 
-    static function createRespondToEvent() {
+    static function createRespondToEvent()
+    {
         return new RespondToEventPermission();
     }
 
-    static function createDeleteMessage() {
+    static function createDeleteMessage()
+    {
         return new DeleteMessagePermission();
     }
 
-    static function createEditProfile() {
+    static function createEditProfile()
+    {
         return new EditProfilePermission();
     }
 
-    static function createShowHomeCalendar() {
+    static function createShowHomeCalendar()
+    {
         return new ShowHomeCalendarPermission();
     }
 
-    static function createShowGroups() {
+    static function createShowGroups()
+    {
         return new ShowGroupsPermission();
     }
 
-    static function createCreateEvent() {
+    static function createCreateEvent()
+    {
         return new CreateEventPermission();
     }
 

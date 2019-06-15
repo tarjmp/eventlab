@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Item;
 use App\Tools\PermissionFactory;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +19,7 @@ class ItemController extends Controller
         PermissionFactory::createEditEvent()->check($item->event_id);
 
         //give user name when brought by someone else
-        if ($item->user_id != null && $item->user_id != Auth::id()){
+        if ($item->user_id != null && $item->user_id != Auth::id()) {
             $user = User::findOrFail($item->user_id);
             return view('item')->with(['item' => $item, 'user_name' => $user->name()]);
         }
@@ -38,7 +38,7 @@ class ItemController extends Controller
         // check for permission to edit the event
         PermissionFactory::createEditEvent()->check($item->event_id);
 
-        $item['name'] = $data['name'];
+        $item['name']   = $data['name'];
         $item['amount'] = $data['amount'];
         // assign if nobody else is assigned
         if (isset($data['user']) && !$item->user) {

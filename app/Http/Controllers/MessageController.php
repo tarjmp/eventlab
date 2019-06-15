@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\Message;
 use App\Tools\Check;
 use App\Tools\PermissionFactory;
@@ -13,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
 class MessageController extends Controller
 {
     // Add a new chat message
-    public function add(Request $oRequest) {
+    public function add(Request $oRequest)
+    {
 
         // check for a valid event id and text message
         $oRequest->validate([
@@ -33,7 +33,7 @@ class MessageController extends Controller
         PermissionFactory::createShowEventExtended()->check($iEventId);
 
         // everything looks good, insert message into database
-        $oMessage = new Message();
+        $oMessage           = new Message();
         $oMessage->event_id = $iEventId;
         $oMessage->text     = $aData['message'];
         $oMessage->user_id  = Auth::id();
@@ -45,17 +45,18 @@ class MessageController extends Controller
     }
 
     // Retrieve all new chat messages - the given message id is excluded from the return values
-    public function get(Request $oRequest) {
+    public function get(Request $oRequest)
+    {
 
         // check for a valid event id and text message
         $oRequest->validate([
-            'event'   => 'required|integer',
-            'msg-id'  => 'required|integer',
+            'event'  => 'required|integer',
+            'msg-id' => 'required|integer',
 
         ]);
 
         // retrieve form data into array
-        $aData = $oRequest->all();
+        $aData    = $oRequest->all();
         $iEventId = intval($aData['event']);
         $iMsgId   = intval($aData['msg-id']);
 
@@ -68,15 +69,16 @@ class MessageController extends Controller
     }
 
     // Delete a chat message
-    public function delete(Request $oRequest) {
+    public function delete(Request $oRequest)
+    {
 
         // check for a valid event id and text message
         $oRequest->validate([
-            'id'   => 'required|integer',
+            'id' => 'required|integer',
         ]);
 
         // retrieve form data into array
-        $aData = $oRequest->all();
+        $aData      = $oRequest->all();
         $iMessageID = intval($aData['id']);
 
         // check if the user has permission to delete the requested message

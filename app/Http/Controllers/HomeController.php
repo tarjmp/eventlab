@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
 
-    const TYPE_NEXT = "next";
+    const TYPE_NEXT  = "next";
     const TYPE_MONTH = "month";
-    const TYPE_WEEK = "week";
-    const TYPE_DAY = "day";
+    const TYPE_WEEK  = "week";
+    const TYPE_DAY   = "day";
 
     const SHOW_REJECTED_EVENTS = 'show-rejected';
 
@@ -53,7 +53,7 @@ class HomeController extends Controller
         // use current month if nothing is specified or invalid date was given (i.e. function call above failed and returned null)
         if ($oDay == null) {
             $aTodayInfo = Date::toAssocArray(Date::createFromToday());
-            $oDay = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
+            $oDay       = Date::createFromFirstDayOfMonth($aTodayInfo['year'], $aTodayInfo['month']);
         }
 
         if (Auth::guest()) {

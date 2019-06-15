@@ -30,7 +30,7 @@
 
                             <div class="col-md-6">
                                 <div class="card-deck mb-3 text-center">
-                                    <div class="card mb-4 shadow-sm">
+                                    <label class="card mb-4 shadow-sm" for="same-address-{{$p->id}}">
                                         <div class="card-body">
                                             <h3 class="mb-0">
                                                 <div class="custom-control custom-checkbox">
@@ -38,11 +38,11 @@
                                                            id="same-address-{{$p->id}}" name="members[]"
                                                            value="{{$p->id}}">
                                                     <label class="custom-control-label float-left"
-                                                           for="same-address-{{$p->id}}">{{$p->first_name.' '.$p->last_name}}</label>
+                                                           for="same-address-{{$p->id}}">{{$p->name()}}</label>
                                                 </div>
                                             </h3>
                                         </div>
-                                    </div>
+                                    </label>
                                 </div>
                             </div>
                         @empty

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Tools\PermissionFactory;
 use App\Tools\Query;
 use Illuminate\Http\Request;
 
