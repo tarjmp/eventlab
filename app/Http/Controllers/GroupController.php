@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Tools\Navigator;
 use App\Tools\PermissionFactory;
-use App\Tools\Query;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

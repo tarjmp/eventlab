@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\Message;
 use App\Tools\Check;
 use App\Tools\PermissionFactory;

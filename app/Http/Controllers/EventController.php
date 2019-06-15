@@ -9,7 +9,6 @@ use App\Tools\CustomDateTime;
 use App\Tools\Date;
 use App\Tools\PermissionFactory;
 use App\Tools\Query;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
