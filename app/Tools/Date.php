@@ -2,7 +2,6 @@
 
 namespace App\Tools;
 
-use DateInterval;
 use DateTime;
 use DateTimeZone;
 use Exception;
