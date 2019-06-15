@@ -20,3 +20,5 @@ coverage:
     - "/app/Providers/BroadcastServiceProvider.php"
     - "/app/Http/Middleware"
     - "/app/Http/Controllers/Auth"
+    - "/app/Http/Controllers/EditWhatToBringListController.php"
+    - "/app/Http/Controllers/ManageSubscriptionsController.php"
