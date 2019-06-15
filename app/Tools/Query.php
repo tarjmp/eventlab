@@ -35,11 +35,11 @@ class Query
 
 
         // create date for start end end of month
-        $oMonthBegin = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
+        $oMonthBegin  = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
         $iDaysInMonth = Date::getNumDaysInMonth($oMonthBegin);
 
         $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
-        $events = self::getUserEventsAll($bIncludeRejected)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
+        $events    = self::getUserEventsAll($bIncludeRejected)->where('start_time', '<=', Date::formatUTC($oMonthEnd))
             ->where('end_time', '>', Date::formatUTC($oMonthBegin))->get();
 
         return self::setEventsForMonth($oMonthBegin, $iDaysInMonth, $events, $oMonthEnd);
@@ -64,7 +64,7 @@ class Query
             // create array entry and add day of week
             $aDays[$i] = [
                 'dayOfWeek' => $iDayOfWeek,
-                'events' => [],
+                'events'    => [],
             ];
 
             // increment day of week
@@ -77,7 +77,7 @@ class Query
         foreach ($events as $e) {
 
             $oStartTime = new DateTime($e->start_time);
-            $oEndTime = new DateTime($e->end_time);
+            $oEndTime   = new DateTime($e->end_time);
 
             // first, determine effective start and end day -> handle events that begin before this month or end after this month
             $oMin = $oStartTime < $oMonthBegin ? $oMonthBegin : $oStartTime;
@@ -229,7 +229,7 @@ class Query
 
 
         // create date for start end end of month
-        $oMonthBegin = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
+        $oMonthBegin  = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], 1, null, '00:00');
         $iDaysInMonth = Date::getNumDaysInMonth($oMonthBegin);
 
         $oMonthEnd = Date::createFromYMD($aDateInfo['year'], $aDateInfo['month'], $iDaysInMonth, null, '23:59');
@@ -245,7 +245,7 @@ class Query
     private static function getValidateSessionGroupId()
     {
         $group_id = session('public_group');
-        $group = Group::findOrFail($group_id);
+        $group    = Group::findOrFail($group_id);
         if (!$group->public) {
             //Permission for group should be checked in Homecontroller, where this method is called
             //Therefore, only an error will be throw (should not be possible)

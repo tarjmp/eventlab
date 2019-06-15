@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
 
-    const TYPE_MEMBERSHIP = 'membership';
+    const TYPE_MEMBERSHIP   = 'membership';
     const TYPE_SUBSCRIPTION = 'subscription';
 
     // All events this group organizes
